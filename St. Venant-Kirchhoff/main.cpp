@@ -1,4 +1,5 @@
 // nonlinear FE Problem for finite strain mechanics using St. Venant-Kirchhoff strain energy density function
+// only Dirischlet boundary conditions specified at left and right faces. No Neumann BC, No body force.
 
 #include <iostream>
 #include <vector>
@@ -6,8 +7,11 @@
 #include <fstream>
 #include <Eigen/Dense>
 #include <map>
+#include <chrono>
 
 using namespace std;
+using std::chrono::high_resolution_clock;
+using std::chrono::duration;
 
 struct Node {
     double x1, x2, x3; //global coordinates of the node
@@ -300,6 +304,13 @@ void write_pvd(
 }
 
 int main(){
+    high_resolution_clock::time_point start;
+    high_resolution_clock::time_point end;
+    duration<double, std::milli> duration_msec;
+
+    cout << "Starting the timer..." << endl;
+    start = high_resolution_clock::now();
+
     unsigned int Nsd = 3; //number of spatial dimensions - 3D problem
     constexpr int Nne = 8; //number of nodes per element - 8-node hexahedral element
     unsigned int quadRule = 3; //number of quadrature points in each direction for numerical integration
@@ -650,5 +661,10 @@ int main(){
     }
 
     write_pvd("solutions/final_solution.pvd", solution_files, solution_timesteps);
+
+    end = high_resolution_clock::now();
+    duration_msec = std::chrono::duration_cast<duration<double, std::milli>>(end-start);
+
+    cout << "Total time taken (in ms): " << duration_msec.count() << endl;
 
 }   
