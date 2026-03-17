@@ -333,9 +333,9 @@ int main(){
     double x3_ul = 0.03;
 
     //Mesh
-    unsigned int Nel_x1 = 10; //number of elements in x1 direction
-    unsigned int Nel_x2 = 3; //number of elements in x2 direction
-    unsigned int Nel_x3 = 3; //number of elements in x3 direction
+    unsigned int Nel_x1 = 40; //number of elements in x1 direction
+    unsigned int Nel_x2 = 12; //number of elements in x2 direction
+    unsigned int Nel_x3 = 12; //number of elements in x3 direction
 
     unsigned int Nnodes_x1 = Nel_x1 + 1; //number of nodes in x1 direction
     unsigned int Nnodes_x2 = Nel_x2 + 1; //number of nodes in x2 direction
