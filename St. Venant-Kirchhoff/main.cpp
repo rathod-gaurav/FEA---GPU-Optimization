@@ -523,6 +523,7 @@ int main(){
         for(unsigned int iter = 0; iter < maxIter; iter++){
             Eigen::VectorXd Rglobal = Eigen::VectorXd::Zero(Nt * Nsd); //residual vector initialized to zero
             Eigen::MatrixXd Kglobal = Eigen::MatrixXd::Zero(Nt * Nsd, Nt * Nsd); //tangent stiffness matrix initialized to zero
+            cout << "Initialized Kglobal and Rglobal to zero for increment " << increment+1 << ", iteration " << iter+1 << "\n";
             //Loop over elements to compute element-level contributions to R and K
             for(unsigned int e = 0; e < Nel_t; e++){
                 //Get the nodes of the current element`
@@ -561,6 +562,8 @@ int main(){
                                 Eigen::VectorXd dN_dx = JacInv.transpose()*Eigen::Vector3d(dN_dxi1, dN_dxi2, dN_dxi3); //gradient of the basis function in global coordinates
                                 Rlocal.segment(B*Nsd, Nsd) += P * dN_dx * weight * JacDet; //contribution to the local residual vector
                             }
+                            
+                            cout << "Calculated Rlocal for element " << e+1 << "/" << Nel_t << "\r";
                             
                             for(int A = 0 ; A < Nne ; A++){//Loops to calculate tangent matrix
                                 for(int B = 0 ; B < Nne ; B++){
@@ -607,11 +610,14 @@ int main(){
 
                                 }
                             }
-
+                            
+                            cout << "Calculated Klocal for element " << e+1 << "/" << Nel_t << "\r";
                             
                         }
                     }
                 }
+
+                
 
                 //Assemble Rlocal and Klocal into Rglobal and Kglobal
                 for(int A = 0; A < Nne; A++){
@@ -623,6 +629,8 @@ int main(){
                     }
                     Rglobal.segment(3*Aglobal,3) += Rlocal.segment(3*A,3);
                 }
+
+                cout << "Assembled element " << e+1 << "/" << Nel_t << "\r";
             }
 
             Eigen::MatrixXd KUU = extractSubmatrix(Kglobal, unknownIndexes, unknownIndexes); //extract the submatrix of K corresponding to the unknown degrees of freedom
@@ -633,6 +641,8 @@ int main(){
             }
             Eigen::VectorXd R(RU.size()); //final residual after applying dirischlet boundary conditions
             R = RU; //modify the residual to account for the known displacements at the dirischlet nodes
+
+            cout << "Initilised solver for increment " << increment+1 << ", iteration " << iter+1 << "\n";
 
             Eigen::LDLT<Eigen::MatrixXd> solver(KUU);
             Eigen::VectorXd duU = solver.solve(-R); //solve for the incremental displacements at the unknown degrees of freedom
