@@ -642,11 +642,16 @@ int main(){
             Eigen::VectorXd R(RU.size()); //final residual after applying dirischlet boundary conditions
             R = RU; //modify the residual to account for the known displacements at the dirischlet nodes
 
+            cout << "Initilising solver for increment " << increment+1 << ", iteration " << iter+1 << "\n";
+
+            Eigen::FullPivLU<Eigen::MatrixXd> solver(KUU);
+
             cout << "Initilised solver for increment " << increment+1 << ", iteration " << iter+1 << "\n";
 
-            Eigen::LDLT<Eigen::MatrixXd> solver(KUU);
             Eigen::VectorXd duU = solver.solve(-R); //solve for the incremental displacements at the unknown degrees of freedom
             
+            cout << "Solved for increment " << increment+1 << ", iteration " << iter+1 << "\n";
+
             //construct full du vector including known values at dirischlet boundary
             for(int i = 0 ; i < unknownIndexes.size() ; i++){
                 u(unknownIndexes[i]) += duU(i);
