@@ -333,9 +333,9 @@ int main(){
     double x3_ul = 0.03;
 
     //Mesh
-    unsigned int Nel_x1 = 40; //number of elements in x1 direction
-    unsigned int Nel_x2 = 12; //number of elements in x2 direction
-    unsigned int Nel_x3 = 12; //number of elements in x3 direction
+    unsigned int Nel_x1 = 10; //number of elements in x1 direction
+    unsigned int Nel_x2 = 3; //number of elements in x2 direction
+    unsigned int Nel_x3 = 3; //number of elements in x3 direction
 
     unsigned int Nnodes_x1 = Nel_x1 + 1; //number of nodes in x1 direction
     unsigned int Nnodes_x2 = Nel_x2 + 1; //number of nodes in x2 direction
@@ -632,6 +632,10 @@ int main(){
 
                 cout << "Assembled element " << e+1 << "/" << Nel_t << "\r";
             }
+
+            std::string filenameKglobal = "Kglobal/Kglobal_incr_" + std::to_string(increment) + "_iter_" + std::to_string(iter) + ".txt";
+            std::ofstream Kglobal_file(filenameKglobal);
+            Kglobal_file << Kglobal;
 
             Eigen::MatrixXd KUU = extractSubmatrix(Kglobal, unknownIndexes, unknownIndexes); //extract the submatrix of K corresponding to the unknown degrees of freedom
             Eigen::MatrixXd KUD = extractSubmatrix(Kglobal, unknownIndexes, dirischletIndexes); //extract the submatrix of K corresponding to the coupling between unknown and dirischlet degrees of freedom
