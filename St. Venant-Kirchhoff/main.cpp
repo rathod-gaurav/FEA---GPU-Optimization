@@ -10,6 +10,7 @@
 #include <Eigen/SparseLU>
 #include <map>
 #include <chrono>
+#include <unordered_set>
 
 using namespace std;
 using std::chrono::high_resolution_clock;
@@ -176,6 +177,36 @@ Eigen::MatrixXd extractSubmatrix(const Eigen::MatrixXd& OriginalMatrix , const v
         }
     }
     return subMatrix;
+}
+
+Eigen::SparseMatrix<double> extractSparseSubmatrix(
+    const Eigen::SparseMatrix<double>& K,
+    const std::vector<int>& rows,
+    const std::vector<int>& cols)
+{
+    // Build a lookup set for fast membership testing
+    std::unordered_set<int> rowSet(rows.begin(), rows.end());
+    std::unordered_set<int> colSet(cols.begin(), cols.end());
+
+    // Build index remapping: global index → local index in submatrix
+    std::unordered_map<int, int> rowMap, colMap;
+    for(int i = 0; i < rows.size(); i++) rowMap[rows[i]] = i;
+    for(int j = 0; j < cols.size(); j++) colMap[cols[j]] = j;
+
+    std::vector<Eigen::Triplet<double>> triplets;
+
+    // Iterate over non-zeros of K
+    for(int col = 0; col < K.outerSize(); col++){
+        if(colSet.count(col) == 0) continue; // skip columns not in subset
+        for(Eigen::SparseMatrix<double>::InnerIterator it(K, col); it; ++it){
+            if(rowSet.count(it.row()) == 0) continue; // skip rows not in subset
+            triplets.emplace_back(rowMap[it.row()], colMap[col], it.value());
+        }
+    }
+
+    Eigen::SparseMatrix<double> sub(rows.size(), cols.size());
+    sub.setFromTriplets(triplets.begin(), triplets.end());
+    return sub;
 }
 
 #include <sstream>
@@ -651,8 +682,8 @@ int main(){
 
             cout << "Non zeros in Kglobal: " << Kglobal.nonZeros() << endl;  
 
-            Eigen::MatrixXd KUU = extractSubmatrix(Kglobal, unknownIndexes, unknownIndexes); //extract the submatrix of K corresponding to the unknown degrees of freedom
-            Eigen::MatrixXd KUD = extractSubmatrix(Kglobal, unknownIndexes, dirischletIndexes); //extract the submatrix of K corresponding to the coupling between unknown and dirischlet degrees of freedom
+            Eigen::SparseMatrix<double> KUU = extractSparseSubmatrix(Kglobal, unknownIndexes, unknownIndexes); //extract the submatrix of K corresponding to the unknown degrees of freedom
+            Eigen::SparseMatrix<double> KUD = extractSparseSubmatrix(Kglobal, unknownIndexes, dirischletIndexes); //extract the submatrix of K corresponding to the coupling between unknown and dirischlet degrees of freedom
             Eigen::VectorXd RU(unknownIndexes.size()); //extract the subvector of R corresponding to the unknown degrees of freedom
             for(int i = 0; i < unknownIndexes.size() ; i++){
                 RU(i) = Rglobal(unknownIndexes[i]);
