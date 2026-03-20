@@ -6,12 +6,15 @@
 #include <cmath>
 #include <fstream>
 #include <Eigen/Dense>
+#include <Eigen/Sparse>
+#include <Eigen/SparseLU>
 #include <map>
 #include <chrono>
 
 using namespace std;
 using std::chrono::high_resolution_clock;
 using std::chrono::duration;
+using T = Eigen::Triplet<double>;
 
 struct Node {
     double x1, x2, x3; //global coordinates of the node
@@ -333,9 +336,9 @@ int main(){
     double x3_ul = 0.03;
 
     //Mesh
-    unsigned int Nel_x1 = 10; //number of elements in x1 direction
-    unsigned int Nel_x2 = 3; //number of elements in x2 direction
-    unsigned int Nel_x3 = 3; //number of elements in x3 direction
+    unsigned int Nel_x1 = 40; //number of elements in x1 direction
+    unsigned int Nel_x2 = 12; //number of elements in x2 direction
+    unsigned int Nel_x3 = 12; //number of elements in x3 direction
 
     unsigned int Nnodes_x1 = Nel_x1 + 1; //number of nodes in x1 direction
     unsigned int Nnodes_x2 = Nel_x2 + 1; //number of nodes in x2 direction
@@ -522,8 +525,12 @@ int main(){
 
         for(unsigned int iter = 0; iter < maxIter; iter++){
             Eigen::VectorXd Rglobal = Eigen::VectorXd::Zero(Nt * Nsd); //residual vector initialized to zero
-            Eigen::MatrixXd Kglobal = Eigen::MatrixXd::Zero(Nt * Nsd, Nt * Nsd); //tangent stiffness matrix initialized to zero
+            Eigen::SparseMatrix<double> Kglobal(Nt * Nsd, Nt * Nsd); //sparse version of the tangent stiffness matrix for solving linear systems
+            std::vector<T> Kglobal_triplets; //triplet format for constructing the sparse tangent stiffness matrix
+            Kglobal_triplets.reserve(Nel_t*Nne*Nne*9); //reserve space for triplets to avoid dynamic resizing during assembly
+
             cout << "Initialized Kglobal and Rglobal to zero for increment " << increment+1 << ", iteration " << iter+1 << "\n";
+            
             //Loop over elements to compute element-level contributions to R and K
             for(unsigned int e = 0; e < Nel_t; e++){
                 //Get the nodes of the current element`
@@ -625,17 +632,24 @@ int main(){
                     for(int B = 0; B < Nne ; B++)
                     {
                         int Bglobal = elements[e].node[B];
-                        Kglobal.block<3,3>(3*Aglobal,3*Bglobal) += Klocal.block<3,3>(3*A,3*B);
+                        for(int i = 0 ; i < 3 ; i++){
+                            for(int j = 0 ; j < 3 ; j++){
+                                Kglobal_triplets.emplace_back(3*Aglobal + i, 3*Bglobal + j, Klocal(3*A + i, 3*B + j));
+                            }
+                        }
                     }
                     Rglobal.segment(3*Aglobal,3) += Rlocal.segment(3*A,3);
                 }
-
                 cout << "Assembled element " << e+1 << "/" << Nel_t << "\r";
             }
+            Kglobal.setFromTriplets(Kglobal_triplets.begin(), Kglobal_triplets.end()); //construct the sparse global tangent stiffness matrix from the triplets
+            Kglobal.makeCompressed(); //compress the sparse matrix for efficient arithmetic and solving
 
-            std::string filenameKglobal = "Kglobal/Kglobal_incr_" + std::to_string(increment) + "_iter_" + std::to_string(iter) + ".txt";
-            std::ofstream Kglobal_file(filenameKglobal);
-            Kglobal_file << Kglobal;
+            // std::string filenameKglobal = "Kglobal/Kglobal_incr_" + std::to_string(increment) + "_iter_" + std::to_string(iter) + ".txt";
+            // std::ofstream Kglobal_file(filenameKglobal);
+            // Kglobal_file << Kglobal;
+
+            cout << "Non zeros in Kglobal: " << Kglobal.nonZeros() << endl;  
 
             Eigen::MatrixXd KUU = extractSubmatrix(Kglobal, unknownIndexes, unknownIndexes); //extract the submatrix of K corresponding to the unknown degrees of freedom
             Eigen::MatrixXd KUD = extractSubmatrix(Kglobal, unknownIndexes, dirischletIndexes); //extract the submatrix of K corresponding to the coupling between unknown and dirischlet degrees of freedom
@@ -648,7 +662,14 @@ int main(){
 
             cout << "Initilising solver for increment " << increment+1 << ", iteration " << iter+1 << "\n";
 
-            Eigen::FullPivLU<Eigen::MatrixXd> solver(KUU);
+            // Eigen::FullPivLU<Eigen::MatrixXd> solver(KUU);
+            Eigen::SparseLU<Eigen::SparseMatrix<double>> solver;
+            solver.analyzePattern(KUU);
+            solver.factorize(KUU);
+            if(solver.info() != Eigen::Success) {
+                cout << "Decomposition failed for increment " << increment+1 << ", iteration " << iter+1 << "\n";
+                return -1;
+            }
 
             cout << "Initilised solver for increment " << increment+1 << ", iteration " << iter+1 << "\n";
 
