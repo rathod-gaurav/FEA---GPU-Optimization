@@ -44,8 +44,7 @@ advisor --collect=tripcounts \
 #step 3: open gui to see the roofline chart
 advisor-gui ./advisor_result
 
-#instead- if a text report is required, then run the following command after step 2
-advisor --report=roofline --project-dir=./advisor_result
+advisor --report=roofline --project-dir=./advisor_result #this generates a html file in the advisor_result directory. Open it in a browser to see the roofline chart.ssss
 
 # 3a. Print roofline report to terminal
 advisor -report roofline \
