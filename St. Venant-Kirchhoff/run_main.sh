@@ -32,20 +32,20 @@ vtune-gui ./roofline_result #Open the VTune GUI to visualize the results in roof
 # source /opt/intel/oneapi/setvars.sh
 g++ -I /home/grathod/Downloads/eigen-5.0.0/eigen-5.0.0 main.cpp -O2 -g -lcurl -march=native -o main_advisor
 #step 1: survey
-advisor -collect survey \
-        -project-dir ./advisor_result \
+advisor --collect=survey \
+        --project-dir=./advisor_result \
         -- ./main_advisor
 #step 2: trip counts + flops - get arithmetic intensity
-advisor -collect tripcounts \
-        -flops \
-        -stacks \
-        -project-dir ./advisor_result \
+advisor --collect=tripcounts \
+        --flop \
+        --stacks \
+        --project-dir=./advisor_result \
         -- ./main_advisor
 #step 3: open gui to see the roofline chart
 advisor-gui ./advisor_result
 
 #instead- if a text report is required, then run the following command after step 2
-advisor -report roofline -project-dir ./advisor_result
+advisor --report=roofline --project-dir=./advisor_result
 
 # 3a. Print roofline report to terminal
 advisor -report roofline \
