@@ -27,3 +27,32 @@ vtune -collect performance-snapshot hotspots memory-access hpc-performance \
 
 vtune -report summary -r ./roofline_result --format text > vtune_report.txt #Generate a summary report in text format and save it to vtune_report.txt
 vtune-gui ./roofline_result #Open the VTune GUI to visualize the results in roofline_result directory
+
+#intel advisor
+# source /opt/intel/oneapi/setvars.sh
+g++ -I /home/grathod/Downloads/eigen-5.0.0/eigen-5.0.0 main.cpp -O2 -g -lcurl -march=native -o main_advisor
+#step 1: survey
+advisor -collect survey \
+        -project-dir ./advisor_result \
+        -- ./main_advisor
+#step 2: trip counts + flops - get arithmetic intensity
+advisor -collect tripcounts \
+        -flops \
+        -stacks \
+        -project-dir ./advisor_result \
+        -- ./main_advisor
+#step 3: open gui to see the roofline chart
+advisor-gui ./advisor_result
+
+#instead- if a text report is required, then run the following command after step 2
+advisor -report roofline -project-dir ./advisor_result
+
+# 3a. Print roofline report to terminal
+advisor -report roofline \
+        -project-dir ./advisor_result
+
+# 3b. Export as CSV for your own plotting
+advisor -report roofline \
+        -format csv \
+        -report-output ./roofline.csv \
+        -project-dir ./advisor_result
