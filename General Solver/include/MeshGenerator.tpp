@@ -1,4 +1,4 @@
-#include "MeshGenerator.hpp"
+#pragma once //include this file only once during compilation
 
 template <unsigned int Nne>
 MeshGenerator<Nne>::MeshGenerator( //assign the function parameters to the class member variables using an initializer list
