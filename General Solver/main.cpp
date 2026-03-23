@@ -5,6 +5,7 @@
 #include "ElementEvaluator.hpp"
 #include "StVenantKirchhoff.hpp"
 #include "Assembler.hpp"
+#include "NonLinearSolver.hpp"
 
 int main(){
     //Problem parameters
@@ -19,6 +20,9 @@ int main(){
     double mu = 2*1e10; //second Lamé parameter (shear modulus)
 
     //Solver parameters
+    double tol = 1e-6; //tolerance for convergence of the nonlinear solver
+    unsigned int maxIncr = 10; //maximum number of increments (timesteps)
+    unsigned int maxIter = 20; //maximum number of iterations per increment
 
     //Domain parameters
     double x1_ll = 0.0, x1_ul = 0.1; //lower and upper limits in x1 direction
@@ -63,6 +67,10 @@ int main(){
     ElementEvaluator<Nne, Nsd>  elemEval(mesh, material, quadRule); //create an instance of element evaluator with the mesh, material model, and quadrature rule
     Assembler<Nne, Nsd>         assembler(mesh, elemEval); //create an instance of the assembler with the mesh and element evaluator
 
-    
+    NonlinearSolver<Nne, Nsd>   solver(tol, maxIncr, maxIter); //create an instance of the nonlinear solver with a tolerance of 1e-6, maximum 10 increments, and maximum 20 iterations per increment
+
+    Eigen::VectorXd u = Eigen::VectorXd::Zero(mesh.Nnodes()*Nsd); //initialize the global displacement vector to zero
+
+    solver.solve(u, assembler, bcs); //solve the nonlinear system to get the nodal displacements
 
 }
