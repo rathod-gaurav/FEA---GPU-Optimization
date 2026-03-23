@@ -18,8 +18,8 @@ class BoundaryConditions{
         void applyToSolution(Eigen::VectorXd& u, double incrementFraction) const; //function to apply the boundary conditions to the solution vector u based on the current increment fraction (used for incremental loading)
 
         //Query methods
-        const std::vector<unsigned int>& unknownIndexes() const {return unknownIndexes_;} //function to return the indexes of the unknown degrees of freedom | this is a const member function and does not modify the state of the object
-        const std::vector<unsigned int>& dirischletIndexes() const {return dirischletIndexes_;} //function to return the indexes of the dirischlet degrees of freedom | this is a const member function and does not modify the state of the object
+        const std::vector<unsigned int>& getUnknownIndexes() const {return unknownIndexes_;} //function to return the indexes of the unknown degrees of freedom | this is a const member function and does not modify the state of the object
+        const std::vector<unsigned int>& getDirischletIndexes() const {return dirischletIndexes_;} //function to return the indexes of the dirischlet degrees of freedom | this is a const member function and does not modify the state of the object
         bool isDirischlet(unsigned int globalDOF) const {return isDirischlet_[globalDOF];} //function to check if a given global degree of freedom is subject to dirischlet boundary conditions | this is a const member function and does not modify the state of the object
 
         void printSummary() const; //function to print a summary of the boundary conditions | this is a const member function and does not modify the state of the object
