@@ -2,11 +2,16 @@
 #include "MeshGenerator.hpp"
 #include "Quadrature.hpp"
 #include "BoundaryConditions.hpp"
+#include "ElementEvaluator.hpp"
+#include "StVenantKirchhoff.hpp"
 
 int main(){
     //Problem parameters
     constexpr unsigned int Nsd = 3; //3D problem
     constexpr unsigned int Nne = 8; //hexahedral elements | 8 nodes per element
+
+    //Quadrature order
+    unsigned int quadOrder = 2; //number of quadrature points in each direction for
 
     //Domain parameters
     double x1_ll = 0.0, x1_ul = 0.1; //lower and upper limits in x1 direction
@@ -43,4 +48,7 @@ int main(){
     bcs.buildBCs(); //finalize the boundary conditions
     bcs.printSummary(); //print a summary of the boundary conditions
     std::cout << "--------------------" << std::endl;
+
+
+    QuadratureRule quadRule = Quadrature::gauss_legendre(quadOrder); //get the quadrature points and weights for the specified quadrature order
 }
