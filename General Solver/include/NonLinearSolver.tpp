@@ -9,7 +9,8 @@ template <unsigned int Nne, unsigned int Nsd>
 void NonlinearSolver<Nne, Nsd>::solve(
     Eigen::VectorXd& u, //displacement vector, modified in place
     const Assembler<Nne, Nsd>& assembler, //provides Kglobal, Rglobal
-    const BoundaryConditions<Nne>& bcs //provides dirischlet indexes and values
+    const BoundaryConditions<Nne>& bcs, //provides dirischlet indexes and values
+    std::function<void(unsigned int, unsigned int, double)> iterCallback
 ){
     Eigen::VectorXd Rglobal, RU; //global residual vector
     Eigen::SparseMatrix<double> Kglobal, KUU, KUD; //global stiffness matrix
@@ -53,6 +54,10 @@ void NonlinearSolver<Nne, Nsd>::solve(
             std::cout << "Modified residual norm: " << residualNorm << "\n"; //print the norm of the modified residual to monitor convergence of the unknown degrees of freedom
             std::cout << "-----------------------------------" << "\n";
             
+            if(iterCallback){
+                iterCallback(incr, iter, residualNorm); //call the iteration callback function if provided
+            }
+
             if(residualNorm < tol_){
                 std::cout << "Convergence achieved for incr " << incr+1 << " in " << iter+1 << " iterations." << "\n";
                 break; 

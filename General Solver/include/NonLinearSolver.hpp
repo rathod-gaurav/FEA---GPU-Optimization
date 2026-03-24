@@ -14,7 +14,8 @@ class NonlinearSolver{
         void solve(
             Eigen::VectorXd& u, //displacement vector, modified in place
             const Assembler<Nne, Nsd>& assembler, //provides Kglobal, Rglobal
-            const BoundaryConditions<Nne>& bcs //provides dirischlet indexes and values
+            const BoundaryConditions<Nne>& bcs, //provides dirischlet indexes and values
+            std::function<void(unsigned int, unsigned int, double)> iterCallback = nullptr //optional callback function for iteration progress (increment, iteration, residual norm)
         );
 
     private:

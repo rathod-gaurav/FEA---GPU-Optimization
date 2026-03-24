@@ -6,6 +6,7 @@
 #include "StVenantKirchhoff.hpp"
 #include "Assembler.hpp"
 #include "NonLinearSolver.hpp"
+#include "OutputWriter.hpp"
 
 int main(){
     //Problem parameters
@@ -66,12 +67,21 @@ int main(){
     StVenantKirchhoff           material(lambda, mu); //create an instance of the St. Venant-Kirchhoff material model with the specified Lamé parameters
     ElementEvaluator<Nne, Nsd>  elemEval(mesh, material, quadRule); //create an instance of element evaluator with the mesh, material model, and quadrature rule
     Assembler<Nne, Nsd>         assembler(mesh, elemEval); //create an instance of the assembler with the mesh and element evaluator
+    OutputWriter<Nne>           writer("solutions"); //create an instance of the output writer to write results to the "output" directory
 
     NonlinearSolver<Nne, Nsd>   solver(tol, maxIncr, maxIter); //create an instance of the nonlinear solver with a tolerance of 1e-6, maximum 10 increments, and maximum 20 iterations per increment
 
     Eigen::VectorXd u = Eigen::VectorXd::Zero(mesh.Nnodes()*Nsd); //initialize the global displacement vector to zero
 
     std::cout << "Starting nonlinear solve..." << std::endl;
-    solver.solve(u, assembler, bcs); //solve the nonlinear system to get the nodal displacements
+    solver.solve(u, assembler, bcs,
+        [&](unsigned int incr, unsigned int iter, double residualNorm){
+            writer.sendResidual(incr, iter, residualNorm); //send the residual norm to the output writer for visualization
+            
+            if(iter == 0){ //write the solution at the first iteration of each increment
+                writer.writeVTU(mesh, u, incr); //write the current solution vector and mesh information to files for visualization
+            }
+        }
+    ); //solve the nonlinear system to get the nodal displacements
     std::cout << "Nonlinear solve completed." << std::endl;
 }
