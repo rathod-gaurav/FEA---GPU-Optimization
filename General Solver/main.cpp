@@ -8,7 +8,18 @@
 #include "NonLinearSolver.hpp"
 #include "OutputWriter.hpp"
 
+#include <chrono>
+using std::chrono::high_resolution_clock;
+using std::chrono::duration;
+
 int main(){
+    high_resolution_clock::time_point start;
+    high_resolution_clock::time_point end;
+    duration<double, std::milli> duration_msec;
+
+    std::cout << "Starting the timer..." << std::endl;
+    start = high_resolution_clock::now();
+
     //Problem parameters
     constexpr unsigned int Nsd = 3; //3D problem
     constexpr unsigned int Nne = 8; //hexahedral elements | 8 nodes per element
@@ -74,6 +85,7 @@ int main(){
     Eigen::VectorXd u = Eigen::VectorXd::Zero(mesh.Nnodes()*Nsd); //initialize the global displacement vector to zero
 
     std::cout << "Starting nonlinear solve..." << std::endl;
+    std::cout << "--------------------" << std::endl;
     solver.solve(u, assembler, bcs,
         [&](unsigned int incr, unsigned int iter, double residualNorm){
             writer.sendResidual(incr, iter, residualNorm); //send the residual norm to the output writer for visualization
@@ -83,5 +95,11 @@ int main(){
             }
         }
     ); //solve the nonlinear system to get the nodal displacements
+    std::cout << "--------------------" << std::endl;
     std::cout << "Nonlinear solve completed." << std::endl;
+
+    end = high_resolution_clock::now();
+    duration_msec = std::chrono::duration_cast<duration<double, std::milli>>(end-start);
+
+    std::cout << "Total time taken (in ms): " << duration_msec.count() << std::endl;
 }
