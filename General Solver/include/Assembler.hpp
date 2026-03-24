@@ -31,8 +31,8 @@ class Assembler{
     private:
         Eigen::SparseMatrix<double> extractSparseSubmatrix(
             const Eigen::SparseMatrix<double>& K,
-            const std::vector<int>& rows,
-            const std::vector<int>& cols) const; //function to extract a sparse submatrix from the global stiffness matrix given row and column indexes
+            const std::vector<unsigned int>& rows,
+            const std::vector<unsigned int>& cols) const; //function to extract a sparse submatrix from the global stiffness matrix given row and column indexes
     
         const Mesh<Nne>& mesh_; //reference to the mesh object
         const ElementEvaluator<Nne,Nsd>& elem_evaluator_; //reference to the element evaluator object

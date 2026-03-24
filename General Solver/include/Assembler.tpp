@@ -9,17 +9,17 @@ Assembler<Nne,Nsd>::Assembler(
 template <unsigned int Nne, unsigned int Nsd>
 Eigen::SparseMatrix<double> Assembler<Nne,Nsd>::extractSparseSubmatrix(
     const Eigen::SparseMatrix<double>& K,
-    const std::vector<int>& rows,
-    const std::vector<int>& cols) const {
+    const std::vector<unsigned int>& rows,
+    const std::vector<unsigned int>& cols) const {
         
     // Build a lookup set for fast membership testing
-    std::unordered_set<int> rowSet(rows.begin(), rows.end());
-    std::unordered_set<int> colSet(cols.begin(), cols.end());
+    std::unordered_set<unsigned int> rowSet(rows.begin(), rows.end());
+    std::unordered_set<unsigned int> colSet(cols.begin(), cols.end());
 
     // Build index remapping: global index → local index in submatrix
-    std::unordered_map<int, int> rowMap, colMap;
-    for(int i = 0; i < rows.size(); i++) rowMap[rows[i]] = i;
-    for(int j = 0; j < cols.size(); j++) colMap[cols[j]] = j;
+    std::unordered_map<unsigned int,unsigned int> rowMap, colMap;
+    for(unsigned int i = 0; i < rows.size(); i++) rowMap[rows[i]] = i;
+    for(unsigned int j = 0; j < cols.size(); j++) colMap[cols[j]] = j;
 
     std::vector<Eigen::Triplet<double>> triplets;
 

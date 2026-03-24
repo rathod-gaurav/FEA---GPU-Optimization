@@ -25,7 +25,7 @@ class ElementEvaluator{
     private:
         Eigen::Matrix3d computeJacobian(unsigned int e, double xi1, double xi2, double xi3) const; //function to compute the Jacobian matrix for the element at given quadrature point (xi1, xi2, xi3)
 
-        Eigen::Matrix3d computeGradU(Eigen::VectorXd& u_e, double xi1, double xi2, double xi3, Eigen::Matrix3d& JacInv) const; //function to compute the gradient of the displacement field at the quadrature point using the basis function gradients and the nodal displacements
+        Eigen::Matrix3d computeGradU(const Eigen::VectorXd& u_e, double xi1, double xi2, double xi3, Eigen::Matrix3d& JacInv) const; //function to compute the gradient of the displacement field at the quadrature point using the basis function gradients and the nodal displacements
 
         const Mesh<Nne>& mesh_; //reference to the mesh object
         const MaterialModel& material_; //reference to the material model object

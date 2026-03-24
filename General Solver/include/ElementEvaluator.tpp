@@ -32,7 +32,7 @@ Eigen::Matrix3d ElementEvaluator<Nne, Nsd>::computeJacobian(unsigned int e, doub
 }
 
 template <unsigned int Nne, unsigned int Nsd>
-Eigen::Matrix3d ElementEvaluator<Nne, Nsd>::computeGradU(Eigen::VectorXd& u_e, double xi1, double xi2, double xi3, Eigen::Matrix3d& JacInv) const {
+Eigen::Matrix3d ElementEvaluator<Nne, Nsd>::computeGradU(const Eigen::VectorXd& u_e, double xi1, double xi2, double xi3, Eigen::Matrix3d& JacInv) const {
     Eigen::Matrix3d grad_u = Eigen::Matrix3d::Zero();
     //compute the gradient of the displacement field at the quadrature point using the basis function gradients and the nodal displacements
     for(int A = 0 ; A < Nne ; A++){

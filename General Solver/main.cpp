@@ -71,6 +71,7 @@ int main(){
 
     Eigen::VectorXd u = Eigen::VectorXd::Zero(mesh.Nnodes()*Nsd); //initialize the global displacement vector to zero
 
+    std::cout << "Starting nonlinear solve..." << std::endl;
     solver.solve(u, assembler, bcs); //solve the nonlinear system to get the nodal displacements
-
+    std::cout << "Nonlinear solve completed." << std::endl;
 }
