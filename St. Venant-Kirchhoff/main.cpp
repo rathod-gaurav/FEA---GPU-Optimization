@@ -560,7 +560,7 @@ int main(){
             std::vector<T> Kglobal_triplets; //triplet format for constructing the sparse tangent stiffness matrix
             Kglobal_triplets.reserve(Nel_t*Nne*Nne*9); //reserve space for triplets to avoid dynamic resizing during assembly
 
-            cout << "Initialized Kglobal and Rglobal to zero for increment " << increment+1 << ", iteration " << iter+1 << "\n";
+            // cout << "Initialized Kglobal and Rglobal to zero for increment " << increment+1 << ", iteration " << iter+1 << "\n";
             
             //Loop over elements to compute element-level contributions to R and K
             for(unsigned int e = 0; e < Nel_t; e++){
@@ -601,7 +601,7 @@ int main(){
                                 Rlocal.segment(B*Nsd, Nsd) += P * dN_dx * weight * JacDet; //contribution to the local residual vector
                             }
                             
-                            cout << "Calculated Rlocal for element " << e+1 << "/" << Nel_t << "\r";
+                            // cout << "Calculated Rlocal for element " << e+1 << "/" << Nel_t << "\r";
                             
                             for(int A = 0 ; A < Nne ; A++){//Loops to calculate tangent matrix
                                 for(int B = 0 ; B < Nne ; B++){
@@ -649,7 +649,7 @@ int main(){
                                 }
                             }
                             
-                            cout << "Calculated Klocal for element " << e+1 << "/" << Nel_t << "\r";
+                            // cout << "Calculated Klocal for element " << e+1 << "/" << Nel_t << "\r";
                             
                         }
                     }
@@ -671,7 +671,7 @@ int main(){
                     }
                     Rglobal.segment(3*Aglobal,3) += Rlocal.segment(3*A,3);
                 }
-                cout << "Assembled element " << e+1 << "/" << Nel_t << "\r";
+                // cout << "Assembled element " << e+1 << "/" << Nel_t << "\r";
             }
             Kglobal.setFromTriplets(Kglobal_triplets.begin(), Kglobal_triplets.end()); //construct the sparse global tangent stiffness matrix from the triplets
             Kglobal.makeCompressed(); //compress the sparse matrix for efficient arithmetic and solving
@@ -680,7 +680,7 @@ int main(){
             // std::ofstream Kglobal_file(filenameKglobal);
             // Kglobal_file << Kglobal;
 
-            cout << "Non zeros in Kglobal: " << Kglobal.nonZeros() << endl;  
+            // cout << "Non zeros in Kglobal: " << Kglobal.nonZeros() << endl;  
 
             Eigen::SparseMatrix<double> KUU = extractSparseSubmatrix(Kglobal, unknownIndexes, unknownIndexes); //extract the submatrix of K corresponding to the unknown degrees of freedom
             Eigen::SparseMatrix<double> KUD = extractSparseSubmatrix(Kglobal, unknownIndexes, dirischletIndexes); //extract the submatrix of K corresponding to the coupling between unknown and dirischlet degrees of freedom
@@ -691,7 +691,7 @@ int main(){
             Eigen::VectorXd R(RU.size()); //final residual after applying dirischlet boundary conditions
             R = RU; //modify the residual to account for the known displacements at the dirischlet nodes
 
-            cout << "Initilising solver for increment " << increment+1 << ", iteration " << iter+1 << "\n";
+            // cout << "Initilising solver for increment " << increment+1 << ", iteration " << iter+1 << "\n";
 
             // Eigen::FullPivLU<Eigen::MatrixXd> solver(KUU);
             Eigen::SparseLU<Eigen::SparseMatrix<double>> solver;
@@ -702,11 +702,11 @@ int main(){
                 return -1;
             }
 
-            cout << "Initilised solver for increment " << increment+1 << ", iteration " << iter+1 << "\n";
+            // cout << "Initilised solver for increment " << increment+1 << ", iteration " << iter+1 << "\n";
 
             Eigen::VectorXd duU = solver.solve(-R); //solve for the incremental displacements at the unknown degrees of freedom
             
-            cout << "Solved for increment " << increment+1 << ", iteration " << iter+1 << "\n";
+            // cout << "Solved for increment " << increment+1 << ", iteration " << iter+1 << "\n";
 
             //construct full du vector including known values at dirischlet boundary
             for(int i = 0 ; i < unknownIndexes.size() ; i++){
