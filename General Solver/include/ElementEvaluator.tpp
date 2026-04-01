@@ -123,6 +123,7 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
                             for(int j = 0; j < 3; j++){
                                 double val = 0.0;
                                 for(int P = 0; P < 3; P++){
+                                    #pragma GCC ivdep //because advisor_result001 wash showing tripcount=3 for this loop, which is very small and can be fully unrolled by the compiler, we can safely ignore the data dependencies and vectorize it
                                     for(int Q = 0; Q < 3; Q++){
                                         for(int M = 0; M < 3; M++){
                                             for(int N = 0; N < 3; N++){
