@@ -32,23 +32,22 @@ Eigen::Matrix3d ElementEvaluator<Nne, Nsd>::computeJacobian(unsigned int e, doub
 }
 
 template <unsigned int Nne, unsigned int Nsd>
-Eigen::Matrix3d ElementEvaluator<Nne, Nsd>::computeGradU(const Eigen::VectorXd& u_e, double xi1, double xi2, double xi3, Eigen::Matrix3d& JacInvT) const {
+Eigen::Matrix3d ElementEvaluator<Nne, Nsd>::computeGradU(const Eigen::VectorXd& u_e, Eigen::Vector3d (&dN_dx)[Nne]) const {
     Eigen::Matrix3d grad_u = Eigen::Matrix3d::Zero();
     //compute the gradient of the displacement field at the quadrature point using the basis function gradients and the nodal displacements
     for(int A = 0 ; A < Nne ; A++){
-        auto [dN_dxi1, dN_dxi2, dN_dxi3] = ShapeFunction::basis_gradient(A, xi1, xi2, xi3);
-        Eigen::Vector3d dN_dx = JacInvT*Eigen::Vector3d(dN_dxi1, dN_dxi2, dN_dxi3);
-        grad_u(0,0) += dN_dx[0] * u_e(A*3 + 0); //du1/dx1
-        grad_u(0,1) += dN_dx[1] * u_e(A*3 + 0); //du1/dx2
-        grad_u(0,2) += dN_dx[2] * u_e(A*3 + 0); //du1/dx3
+        Eigen::Vector3d& dNA_dx = dN_dx[A]; // #optimization - alias, no copy
+        grad_u(0,0) += dNA_dx(0) * u_e(A*3 + 0); //du1/dx1
+        grad_u(0,1) += dNA_dx(1) * u_e(A*3 + 0); //du1/dx2
+        grad_u(0,2) += dNA_dx(2) * u_e(A*3 + 0); //du1/dx3
 
-        grad_u(1,0) += dN_dx[0] * u_e(A*3 + 1); //du2/dx1
-        grad_u(1,1) += dN_dx[1] * u_e(A*3 + 1); //du2/dx2
-        grad_u(1,2) += dN_dx[2] * u_e(A*3 + 1); //du2/dx3
+        grad_u(1,0) += dNA_dx(0) * u_e(A*3 + 1); //du2/dx1
+        grad_u(1,1) += dNA_dx(1) * u_e(A*3 + 1); //du2/dx2
+        grad_u(1,2) += dNA_dx(2) * u_e(A*3 + 1); //du2/dx3
 
-        grad_u(2,0) += dN_dx[0] * u_e(A*3 + 2); //du3/dx1
-        grad_u(2,1) += dN_dx[1] * u_e(A*3 + 2); //du3/dx2
-        grad_u(2,2) += dN_dx[2] * u_e(A*3 + 2); //du3/dx3
+        grad_u(2,0) += dNA_dx(0) * u_e(A*3 + 2); //du3/dx1
+        grad_u(2,1) += dNA_dx(1) * u_e(A*3 + 2); //du3/dx2
+        grad_u(2,2) += dNA_dx(2) * u_e(A*3 + 2); //du3/dx3
     }
     return grad_u;
 }
@@ -85,36 +84,37 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
                 Eigen::Matrix3d Jac = computeJacobian(e, xi1, xi2, xi3); //compute the Jacobian matrix at the quadrature point
                 double JacDet = Jac.determinant(); //compute the determinant of the Jacobian
                 Eigen::Matrix3d JacInv = Jac.inverse(); //compute the inverse of the Jacobian
-                Eigen::Matrix3d JacInvT = JacInv.transpose(); //transpose of the inverse Jacobian
+                Eigen::Matrix3d JacInvT = JacInv.transpose(); //#optimization - transpose of the inverse Jacobian only once per quadrature point
+                double JacDetWeight = JacDet * weight; // #optimization - combine Jacobian determinant and quadrature weight to reduce redundant multiplications
 
-                Eigen::Matrix3d grad_u = computeGradU(u_e, xi1, xi2, xi3, JacInvT); //compute the gradient of the displacement field at the quadrature point
+                alignas(32) Eigen::Vector3d dN_dx[Nne]; //#optimization - cache the gradient of the basis functions in global coordinates for all nodes at the quadrature point to avoid redundant calculations
+                for(unsigned int B = 0 ; B < Nne ; B++){
+                    auto [dN_dxi1, dN_dxi2, dN_dxi3] = ShapeFunction::basis_gradient(B, xi1, xi2, xi3);
+                    dN_dx[B] = JacInvT*Eigen::Vector3d(dN_dxi1, dN_dxi2, dN_dxi3); //gradient of the basis function in global coordinates
+                }
+
+                Eigen::Matrix3d grad_u = computeGradU(u_e, dN_dx); //compute the gradient of the displacement field at the quadrature point #optimization - pass cached dN_dx to avoid redundant calculations in computeGradU
                 Eigen::Matrix3d F = Eigen::Matrix3d::Identity() + grad_u; //deformation gradient
 
                 material_.compute(F, S, P, C_mat); //compute the stress tensors E,S,P and material tangent stiffness matrix at the quadrature point using the material model
                 
                 for(int B = 0 ; B < Nne ; B++){//Loop to calculate Residual
-                    auto [dN_dxi1, dN_dxi2, dN_dxi3] = ShapeFunction::basis_gradient(B, xi1, xi2, xi3);
-                    Eigen::Vector3d dN_dx = JacInvT*Eigen::Vector3d(dN_dxi1, dN_dxi2, dN_dxi3); //gradient of the basis function in global coordinates
-                    Rlocal.segment(B*Nsd, Nsd) += P * dN_dx * weight * JacDet; //contribution to the local residual vector
+                    // #optimization - use cached dN_dx to avoid redundant calculations, and use Eigen's fixed size segment
+                    Rlocal.segment<Nsd>(B*Nsd) += P * dN_dx[B] * JacDetWeight; //contribution to the local residual vector 
                 }
                 
                 // cout << "Calculated Rlocal for element " << e+1 << "/" << Nel_t << "\r";
                  
                 for(int A = 0 ; A < Nne ; A++){//Loops to calculate tangent matrix
-                    auto [dNA_dxi1, dNA_dxi2, dNA_dxi3] = ShapeFunction::basis_gradient(A, xi1, xi2, xi3);
-                    Eigen::Vector3d dNA_dx = JacInvT*Eigen::Vector3d(dNA_dxi1, dNA_dxi2, dNA_dxi3);
+                    Eigen::Vector3d& dNA = dN_dx[A]; // #optimization - alias, no copy
                     
-                     
                     for(int B = 0 ; B < Nne ; B++){
-
-                        auto [dNB_dxi1, dNB_dxi2, dNB_dxi3] = ShapeFunction::basis_gradient(B, xi1, xi2, xi3);
-                        Eigen::Vector3d dNB_dx = JacInvT*Eigen::Vector3d(dNB_dxi1, dNB_dxi2, dNB_dxi3);
+                        Eigen::Vector3d& dNB = dN_dx[B]; // #optimization - alias, no copy
 
                         //Kgeometric
-                        double Kgeo_scalar = (dNA_dx.transpose() * S * dNB_dx)(0,0);
-                        Eigen::Matrix3d KgeoAB =  Kgeo_scalar * JacDet * weight * Eigen::Matrix3d::Identity();
-                        Klocal.block<3,3>(3*A,3*B) += KgeoAB;
-
+                        double Kgeo_scalar = (dNA.transpose() * S * dNB)(0,0);
+                        double KgeoAB =  Kgeo_scalar * JacDetWeight;
+                        Klocal.block<3,3>(3*A,3*B).diagonal().array() += KgeoAB; //#optimization - only add to the diagonal entries of the 3x3 block for nodes A,B since KgeoAB is a scalar times the identity matrix, and use Eigen's fixed size block to avoid redundant calculations in block indexing
 
                         // Correct KmatAB (3x3 block for nodes A,B)
                         Eigen::Matrix3d KmatAB = Eigen::Matrix3d::Zero();
@@ -127,7 +127,7 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
                                         for(int M = 0; M < 3; M++){
                                             for(int N = 0; N < 3; N++){
                                                 double C_PQMN = C_mat(3*P + Q, 3*M + N); //material tangent stiffness in Voigt notation
-                                                val += F(i,P)*C_PQMN*F(j,M)*dNA_dx(Q)*dNB_dx(N);
+                                                val += F(i,P)*C_PQMN*F(j,M)*dNA(Q)*dNB(N);
                                             }
                                         }
                                     }
@@ -135,7 +135,7 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
                                 KmatAB(i,j) = val;
                             }
                         }
-                        KmatAB *= JacDet * weight;
+                        KmatAB *= JacDetWeight;
                         Klocal.block<3,3>(3*A,3*B) += KmatAB;
                     }
                 }
