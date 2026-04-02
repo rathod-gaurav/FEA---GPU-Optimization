@@ -42,9 +42,9 @@ int main(){
     double x3_ll = 0.0, x3_ul = 0.03; //lower and upper limits in x3 direction
     
     //Mesh parameters
-    unsigned int Nel_x1 = 40; //number of elements in x1 direction
-    unsigned int Nel_x2 = 12; //number of elements in x2 direction
-    unsigned int Nel_x3 = 12; //number of elements in x3 direction
+    unsigned int Nel_x1 = 10; //number of elements in x1 direction
+    unsigned int Nel_x2 = 3; //number of elements in x2 direction
+    unsigned int Nel_x3 = 3; //number of elements in x3 direction
 
     //Generate the mesh using the MeshGenerator class
     MeshGenerator<Nne> meshGen(x1_ll, x1_ul, x2_ll, x2_ul, x3_ll, x3_ul, Nel_x1, Nel_x2, Nel_x3);
@@ -65,7 +65,7 @@ int main(){
             bcs.addDirischlet(i, 2, 0.0); //apply dirischlet boundary condition u1 = 0 at this node
         }
         if(mesh.nodes[i].x1 == x1_ul){ //if the node is on the right face of the domain
-            bcs.addDirischlet(i, 0, 0.001); //apply dirischlet boundary condition u1 = 0.001 at this node
+            bcs.addDirischlet(i, 0, 0.01); //apply dirischlet boundary condition u1 = 0.001 at this node
         }
     }
     bcs.buildBCs(); //finalize the boundary conditions

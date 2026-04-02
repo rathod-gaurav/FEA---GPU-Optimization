@@ -11,7 +11,7 @@ include_directories("/home/grathod/Downloads/eigen-5.0.0/eigen-5.0.0") #include 
 # Gather all source files
 file(GLOB SOURCES "src/*.cpp")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -g -march=native")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -ffast-math -funroll-loops -std=c++17 -fopenmp") #add OpenMP flag for parallelization
 
 # Add executable with main.cpp + all src files
 add_executable(main main.cpp ${SOURCES})

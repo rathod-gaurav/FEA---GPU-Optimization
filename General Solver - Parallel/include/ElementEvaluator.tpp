@@ -117,26 +117,18 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
                         Klocal.block<3,3>(3*A,3*B).diagonal().array() += KgeoAB; //#optimization - only add to the diagonal entries of the 3x3 block for nodes A,B since KgeoAB is a scalar times the identity matrix, and use Eigen's fixed size block to avoid redundant calculations in block indexing
 
                         // Correct KmatAB (3x3 block for nodes A,B)
-                        Eigen::Matrix3d KmatAB = Eigen::Matrix3d::Zero();
-                        
-                        for(int i = 0; i < 3; i++){
-                            for(int j = 0; j < 3; j++){
-                                double val = 0.0;
-                                for(int P = 0; P < 3; P++){
-                                    for(int Q = 0; Q < 3; Q++){
-                                        for(int M = 0; M < 3; M++){
-                                            for(int N = 0; N < 3; N++){
-                                                double C_PQMN = C_mat(3*P + Q, 3*M + N); //material tangent stiffness in Voigt notation
-                                                val += F(i,P)*C_PQMN*F(j,M)*dNA(Q)*dNB(N);
-                                            }
-                                        }
-                                    }
-                                }
-                                KmatAB(i,j) = val;
+
+                        Eigen::Matrix3d Gmat = Eigen::Matrix3d::Zero();
+                        for(int P = 0; P < 3; P++){
+                            for(int M = 0; M < 3; M++){
+                                Eigen::Matrix3d C_block = C_mat.block<3,3>(3*P, 3*M); //material tangent stiffness block for nodes P,M
+                                Gmat(P,M) = dNA.dot(C_block * dNB); //contribution to the geometric stiffness from nodes P,M
                             }
                         }
-                        KmatAB *= JacDetWeight;
-                        Klocal.block<3,3>(3*A,3*B) += KmatAB;
+
+                        Eigen::Matrix3d KmatAB = (F * Gmat * F.transpose())*JacDetWeight; //material stiffness contribution to the tangent matrix for nodes A,B
+                        Klocal.block<3,3>(3*A,3*B) += KmatAB; //add the material stiffness contribution to the local tangent stiffness matrix for nodes A,B
+                        
                     }
                 }
                 
