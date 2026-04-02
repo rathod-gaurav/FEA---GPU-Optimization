@@ -72,7 +72,7 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
     Eigen::MatrixXd C_mat = Eigen::MatrixXd::Zero(9,9); //material tangent stiffness matrix in Voigt notation (3x3 block for each pair of nodes)
 
     //Gaussian quadrature loop
-    #pragma GCC ivdep
+    
     for(int I = 0 ; I < quadOrder ; I++){
         for(int J = 0 ; J < quadOrder ; J++){
             for(int K = 0 ; K < quadOrder ; K++){
@@ -91,7 +91,7 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
 
                 material_.compute(F, S, P, C_mat); //compute the stress tensors E,S,P and material tangent stiffness matrix at the quadrature point using the material model
                 
-                #pragma GCC ivdep 
+                 
                 for(int B = 0 ; B < Nne ; B++){//Loop to calculate Residual
                     auto [dN_dxi1, dN_dxi2, dN_dxi3] = ShapeFunction::basis_gradient(B, xi1, xi2, xi3);
                     Eigen::Vector3d dN_dx = JacInv.transpose()*Eigen::Vector3d(dN_dxi1, dN_dxi2, dN_dxi3); //gradient of the basis function in global coordinates
@@ -99,12 +99,12 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
                 }
                 
                 // cout << "Calculated Rlocal for element " << e+1 << "/" << Nel_t << "\r";
-                #pragma GCC ivdep 
+                 
                 for(int A = 0 ; A < Nne ; A++){//Loops to calculate tangent matrix
                     auto [dNA_dxi1, dNA_dxi2, dNA_dxi3] = ShapeFunction::basis_gradient(A, xi1, xi2, xi3);
                     Eigen::Vector3d dNA_dx = JacInv.transpose()*Eigen::Vector3d(dNA_dxi1, dNA_dxi2, dNA_dxi3);
                     
-                    #pragma GCC ivdep 
+                     
                     for(int B = 0 ; B < Nne ; B++){
 
                         auto [dNB_dxi1, dNB_dxi2, dNB_dxi3] = ShapeFunction::basis_gradient(B, xi1, xi2, xi3);
@@ -118,12 +118,11 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
 
                         // Correct KmatAB (3x3 block for nodes A,B)
                         Eigen::Matrix3d KmatAB = Eigen::Matrix3d::Zero();
-                        #pragma GCC ivdep
+                        
                         for(int i = 0; i < 3; i++){
                             for(int j = 0; j < 3; j++){
                                 double val = 0.0;
                                 for(int P = 0; P < 3; P++){
-                                    #pragma GCC ivdep //because advisor_result001 wash showing tripcount=3 for this loop, which is very small and can be fully unrolled by the compiler, we can safely ignore the data dependencies and vectorize it
                                     for(int Q = 0; Q < 3; Q++){
                                         for(int M = 0; M < 3; M++){
                                             for(int N = 0; N < 3; N++){
