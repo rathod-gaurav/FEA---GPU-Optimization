@@ -1,6 +1,4 @@
 #pragma once //include this only once during compilation
-
-#include <Eigen/Dense>
 #include "Mesh.hpp"
 #include "ShapeFunction.hpp"
 #include "Quadrature.hpp"
