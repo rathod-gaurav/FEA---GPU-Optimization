@@ -32,12 +32,12 @@ Eigen::Matrix3d ElementEvaluator<Nne, Nsd>::computeJacobian(unsigned int e, doub
 }
 
 template <unsigned int Nne, unsigned int Nsd>
-Eigen::Matrix3d ElementEvaluator<Nne, Nsd>::computeGradU(const Eigen::VectorXd& u_e, double xi1, double xi2, double xi3, Eigen::Matrix3d& JacInv) const {
+Eigen::Matrix3d ElementEvaluator<Nne, Nsd>::computeGradU(const Eigen::VectorXd& u_e, double xi1, double xi2, double xi3, Eigen::Matrix3d& JacInvT) const {
     Eigen::Matrix3d grad_u = Eigen::Matrix3d::Zero();
     //compute the gradient of the displacement field at the quadrature point using the basis function gradients and the nodal displacements
     for(int A = 0 ; A < Nne ; A++){
         auto [dN_dxi1, dN_dxi2, dN_dxi3] = ShapeFunction::basis_gradient(A, xi1, xi2, xi3);
-        Eigen::Vector3d dN_dx = JacInv.transpose()*Eigen::Vector3d(dN_dxi1, dN_dxi2, dN_dxi3);
+        Eigen::Vector3d dN_dx = JacInvT*Eigen::Vector3d(dN_dxi1, dN_dxi2, dN_dxi3);
         grad_u(0,0) += dN_dx[0] * u_e(A*3 + 0); //du1/dx1
         grad_u(0,1) += dN_dx[1] * u_e(A*3 + 0); //du1/dx2
         grad_u(0,2) += dN_dx[2] * u_e(A*3 + 0); //du1/dx3
@@ -85,16 +85,16 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
                 Eigen::Matrix3d Jac = computeJacobian(e, xi1, xi2, xi3); //compute the Jacobian matrix at the quadrature point
                 double JacDet = Jac.determinant(); //compute the determinant of the Jacobian
                 Eigen::Matrix3d JacInv = Jac.inverse(); //compute the inverse of the Jacobian
+                Eigen::Matrix3d JacInvT = JacInv.transpose(); //transpose of the inverse Jacobian
 
-                Eigen::Matrix3d grad_u = computeGradU(u_e, xi1, xi2, xi3, JacInv); //compute the gradient of the displacement field at the quadrature point
+                Eigen::Matrix3d grad_u = computeGradU(u_e, xi1, xi2, xi3, JacInvT); //compute the gradient of the displacement field at the quadrature point
                 Eigen::Matrix3d F = Eigen::Matrix3d::Identity() + grad_u; //deformation gradient
 
                 material_.compute(F, S, P, C_mat); //compute the stress tensors E,S,P and material tangent stiffness matrix at the quadrature point using the material model
                 
-                 
                 for(int B = 0 ; B < Nne ; B++){//Loop to calculate Residual
                     auto [dN_dxi1, dN_dxi2, dN_dxi3] = ShapeFunction::basis_gradient(B, xi1, xi2, xi3);
-                    Eigen::Vector3d dN_dx = JacInv.transpose()*Eigen::Vector3d(dN_dxi1, dN_dxi2, dN_dxi3); //gradient of the basis function in global coordinates
+                    Eigen::Vector3d dN_dx = JacInvT*Eigen::Vector3d(dN_dxi1, dN_dxi2, dN_dxi3); //gradient of the basis function in global coordinates
                     Rlocal.segment(B*Nsd, Nsd) += P * dN_dx * weight * JacDet; //contribution to the local residual vector
                 }
                 
@@ -102,13 +102,13 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
                  
                 for(int A = 0 ; A < Nne ; A++){//Loops to calculate tangent matrix
                     auto [dNA_dxi1, dNA_dxi2, dNA_dxi3] = ShapeFunction::basis_gradient(A, xi1, xi2, xi3);
-                    Eigen::Vector3d dNA_dx = JacInv.transpose()*Eigen::Vector3d(dNA_dxi1, dNA_dxi2, dNA_dxi3);
+                    Eigen::Vector3d dNA_dx = JacInvT*Eigen::Vector3d(dNA_dxi1, dNA_dxi2, dNA_dxi3);
                     
                      
                     for(int B = 0 ; B < Nne ; B++){
 
                         auto [dNB_dxi1, dNB_dxi2, dNB_dxi3] = ShapeFunction::basis_gradient(B, xi1, xi2, xi3);
-                        Eigen::Vector3d dNB_dx = JacInv.transpose()*Eigen::Vector3d(dNB_dxi1, dNB_dxi2, dNB_dxi3);
+                        Eigen::Vector3d dNB_dx = JacInvT*Eigen::Vector3d(dNB_dxi1, dNB_dxi2, dNB_dxi3);
 
                         //Kgeometric
                         double Kgeo_scalar = (dNA_dx.transpose() * S * dNB_dx)(0,0);
