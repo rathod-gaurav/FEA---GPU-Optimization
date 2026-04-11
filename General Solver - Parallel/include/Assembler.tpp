@@ -51,12 +51,44 @@ void Assembler<Nne,Nsd>::assembleSystem(
     std::vector<Eigen::Triplet<double>> Kglobal_triplets; //triplet format for constructing the sparse tangent stiffness matrix
     Kglobal_triplets.reserve(Nel_t*Nne*Nne*9); //reserve space for triplets to avoid dynamic resizing during assembly
 
-    //Loop over elements and assemble the global stiffness matrix and residual vector
+    const int numThreads = omp_get_max_threads(); //get the maximum number of threads available for parallel execution
+
+    //thread local triplet lists #optimization - use thread local storage for triplet lists to avoid contention during parallel assembly of the global stiffness matrix
+    std::vector<std::vector<Eigen::Triplet<double>>> thread_local_triplets(numThreads); //thread local triplet lists
+    for(auto& v : thread_local_triplets){
+        v.reserve((Nel_t*Nne*Nne*9)/(numThreads+1)); //reserve space for triplets in each thread's local list to avoid dynamic resizing during assembly
+    }
+
+    //thread local residual #optimization - use thread local storage for residual vectors to avoid contention during parallel assembly of the global residual vector
+    std::vector<Eigen::VectorXd> thread_local_R(numThreads); //thread local residual vectors
+    #pragma omp parallel num_threads(numThreads)
+    {
+        int tid = omp_get_thread_num(); //get the thread ID for indexing into thread local storage
+        thread_local_R[tid] = Eigen::VectorXd::Zero(Nt * Nsd); //initialize the thread local residual vector to zero
+    }
+
+    //first touch initialization of mesh data structures #optimization - parallelize the first-touch initialization of mesh data structures to ensure they are allocated on the correct NUMA nodes for better memory access performance during assembly
+    // mesh_.elements and u are read by all threads during assembly.
+    // This loop touches each element's data from the thread that will later process it (schedule(static) gives the same distribution as the assembly loop below). The OS migrates pages toward first-touch locality.
+    
+    #pragma omp parallel for schedule(static) num_threads(numThreads) //parallelize the first-touch initialization of mesh data structures with OpenMP, and use static scheduling to ensure the same distribution of iterations as the assembly loop below for better NUMA locality
     for(unsigned int e = 0 ; e < Nel_t ; e++){
+        volatile unsigned int touch = mesh_.elements[e].node[0]; //touch the first node index of the element to initialize the corresponding page in memory on the thread that will later process this element during assembly
+        (void)touch; //suppress unused variable warning
+    }
+
+    const int chunk = Nel_t/numThreads; //chunk size for static scheduling of the assembly loop, ensuring each thread processes a contiguous block of elements for better cache performance and NUMA locality
+    
+    //Loop over elements and assemble the global stiffness matrix and residual vector
+    #pragma omp parallel for schedule(dynamic, chunk) num_threads(numThreads) //#optimization - parallelize the assembly loop with OpenMP, and use dynamic scheduling with a chunk size to balance load while maintaining some locality
+    for(unsigned int e = 0 ; e < Nel_t ; e++){
+        int tid = omp_get_thread_num(); //get the thread ID for indexing into thread local storage
+
+        //Klocal and Rlocal are thread local now
         Eigen::MatrixXd Klocal = Eigen::MatrixXd::Zero(Nne * Nsd, Nne * Nsd); //local tangent stiffness matrix for the element
         Eigen::VectorXd Rlocal = Eigen::VectorXd::Zero(Nne * Nsd); //local residual vector for the element
 
-        //Element nodal displacements
+        //Element nodal displacements // because u is read only, it is safe for all threads to read from it without synchronization. Each thread will read the displacements for the nodes of the elements it processes, and there is no contention since they are only reading.
         Eigen::VectorXd u_e = Eigen::VectorXd::Zero(Nne * Nsd); //displacement vector for the current element
         for(unsigned int i = 0; i < Nne; i++){
             unsigned int global_node_id = mesh_.elements[e].node[i];
@@ -70,7 +102,7 @@ void Assembler<Nne,Nsd>::assembleSystem(
             Rlocal //element internal force vector (Nne*3 x 1 vector)
         );
 
-        //Assemble Rlocal and Klocal into Rglobal and Kglobal
+        //Assemble Rlocal and Klocal into thread local storage first to avoid contention, and then safely accumulate into the global residual and triplet list with a critical section
         for(int A = 0; A < Nne; A++){
             int Aglobal = mesh_.elements[e].node[A];
             for(int B = 0; B < Nne ; B++)
@@ -78,14 +110,22 @@ void Assembler<Nne,Nsd>::assembleSystem(
                 int Bglobal = mesh_.elements[e].node[B];
                 for(int i = 0 ; i < 3 ; i++){
                     for(int j = 0 ; j < 3 ; j++){
-                        Kglobal_triplets.emplace_back(3*Aglobal + i, 3*Bglobal + j, Klocal(3*A + i, 3*B + j));
+                        thread_local_triplets[tid].emplace_back(3*Aglobal + i, 3*Bglobal + j, Klocal(3*A + i, 3*B + j));
                     }
                 }
             }
-            Rglobal.segment(3*Aglobal,3) += Rlocal.segment(3*A,3);
+            thread_local_R[tid].segment(3*Aglobal,3) += Rlocal.segment(3*A,3);
             // cout << "Assembled element " << e+1 << "/" << Nel_t << "\r";
         }
     }
+
+    for(int t = 0 ; t < numThreads ; t++){
+        //accumulate thread local triplets into global triplet list
+        Kglobal_triplets.insert(Kglobal_triplets.end(), thread_local_triplets[t].begin(), thread_local_triplets[t].end());
+        //accumulate thread local residuals into global residual vector
+        Rglobal += thread_local_R[t];
+    }
+
     Kglobal.setFromTriplets(Kglobal_triplets.begin(), Kglobal_triplets.end()); //construct the sparse global tangent stiffness matrix from the triplets
     Kglobal.makeCompressed(); //compress the sparse matrix for efficient arithmetic and solving
 }

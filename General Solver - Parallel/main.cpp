@@ -14,7 +14,7 @@ using std::chrono::high_resolution_clock;
 using std::chrono::duration;
 
 int main(){
-    omp_set_num_threads(3);
+    // omp_set_num_threads(4);
 
     // Verify OpenMP is active and thread count is what you expect
     #pragma omp parallel
