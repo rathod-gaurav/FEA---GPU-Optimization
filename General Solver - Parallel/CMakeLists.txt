@@ -33,7 +33,8 @@ find_package(OpenMP REQUIRED)
 add_library(Eigen3 INTERFACE IMPORTED)
 set_target_properties(Eigen3 PROPERTIES
     INTERFACE_INCLUDE_DIRECTORIES
-    "/home/grathod/Downloads/eigen-5.0.0/eigen-5.0.0" #for lab workstation
+    "/mnt/c/Users/ratho/Downloads/eigen-5.0.0/eigen-5.0.0" #for laptop
+    # "/home/grathod/Downloads/eigen-5.0.0/eigen-5.0.0" #for lab workstation
     # "/srv/home/grathod/eigen-5.0.0" #for euler
 )
 # If you ever install Eigen system-wide or via vcpkg/conan you can replace
