@@ -14,7 +14,9 @@ using std::chrono::high_resolution_clock;
 using std::chrono::duration;
 
 int main(){
-    // omp_set_num_threads(4);
+    int outerThreads = 16;
+    omp_set_max_active_levels(2);       // allow 2 levels of nesting
+    omp_set_num_threads(outerThreads); 
 
     // Verify OpenMP is active and thread count is what you expect
     #pragma omp parallel
@@ -101,7 +103,7 @@ int main(){
 
     std::cout << "Starting nonlinear solve..." << std::endl;
     std::cout << "--------------------" << std::endl;
-    solver.solve(u, assembler, bcs,
+    solver.solve(u, assembler, outerThreads, bcs,
         [&](unsigned int incr, unsigned int iter, double residualNorm){
             writer.sendResidual(incr, iter, residualNorm); //send the residual norm to the output writer for visualization
             

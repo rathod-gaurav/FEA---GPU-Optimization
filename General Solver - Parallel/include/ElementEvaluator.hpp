@@ -16,8 +16,8 @@ class ElementEvaluator{
         void computeElement(
             unsigned int e, //element index
             const Eigen::VectorXd& u_e, //element nodal displacements (Nne*3 x 1 vector)
-            Eigen::MatrixXd& Klocal_priv, //element stiffness matrix (Nne*3 x Nne*3 matrix)
-            Eigen::VectorXd& Rlocal_priv //element internal force vector (Nne*3 x 1 vector)
+            Eigen::MatrixXd& Klocal, //element stiffness matrix (Nne*3 x Nne*3 matrix)
+            Eigen::VectorXd& Rlocal //element internal force vector (Nne*3 x 1 vector)
         ) const;
     
     private:

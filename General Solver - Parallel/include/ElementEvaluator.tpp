@@ -56,28 +56,25 @@ template <unsigned int Nne, unsigned int Nsd>
 void ElementEvaluator<Nne, Nsd>::computeElement(
     unsigned int e, //element index
     const Eigen::VectorXd& u_e, //element nodal displacements (Nne*3 x 1 vector)
-    Eigen::MatrixXd& Klocal_priv, //element stiffness matrix (Nne*3 x Nne*3 matrix)
-    Eigen::VectorXd& Rlocal_priv //element internal force vector (Nne*3 x 1 vector)
+    Eigen::MatrixXd& Klocal, //element stiffness matrix (Nne*3 x Nne*3 matrix)
+    Eigen::VectorXd& Rlocal //element internal force vector (Nne*3 x 1 vector)
 ) const {
     
     const auto& quad_points = quadRule_.points;
     const auto& quad_weights = quadRule_.weights;
     unsigned int quadOrder = quad_points.size(); //number of quadrature points in each direction
 
-    // Rlocal = Eigen::VectorXd::Zero(Nne * Nsd); //local residual vector for the element
-    // Klocal = Eigen::MatrixXd::Zero(Nne * Nsd, Nne * Nsd); //local tangent stiffness matrix for the element
-
-    // #pragma omp parallel
-    // {
-        // Eigen::VectorXd Rlocal_priv = Eigen::VectorXd::Zero(Nne * Nsd); //local residual vector for the element
-        // Eigen::MatrixXd Klocal_priv = Eigen::MatrixXd::Zero(Nne * Nsd, Nne * Nsd); //local tangent stiffness matrix for the element
+    #pragma omp parallel num_threads(3)
+    {
+        Eigen::VectorXd Rlocal_priv = Eigen::VectorXd::Zero(Nne * Nsd); //local residual vector for the element
+        Eigen::MatrixXd Klocal_priv = Eigen::MatrixXd::Zero(Nne * Nsd, Nne * Nsd); //local tangent stiffness matrix for the element
 
         Eigen::Matrix3d S_priv = Eigen::Matrix3d::Zero(); //Second Piola-Kirchhoff stress tensor
         Eigen::Matrix3d P_priv = Eigen::Matrix3d::Zero(); //First Piola-Kirchhoff stress tensor
         Eigen::MatrixXd C_mat_priv = Eigen::MatrixXd::Zero(9,9); //material tangent stiffness matrix in Voigt notation (3x3 block for each pair of nodes)
 
         //Gaussian quadrature loop
-        // #pragma omp for collapse(3) schedule(static) //parallelize the quadrature loop with OpenMP, and use reduction to safely accumulate contributions to Rlocal and Klocal from different threads
+        #pragma omp for collapse(3) schedule(static) //#optimization - parallelize the quadrature loop with OpenMP, and use reduction to safely accumulate contributions to Rlocal and Klocal from different threads
         for(int I = 0 ; I < quadOrder ; I++){
             for(int J = 0 ; J < quadOrder ; J++){
                 for(int K = 0 ; K < quadOrder ; K++){
@@ -144,11 +141,11 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
             }
         }
 
-        // #pragma omp critical //safely accumulate contributions from different threads to the local residual and tangent stiffness matrix
-        // {
-        //     Rlocal += Rlocal_priv;
-        //     Klocal += Klocal_priv;
-        // }
-    // }
+        #pragma omp critical //safely accumulate contributions from different threads to the local residual and tangent stiffness matrix
+        {
+            Rlocal += Rlocal_priv;
+            Klocal += Klocal_priv;
+        }
+    }
 
 }

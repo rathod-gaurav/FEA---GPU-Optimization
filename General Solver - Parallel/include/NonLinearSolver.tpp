@@ -9,6 +9,7 @@ template <unsigned int Nne, unsigned int Nsd>
 void NonlinearSolver<Nne, Nsd>::solve(
     Eigen::VectorXd& u, //displacement vector, modified in place
     const Assembler<Nne, Nsd>& assembler, //provides Kglobal, Rglobal
+    int outerThreads, //number of threads for parallel execution //goes to Assembler.assembleSystem
     const BoundaryConditions<Nne>& bcs, //provides dirischlet indexes and values
     std::function<void(unsigned int, unsigned int, double)> iterCallback
 ){
@@ -20,7 +21,7 @@ void NonlinearSolver<Nne, Nsd>::solve(
 
         for(unsigned int iter = 0; iter < maxIter_; iter++){
             
-            assembler.assembleSystem(u, Kglobal, Rglobal); //assemble the global stiffness matrix and residual vector based on the current solution vector
+            assembler.assembleSystem(u, Kglobal, Rglobal, outerThreads); //assemble the global stiffness matrix and residual vector based on the current solution vector
             
             assembler.partition(Kglobal, Rglobal, bcs, KUU, KUD, RU); //partition the global stiffness matrix and residual vector into submatrices/vectors corresponding to unknown and dirischlet degrees of freedom
 

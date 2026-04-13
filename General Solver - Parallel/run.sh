@@ -2,7 +2,7 @@
 #SBATCH -p instruction
 #SBATCH --job-name=FEA_Parallel
 #SBATCH --nodes=1
-#SBATCH --cpus-per-task=20
+#SBATCH --cpus-per-task=48
 #SBATCH --time=00:10:00
 #SBATCH --output=FEA.out
 #SBATCH --error=FEA.err
@@ -59,7 +59,7 @@ else
     MACHINE="unknown ($CPU_MODEL)"
     # Use half of logical CPUs as a conservative default.
     # OMP_NUM_THREADS=$(( $(nproc --all) / 2 ))
-    OMP_NUM_THREADS=20
+    OMP_NUM_THREADS=16 #16 outer threads with each spawning 3 inner threads for a total of 48 threads
     OMP_PROC_BIND=close
     OMP_PLACES=cores
     echo "Warning: unrecognized CPU. Defaulting to manually set OMP_NUM_THREADS=${OMP_NUM_THREADS}."

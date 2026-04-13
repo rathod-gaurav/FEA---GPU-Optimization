@@ -15,7 +15,8 @@ class Assembler{
         void assembleSystem(
             const Eigen::VectorXd& u, //global nodal displacement vector (Nnodes*Nsd x 1 vector)
             Eigen::SparseMatrix<double>& Kglobal, //global stiffness matrix (Nnodes*Nsd x Nnodes*Nsd sparse matrix)
-            Eigen::VectorXd& Rglobal //global internal force vector (Nnodes*Nsd x 1 vector)
+            Eigen::VectorXd& Rglobal, //global internal force vector (Nnodes*Nsd x 1 vector)
+            int outerThreads //number of threads for parallel execution
         ) const;
 
         void partition(

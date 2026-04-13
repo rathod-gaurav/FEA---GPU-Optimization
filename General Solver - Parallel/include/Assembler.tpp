@@ -41,7 +41,8 @@ template <unsigned int Nne, unsigned int Nsd>
 void Assembler<Nne,Nsd>::assembleSystem(
             const Eigen::VectorXd& u, //global nodal displacement vector (Nnodes*Nsd x 1 vector)
             Eigen::SparseMatrix<double>& Kglobal, //global stiffness matrix (Nnodes*Nsd x Nnodes*Nsd sparse matrix)
-            Eigen::VectorXd& Rglobal //global internal force vector (Nnodes*Nsd x 1 vector)
+            Eigen::VectorXd& Rglobal, //global internal force vector (Nnodes*Nsd x 1 vector)
+            int outerThreads
 ) const {
     unsigned int Nt = mesh_.Nnodes(); //total number of nodes in the mesh
     unsigned int Nel_t = mesh_.Nelements(); //total number of elements in the mesh
@@ -51,7 +52,7 @@ void Assembler<Nne,Nsd>::assembleSystem(
     std::vector<Eigen::Triplet<double>> Kglobal_triplets; //triplet format for constructing the sparse tangent stiffness matrix
     Kglobal_triplets.reserve(Nel_t*Nne*Nne*9); //reserve space for triplets to avoid dynamic resizing during assembly
 
-    const int numThreads = omp_get_max_threads(); //get the maximum number of threads available for parallel execution
+    const int numThreads = outerThreads; //set the outer number of threads for parallel execution
 
     //thread local triplet lists #optimization - use thread local storage for triplet lists to avoid contention during parallel assembly of the global stiffness matrix
     std::vector<std::vector<Eigen::Triplet<double>>> thread_local_triplets(numThreads); //thread local triplet lists
@@ -77,7 +78,7 @@ void Assembler<Nne,Nsd>::assembleSystem(
         (void)touch; //suppress unused variable warning
     }
 
-    const int chunk = Nel_t/numThreads; //chunk size for static scheduling of the assembly loop, ensuring each thread processes a contiguous block of elements for better cache performance and NUMA locality
+    const int chunk = Nel_t/(numThreads*8); //chunk size for static scheduling of the assembly loop, ensuring each thread processes a contiguous block of elements for better cache performance and NUMA locality
     
     //Loop over elements and assemble the global stiffness matrix and residual vector
     #pragma omp parallel for schedule(dynamic, chunk) num_threads(numThreads) //#optimization - parallelize the assembly loop with OpenMP, and use dynamic scheduling with a chunk size to balance load while maintaining some locality
@@ -121,9 +122,10 @@ void Assembler<Nne,Nsd>::assembleSystem(
 
     for(int t = 0 ; t < numThreads ; t++){
         //accumulate thread local triplets into global triplet list
-        Kglobal_triplets.insert(Kglobal_triplets.end(), thread_local_triplets[t].begin(), thread_local_triplets[t].end());
+        Kglobal_triplets.insert(Kglobal_triplets.end(), std::make_move_iterator(thread_local_triplets[t].begin()), std::make_move_iterator(thread_local_triplets[t].end())); //move the triplets from the thread local list into the global list to avoid copying, and then clear the thread local list to free memory
         //accumulate thread local residuals into global residual vector
         Rglobal += thread_local_R[t];
+        thread_local_triplets[t].clear(); //clear the thread local triplet list to free memory
     }
 
     Kglobal.setFromTriplets(Kglobal_triplets.begin(), Kglobal_triplets.end()); //construct the sparse global tangent stiffness matrix from the triplets
