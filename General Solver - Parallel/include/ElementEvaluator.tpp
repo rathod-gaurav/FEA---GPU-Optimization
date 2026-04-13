@@ -64,6 +64,9 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
     const auto& quad_weights = quadRule_.weights;
     unsigned int quadOrder = quad_points.size(); //number of quadrature points in each direction
 
+    Eigen::MatrixXd C_mat = Eigen::MatrixXd(9,9);
+    material_.computeCmat(C_mat); //material tangent stiffness matrix in Voigt notation (3x3 block for each pair of nodes) -- remains constant for St Venant Kirchhoff model
+
     #pragma omp parallel num_threads(3)
     {
         Eigen::VectorXd Rlocal_priv = Eigen::VectorXd::Zero(Nne * Nsd); //local residual vector for the element
@@ -71,8 +74,7 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
 
         Eigen::Matrix3d S_priv = Eigen::Matrix3d::Zero(); //Second Piola-Kirchhoff stress tensor
         Eigen::Matrix3d P_priv = Eigen::Matrix3d::Zero(); //First Piola-Kirchhoff stress tensor
-        Eigen::MatrixXd C_mat_priv = Eigen::MatrixXd::Zero(9,9); //material tangent stiffness matrix in Voigt notation (3x3 block for each pair of nodes)
-
+        
         //Gaussian quadrature loop
         #pragma omp for collapse(3) schedule(static) //#optimization - parallelize the quadrature loop with OpenMP, and use reduction to safely accumulate contributions to Rlocal and Klocal from different threads
         for(int I = 0 ; I < quadOrder ; I++){
@@ -99,7 +101,7 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
                     Eigen::Matrix3d grad_u = computeGradU(u_e, dN_dx); //compute the gradient of the displacement field at the quadrature point #optimization - pass cached dN_dx to avoid redundant calculations in computeGradU
                     Eigen::Matrix3d F = Eigen::Matrix3d::Identity() + grad_u; //deformation gradient
 
-                    material_.compute(F, S_priv, P_priv, C_mat_priv); //compute the stress tensors E,S,P and material tangent stiffness matrix at the quadrature point using the material model
+                    material_.compute(F, S_priv, P_priv); //compute the stress tensors E,S,P at the quadrature point using the material model
                     
                     for(int B = 0 ; B < Nne ; B++){//Loop to calculate Residual
                         // #optimization - use cached dN_dx to avoid redundant calculations, and use Eigen's fixed size segment
@@ -124,7 +126,7 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
                             Eigen::Matrix3d Gmat = Eigen::Matrix3d::Zero();
                             for(int P = 0; P < 3; P++){
                                 for(int M = 0; M < 3; M++){
-                                    Eigen::Matrix3d C_block = C_mat_priv.block<3,3>(3*P, 3*M); //material tangent stiffness block for nodes P,M
+                                    Eigen::Matrix3d C_block = C_mat.block<3,3>(3*P, 3*M); //material tangent stiffness block for nodes P,M
                                     Gmat(P,M) = dNA.dot(C_block * dNB); //contribution to the geometric stiffness from nodes P,M
                                 }
                             }
