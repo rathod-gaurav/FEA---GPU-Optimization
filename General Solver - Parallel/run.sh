@@ -58,10 +58,11 @@ else
     # ── unknown machine — safe fallback ────────────────────────────────────────
     MACHINE="unknown ($CPU_MODEL)"
     # Use half of logical CPUs as a conservative default.
-    OMP_NUM_THREADS=$(( $(nproc --all) / 2 ))
+    # OMP_NUM_THREADS=$(( $(nproc --all) / 2 ))
+    OMP_NUM_THREADS=20
     OMP_PROC_BIND=close
     OMP_PLACES=cores
-    echo "Warning: unrecognized CPU. Defaulting to OMP_NUM_THREADS=${OMP_NUM_THREADS}."
+    echo "Warning: unrecognized CPU. Defaulting to manually set OMP_NUM_THREADS=${OMP_NUM_THREADS}."
     echo "Set OMP_NUM_THREADS manually for best results."
 fi
 
