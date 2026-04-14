@@ -1,0 +1,1 @@
+/usr/bin/c++  -O3 -g -march=native CMakeFiles/main.dir/main.cpp.o CMakeFiles/main.dir/src/NeoHookean.cpp.o CMakeFiles/main.dir/src/Quadrature.cpp.o CMakeFiles/main.dir/src/ShapeFunction.cpp.o -o main  -lcurl 
