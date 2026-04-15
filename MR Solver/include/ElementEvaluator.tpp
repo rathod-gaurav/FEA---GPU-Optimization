@@ -88,10 +88,19 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
                 Eigen::Matrix3d grad_u = computeGradU(u_e, xi1, xi2, xi3, JacInv); //compute the gradient of the displacement field at the quadrature point
                 Eigen::Matrix3d F = Eigen::Matrix3d::Identity() + grad_u; //deformation gradient
 
-                if(F.determinant() <= 0){
-                    std::cerr << "Warning: Negative F determinant at element " << e << " quadrature point (" << xi1 << ", " << xi2 << ", " << xi3 << ")." << std::endl;
-                    throw std::runtime_error("Negative F determinant encountered. Simulation cannot proceed.");
-                }
+                // if(F.determinant() <= 0){
+                //     std::cerr << "Warning: Negative F determinant at element " << e << " quadrature point (" << xi1 << ", " << xi2 << ", " << xi3 << ")." << std::endl;
+                //     std::cout << "-----------------------------------" << std::endl;
+                //     std::cout << JacInv << std::endl;
+                //     std::cout << "-----------------------------------" << std::endl;  
+                //     std::cout << JacDet << std::endl;
+                //     std::cout << "-----------------------------------" << std::endl;
+                //     std::cout << grad_u << std::endl;
+                //     std::cout << "-----------------------------------" << std::endl; 
+                //     std::cout << F << std::endl;
+                //     std::cout << "-----------------------------------" << std::endl;                    
+                //     throw std::runtime_error("Negative gradU determinant");
+                // }
 
                 material_.compute(F, P, C_mat); //compute the stress tensors E,S,P and material tangent stiffness matrix at the quadrature point using the material model
                 
@@ -120,7 +129,7 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
                             for(int J = 0 ; J < 3 ; J++){
                                 for(int j = 0 ; j < 3 ; j++){
                                     for(int KK = 0 ; KK < 3 ; KK++){
-                                        K_AB(i,j) += C_mat(i,J,j,KK)*dNA_dx(J)*dNB_dx(KK)*JacDet*weight;
+                                        K_AB(i,j) = C_mat(i,J,j,KK)*dNA_dx(J)*dNB_dx(KK)*JacDet*weight; //contribution to the tangent stiffness matrix from the material stiffness
                                     }
                                 }
                             }

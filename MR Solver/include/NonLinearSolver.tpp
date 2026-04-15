@@ -14,9 +14,6 @@ void NonlinearSolver<Nne, Nsd>::solve(
 ){
     Eigen::VectorXd Rglobal, RU; //global residual vector
     Eigen::SparseMatrix<double> Kglobal, KUU, KUD; //global stiffness matrix
-
-    double R0_norm = 0.0; //initial residual norm for convergence monitoring
-
     for(unsigned int incr = 0; incr < maxIncr_; incr++){
         double incrFraction = (incr+1)/static_cast<double>(maxIncr_); //factor to scale dirischlet values for current incr
         bcs.applyToSolution(u, incrFraction); //apply dirischlet boundary conditions to the solution vector for the current incr
@@ -66,10 +63,7 @@ void NonlinearSolver<Nne, Nsd>::solve(
             }
 
             //check residual norm for convergence
-            if(iter == 0){
-                R0_norm = RU.norm(); //store the initial residual norm for convergence monitoring
-            }
-            double residualNorm = RU.norm()/R0_norm;
+            double residualNorm = RU.norm();
             std::cout << "incr: " << incr+1 << ", Iteration: " << iter+1 << "\n";
             std::cout << "Modified residual norm: " << residualNorm << "\n"; //print the norm of the modified residual to monitor convergence of the unknown degrees of freedom
             std::cout << "-----------------------------------" << "\n";

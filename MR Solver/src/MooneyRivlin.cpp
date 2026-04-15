@@ -1,12 +1,13 @@
-#include "NeoHookean.hpp"
+#include "MooneyRivlin.hpp"
 
 NeoHookean::NeoHookean(
     double C10,
+    double C01,
     double D1
-): C10_(C10), D1_(D1)
+): C10_(C10), C01_(C01), D1_(D1)
 {}
 
-void NeoHookean::compute(
+void MooneyRivlin::compute(
     const Eigen::Matrix3d& F, //deformation gradient
     Eigen::Matrix3d& P, //first Piola-Kirchhoff stress tensor
     Tensor4D& C_mat
@@ -14,13 +15,17 @@ void NeoHookean::compute(
     double JJ = F.determinant();
     Eigen::Matrix3d C = F.transpose() * F; //right Cauchy-Green deformation tensor
     double I1 = C.trace(); //first invariant of C
+    double I2 = 0.5*(I1*I1 - (C*C).trace()); //second invariant of C
 
-    Eigen::Matrix3d FinvT = F.inverse().transpose(); 
+    Eigen::Matrix3d FinvT = F.inverse().transpose();
 
     double vol_multiplier = (2.0/D1_)*JJ;
     double iso_multiplier = C10_*std::pow(JJ, -2.0/3.0);
+    double iso_multiplier_C01 = C01_*std::pow(JJ, -4.0/3.0);
 
-    P = 2*vol_multiplier*(JJ-1)*FinvT + 2*iso_multiplier*(F - I1*(1.0/3.0)*FinvT); //total first Piola-Kirchhoff stress
+    Eigen::Matrix3d PNH_iso = vol_multiplier*(JJ-1)*FinvT + 2*iso_multiplier*(F - I1*(1.0/3.0)*FinvT); //iso first Piola-Kirchhoff stress for NeoHookean model
+
+    P = PNH_iso + 2*iso_multiplier_C01*((I1*F - F*C) - ((2.0/3.0)*I2*FinvT)) + 2*vol_multiplier*(JJ-1)*FinvT; //total first Piola-Kirchhoff stress for Mooney-Rivlin model
 
     for(int i = 0 ; i < 3 ; i++){
         for(int J = 0 ; J < 3 ; J++){

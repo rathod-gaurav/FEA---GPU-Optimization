@@ -1,9 +1,10 @@
 #include <iostream>
+#include <cmath>
 #include "MeshGenerator.hpp"
 #include "Quadrature.hpp"
 #include "BoundaryConditions.hpp"
 #include "ElementEvaluator.hpp"
-#include "StVenantKirchhoff.hpp"
+#include "MooneyRivlin.hpp"
 #include "Assembler.hpp"
 #include "NonLinearSolver.hpp"
 #include "OutputWriter.hpp"
@@ -25,11 +26,11 @@ int main(){
     constexpr unsigned int Nne = 8; //hexahedral elements | 8 nodes per element
 
     //Quadrature order
-    unsigned int quadOrder = 3; //number of quadrature points in each direction for
+    unsigned int quadOrder = 2; //number of quadrature points in each direction for
 
     //Problem parameters
-    double lambda = 6*1e10; //first Lamé parameter
-    double mu = 2*1e10; //second Lamé parameter (shear modulus)
+    double C10 = 1e10; 
+    double D1 = 1e-10; 
 
     //Solver parameters
     double tol = 1e-6; //tolerance for convergence of the nonlinear solver
@@ -61,11 +62,11 @@ int main(){
     for(unsigned int i = 0 ; i < mesh.Nnodes() ; i++){
         if(mesh.nodes[i].x1 == x1_ll){ //if the node is on the left face of the domain
             bcs.addDirischlet(i, 0, 0.0); //apply dirischlet boundary condition u1 = 0 at this node
-            bcs.addDirischlet(i, 1, 0.0); //apply dirischlet boundary condition u1 = 0 at this node
-            bcs.addDirischlet(i, 2, 0.0); //apply dirischlet boundary condition u1 = 0 at this node
+            bcs.addDirischlet(i, 1, 0.0); //apply dirischlet boundary condition u2 = 0 at this node
+            bcs.addDirischlet(i, 2, 0.0); //apply dirischlet boundary condition u3 = 0 at this node
         }
         if(mesh.nodes[i].x1 == x1_ul){ //if the node is on the right face of the domain
-            bcs.addDirischlet(i, 0, 0.001); //apply dirischlet boundary condition u1 = 0.001 at this node
+            bcs.addDirischlet(i, 0, 0.5); //apply dirischlet boundary condition u1 = 0.05 at this node
         }
     }
     bcs.buildBCs(); //finalize the boundary conditions
@@ -75,7 +76,7 @@ int main(){
 
     //Problem physics stack
     QuadratureRule              quadRule = Quadrature::gauss_legendre(quadOrder); //get the quadrature points and weights for the specified quadrature order
-    StVenantKirchhoff           material(lambda, mu); //create an instance of the St. Venant-Kirchhoff material model with the specified Lamé parameters
+    NeoHookean                  material(C10, D1); //create an instance of the St. Venant-Kirchhoff material model with the specified Lamé parameters
     ElementEvaluator<Nne, Nsd>  elemEval(mesh, material, quadRule); //create an instance of element evaluator with the mesh, material model, and quadrature rule
     Assembler<Nne, Nsd>         assembler(mesh, elemEval); //create an instance of the assembler with the mesh and element evaluator
     OutputWriter<Nne>           writer("solutions"); //create an instance of the output writer to write results to the "output" directory
@@ -98,7 +99,7 @@ int main(){
     std::cout << "--------------------" << std::endl;
     std::cout << "Nonlinear solve completed." << std::endl;
 
-    end = high_resolution_clock::now();
+    end = high_resolution_clock::now(); 
     duration_msec = std::chrono::duration_cast<duration<double, std::milli>>(end-start);
 
     std::cout << "Total time taken (in ms): " << duration_msec.count() << std::endl;

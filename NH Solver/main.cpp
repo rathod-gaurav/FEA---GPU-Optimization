@@ -26,16 +26,16 @@ int main(){
     constexpr unsigned int Nne = 8; //hexahedral elements | 8 nodes per element
 
     //Quadrature order
-    unsigned int quadOrder = 3; //number of quadrature points in each direction for
+    unsigned int quadOrder = 2; //number of quadrature points in each direction for
 
     //Problem parameters
-    double C10 = 1e10; //first Lamé parameter
-    double D1 = 1e-10; //second Lamé parameter (shear modulus)
+    double C10 = 1e10; 
+    double D1 = 1e-10; 
 
     //Solver parameters
     double tol = 1e-6; //tolerance for convergence of the nonlinear solver
-    unsigned int maxIncr = 10; //maximum number of increments (timesteps)
-    unsigned int maxIter = 20; //maximum number of iterations per increment
+    unsigned int maxIncr = 1000; //maximum number of increments (timesteps)
+    unsigned int maxIter = 1000; //maximum number of iterations per increment
 
     //Domain parameters
     double x1_ll = 0.0, x1_ul = 0.1; //lower and upper limits in x1 direction
@@ -62,11 +62,11 @@ int main(){
     for(unsigned int i = 0 ; i < mesh.Nnodes() ; i++){
         if(mesh.nodes[i].x1 == x1_ll){ //if the node is on the left face of the domain
             bcs.addDirischlet(i, 0, 0.0); //apply dirischlet boundary condition u1 = 0 at this node
-            bcs.addDirischlet(i, 1, 0.0); //apply dirischlet boundary condition u1 = 0 at this node
-            bcs.addDirischlet(i, 2, 0.0); //apply dirischlet boundary condition u1 = 0 at this node
+            bcs.addDirischlet(i, 1, 0.0); //apply dirischlet boundary condition u2 = 0 at this node
+            bcs.addDirischlet(i, 2, 0.0); //apply dirischlet boundary condition u3 = 0 at this node
         }
         if(mesh.nodes[i].x1 == x1_ul){ //if the node is on the right face of the domain
-            bcs.addDirischlet(i, 0, 0.05); //apply dirischlet boundary condition u1 = 0.05 at this node
+            bcs.addDirischlet(i, 0, 0.01); //apply dirischlet boundary condition u1 = 0.05 at this node
         }
     }
     bcs.buildBCs(); //finalize the boundary conditions
@@ -99,7 +99,7 @@ int main(){
     std::cout << "--------------------" << std::endl;
     std::cout << "Nonlinear solve completed." << std::endl;
 
-    end = high_resolution_clock::now();
+    end = high_resolution_clock::now(); 
     duration_msec = std::chrono::duration_cast<duration<double, std::milli>>(end-start);
 
     std::cout << "Total time taken (in ms): " << duration_msec.count() << std::endl;
