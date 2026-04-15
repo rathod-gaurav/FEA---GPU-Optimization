@@ -88,6 +88,13 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
                 Eigen::Matrix3d grad_u = computeGradU(u_e, xi1, xi2, xi3, JacInv); //compute the gradient of the displacement field at the quadrature point
                 Eigen::Matrix3d F = Eigen::Matrix3d::Identity() + grad_u; //deformation gradient
 
+                if(F.determinant() <= 0){
+                    std::cout << "-----------------------------------" << std::endl;
+                    std::cout << F << std::endl;
+                    std::cout << "-----------------------------------" << std::endl;
+                    std::cerr << "Warning: Negative or zero Jacobian determinant at element " << e << " quadrature point (" << xi1 << ", " << xi2 << ", " << xi3 << "). Element may be inverted or severely distorted." << std::endl;
+                }
+
                 material_.compute(F, P, C_mat); //compute the stress tensors E,S,P and material tangent stiffness matrix at the quadrature point using the material model
                 
                  
@@ -114,8 +121,8 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
                         for(int i = 0 ; i < 3 ; i++){
                             for(int J = 0 ; J < 3 ; J++){
                                 for(int j = 0 ; j < 3 ; j++){
-                                    for(int K = 0 ; K < 3 ; K++){
-                                        K_AB(i,j) = C_mat(i,J,j,K)*dNA_dx(J)*dNB_dx(K)*JacDet*weight; //contribution to the tangent stiffness matrix from the material stiffness
+                                    for(int KK = 0 ; KK < 3 ; KK++){
+                                        K_AB(i,j) = C_mat(i,J,j,KK)*dNA_dx(J)*dNB_dx(KK)*JacDet*weight; //contribution to the tangent stiffness matrix from the material stiffness
                                     }
                                 }
                             }

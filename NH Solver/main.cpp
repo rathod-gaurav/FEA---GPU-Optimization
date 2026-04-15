@@ -66,7 +66,7 @@ int main(){
             bcs.addDirischlet(i, 2, 0.0); //apply dirischlet boundary condition u1 = 0 at this node
         }
         if(mesh.nodes[i].x1 == x1_ul){ //if the node is on the right face of the domain
-            bcs.addDirischlet(i, 0, 0.05); //apply dirischlet boundary condition u1 = 0.001 at this node
+            bcs.addDirischlet(i, 0, 0.05); //apply dirischlet boundary condition u1 = 0.05 at this node
         }
     }
     bcs.buildBCs(); //finalize the boundary conditions

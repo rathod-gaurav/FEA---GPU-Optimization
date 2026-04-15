@@ -26,6 +26,13 @@ void NonlinearSolver<Nne, Nsd>::solve(
 
             // solve the linear system
             // std::cout << "Initilising solver for incr " << incr+1 << ", iteration " << iter+1 << "\n";
+            
+            // Replace 'A' with your matrix name
+            for (int i = 0; i < KUU.outerSize(); ++i) {
+                if (KUU.innerVector(i).nonZeros() == 0) {
+                    std::cerr << "Column " << i << " is completely empty!" << std::endl;
+                }
+            }
 
             // Eigen::FullPivLU<Eigen::MatrixXd> solver(KUU);
             Eigen::SparseLU<Eigen::SparseMatrix<double>> linear_solver;
@@ -34,6 +41,7 @@ void NonlinearSolver<Nne, Nsd>::solve(
             if(linear_solver.info() != Eigen::Success) {
                 std::cout << "Decomposition failed for incr " << incr+1 << ", iteration " << iter+1 << "\n";
                 std::cout << linear_solver.lastErrorMessage() << "\n";
+
                 return;
             }
 
