@@ -34,8 +34,8 @@ int main(){
 
     //Solver parameters
     double tol = 1e-6; //tolerance for convergence of the nonlinear solver
-    unsigned int maxIncr = 1000; //maximum number of increments (timesteps)
-    unsigned int maxIter = 1000; //maximum number of iterations per increment
+    unsigned int maxIncr = 50; //maximum number of increments (timesteps)
+    unsigned int maxIter = 100; //maximum number of iterations per increment
 
     //Domain parameters
     double x1_ll = 0.0, x1_ul = 0.1; //lower and upper limits in x1 direction
@@ -66,7 +66,7 @@ int main(){
             bcs.addDirischlet(i, 2, 0.0); //apply dirischlet boundary condition u3 = 0 at this node
         }
         if(mesh.nodes[i].x1 == x1_ul){ //if the node is on the right face of the domain
-            bcs.addDirischlet(i, 0, 0.01); //apply dirischlet boundary condition u1 = 0.05 at this node
+            bcs.addDirischlet(i, 0, 0.05); //apply dirischlet boundary condition u1 = 0.05 at this node
         }
     }
     bcs.buildBCs(); //finalize the boundary conditions
