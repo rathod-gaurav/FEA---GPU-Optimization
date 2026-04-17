@@ -89,23 +89,27 @@ void Assembler<Nne,Nsd>::assembleSystem(
     Kglobal.setFromTriplets(Kglobal_triplets.begin(), Kglobal_triplets.end()); //construct the sparse global tangent stiffness matrix from the triplets
     Kglobal.makeCompressed(); //compress the sparse matrix for efficient arithmetic and solving
 
-    Eigen::SparseLU<Eigen::SparseMatrix<double>> solverKdet;
-    
-    // 1. Compute the decomposition
-    solverKdet.compute(Kglobal);
-    
-    if(solverKdet.info() != Eigen::Success) {
-        // Decomposition failed (matrix might be singular)
-        std::cout << "Check Successful : Kglobal determinant is zero, matrix is singular as expected.\n";
-    }
+    // std::ofstream Kglobal_file("Kglobal.txt");
+    // Kglobal_file << Kglobal << std::endl;
+    // Kglobal_file.close();
 
-    // 2. The determinant of LU is the product of the diagonal of U
-    // Eigen provides a direct method for this in the solver:
+    // Eigen::SparseLU<Eigen::SparseMatrix<double>> solverKdet;
+    
+    // // 1. Compute the decomposition
+    // solverKdet.compute(Kglobal);
+    
+    // if(solverKdet.info() != Eigen::Success) {
+    //     // Decomposition failed (matrix might be singular)
+    //     std::cout << "Check Successful : Kglobal determinant is zero, matrix is singular as expected.\n";
+    // }
 
-    if(solverKdet.determinant() != 0){
-        std::cout << "Kglobal Determinant: " << solverKdet.determinant() << std::endl;
-        throw std::runtime_error("Warning: Global stiffness matrix is not singular. Check for issues in assembly or material model.");
-    }
+    // // 2. The determinant of LU is the product of the diagonal of U
+    // // Eigen provides a direct method for this in the solver:
+
+    // if(solverKdet.determinant() != 0){
+    //     std::cout << "Kglobal Determinant: " << solverKdet.determinant() << std::endl;
+    //     throw std::runtime_error("Warning: Global stiffness matrix is not singular. Check for issues in assembly or material model.");
+    // }
 }
 
 template <unsigned int Nne, unsigned int Nsd>

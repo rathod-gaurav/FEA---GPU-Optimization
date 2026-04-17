@@ -34,7 +34,7 @@ int main(){
 
     //Solver parameters
     double tol = 1e-6; //tolerance for convergence of the nonlinear solver
-    unsigned int maxIncr = 50; //maximum number of increments (timesteps)
+    unsigned int maxIncr = 1000; //maximum number of increments (timesteps)
     unsigned int maxIter = 100; //maximum number of iterations per increment
 
     //Domain parameters
@@ -43,9 +43,9 @@ int main(){
     double x3_ll = 0.0, x3_ul = 0.03; //lower and upper limits in x3 direction
     
     //Mesh parameters
-    unsigned int Nel_x1 = 20; //number of elements in x1 direction
-    unsigned int Nel_x2 = 6; //number of elements in x2 direction
-    unsigned int Nel_x3 = 6; //number of elements in x3 direction
+    unsigned int Nel_x1 = 1; //number of elements in x1 direction
+    unsigned int Nel_x2 = 1; //number of elements in x2 direction
+    unsigned int Nel_x3 = 1; //number of elements in x3 direction
 
     //Generate the mesh using the MeshGenerator class
     MeshGenerator<Nne> meshGen(x1_ll, x1_ul, x2_ll, x2_ul, x3_ll, x3_ul, Nel_x1, Nel_x2, Nel_x3);
@@ -61,12 +61,28 @@ int main(){
     BoundaryConditions<Nne> bcs(mesh, Nsd);
     for(unsigned int i = 0 ; i < mesh.Nnodes() ; i++){
         if(mesh.nodes[i].x1 == x1_ll){ //if the node is on the left face of the domain
-            bcs.addDirischlet(i, 0, 0.0); //apply dirischlet boundary condition u1 = 0 at this node
-            bcs.addDirischlet(i, 1, 0.0); //apply dirischlet boundary condition u2 = 0 at this node
-            bcs.addDirischlet(i, 2, 0.0); //apply dirischlet boundary condition u3 = 0 at this node
+            if(mesh.nodes[i].x3 == x3_ll){
+                bcs.addDirischlet(i, 0, 0.0); //apply dirischlet boundary condition u1 = 0 at this node
+                bcs.addDirischlet(i, 1, 0.0); //apply dirischlet boundary condition u2 = 0 at this node
+                bcs.addDirischlet(i, 2, 0.0); //apply dirischlet boundary condition u3 = 0 at this node
+            }
+            else if(mesh.nodes[i].x3 == x3_ul){
+                bcs.addDirischlet(i, 0, 0.05); //apply dirischlet boundary condition u1 = 0 at this node
+                bcs.addDirischlet(i, 1, 0.0); //apply dirischlet boundary condition u2 = 0 at this node
+                bcs.addDirischlet(i, 2, 0.0); //apply dirischlet boundary condition u3 = 0 at this node
+            }
         }
-        if(mesh.nodes[i].x1 == x1_ul){ //if the node is on the right face of the domain
-            bcs.addDirischlet(i, 0, 0.05); //apply dirischlet boundary condition u1 = 0.05 at this node
+        else if(mesh.nodes[i].x1 == x1_ul){ //if the node is on the right face of the domain
+            if(mesh.nodes[i].x3 == x3_ll){
+                bcs.addDirischlet(i, 0, 0.0); //apply dirischlet boundary condition u1 = 0 at this node
+                bcs.addDirischlet(i, 1, 0.0); //apply dirischlet boundary condition u2 = 0 at this node
+                bcs.addDirischlet(i, 2, 0.0); //apply dirischlet boundary condition u3 = 0 at this node
+            }
+            else if(mesh.nodes[i].x3 == x3_ul){
+                bcs.addDirischlet(i, 0, 0.05); //apply dirischlet boundary condition u1 = 0 at this node
+                bcs.addDirischlet(i, 1, 0.0); //apply dirischlet boundary condition u2 = 0 at this node
+                bcs.addDirischlet(i, 2, 0.0); //apply dirischlet boundary condition u3 = 0 at this node
+            }
         }
     }
     bcs.buildBCs(); //finalize the boundary conditions

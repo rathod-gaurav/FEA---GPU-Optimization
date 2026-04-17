@@ -28,13 +28,13 @@
 <PointData Vectors="Displacement">
 <DataArray type="Float32" Name="Displacement" NumberOfComponents="3" format="ascii">
 0 0 0
-0.006 0.0350064 0.0350064
 0 0 0
-0.006 -0.0350064 0.0350064
 0 0 0
-0.006 0.0350064 -0.0350064
 0 0 0
-0.006 -0.0350064 -0.0350064
+0.03 -0.00180883 0.00612543
+0.03 -0.00225739 -0.00696749
+0.03 -0.00599499 0.0110653
+0.03 0.00314118 -0.00590161
 </DataArray>
 </PointData>
 </Piece>

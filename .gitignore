@@ -22,6 +22,7 @@ NH Solver/README.md
 NH Solver/build
 NH Solver/mesh
 NH Solver/config
+NH Solver/Kglobal.txt
 MR Solver/README.md
 MR Solver/build
 MR Solver/mesh
