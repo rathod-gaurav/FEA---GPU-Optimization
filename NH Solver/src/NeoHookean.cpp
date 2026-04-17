@@ -20,7 +20,7 @@ void NeoHookean::compute(
     double vol_multiplier = (2.0/D1_)*JJ;
     double iso_multiplier = C10_*std::pow(JJ, -2.0/3.0);
 
-    P = 2*vol_multiplier*(JJ-1)*FinvT + 2*iso_multiplier*(F - I1*(1.0/3.0)*FinvT); //total first Piola-Kirchhoff stress
+    P = vol_multiplier*(JJ-1)*FinvT + 2*iso_multiplier*(F - I1*(1.0/3.0)*FinvT); //total first Piola-Kirchhoff stress
 
     for(int i = 0 ; i < 3 ; i++){
         for(int J = 0 ; J < 3 ; J++){

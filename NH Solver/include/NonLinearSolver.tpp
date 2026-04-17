@@ -22,10 +22,12 @@ void NonlinearSolver<Nne, Nsd>::solve(
         bcs.applyToSolution(u, incrFraction); //apply dirischlet boundary conditions to the solution vector for the current incr
 
         for(unsigned int iter = 0; iter < maxIter_; iter++){
-            // std::cout << "Assembling system for incr " << incr+1 << ", iteration " << iter+1 << "\n";
+            std::cout << "Assembling system for incr " << incr+1 << ", iteration " << iter+1 << "\n";
             
             assembler.assembleSystem(u, Kglobal, Rglobal); //assemble the global stiffness matrix and residual vector based on the current solution vector
             
+            std::cout << "displacement vector u:\n" << u << "\n";
+
             // assembler.partition(Kglobal, Rglobal, bcs, KUU, KUD, RU); //partition the global stiffness matrix and residual vector into submatrices/vectors corresponding to unknown and dirischlet degrees of freedom
 
             // // solve the linear system
