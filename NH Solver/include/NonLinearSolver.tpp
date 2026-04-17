@@ -26,64 +26,64 @@ void NonlinearSolver<Nne, Nsd>::solve(
             
             assembler.assembleSystem(u, Kglobal, Rglobal); //assemble the global stiffness matrix and residual vector based on the current solution vector
             
-            std::cout << "displacement vector u:\n" << u << "\n";
+            // std::cout << "displacement vector u:\n" << u << "\n";
 
-            // assembler.partition(Kglobal, Rglobal, bcs, KUU, KUD, RU); //partition the global stiffness matrix and residual vector into submatrices/vectors corresponding to unknown and dirischlet degrees of freedom
+            assembler.partition(Kglobal, Rglobal, bcs, KUU, KUD, RU); //partition the global stiffness matrix and residual vector into submatrices/vectors corresponding to unknown and dirischlet degrees of freedom
 
-            // // solve the linear system
-            // // std::cout << "Initilising solver for incr " << incr+1 << ", iteration " << iter+1 << "\n";
+            // solve the linear system
+            // std::cout << "Initilising solver for incr " << incr+1 << ", iteration " << iter+1 << "\n";
             
-            // // for (int i = 0; i < Kglobal.outerSize(); ++i) {
-            // //     if (Kglobal.innerVector(i).nonZeros() == 0) {
-            // //         std::cerr << "Column " << i << " is completely empty!" << std::endl;
-            // //         return;
-            // //     }
-            // // }
-
-            // // double max_diag = KUU.diagonal().maxCoeff();
-            // // double min_diag = KUU.diagonal().minCoeff();
-            // // std::cout << "Stiffness Ratio: " << max_diag / min_diag << std::endl;
-
-            // // Eigen::FullPivLU<Eigen::MatrixXd> solver(KUU);
-            // Eigen::SparseLU<Eigen::SparseMatrix<double>> linear_solver;
-            // linear_solver.analyzePattern(KUU);
-            // linear_solver.factorize(KUU);
-            // if(linear_solver.info() != Eigen::Success) {
-            //     std::cout << "Decomposition failed for incr " << incr+1 << ", iteration " << iter+1 << "\n";
-            //     std::cout << linear_solver.lastErrorMessage() << "\n";
-
-            //     return;
+            // for (int i = 0; i < Kglobal.outerSize(); ++i) {
+            //     if (Kglobal.innerVector(i).nonZeros() == 0) {
+            //         std::cerr << "Column " << i << " is completely empty!" << std::endl;
+            //         return;
+            //     }
             // }
 
-            // // std::cout << "Initilised solver for incr " << incr+1 << ", iteration " << iter+1 << "\n";
+            // double max_diag = KUU.diagonal().maxCoeff();
+            // double min_diag = KUU.diagonal().minCoeff();
+            // std::cout << "Stiffness Ratio: " << max_diag / min_diag << std::endl;
 
-            // Eigen::VectorXd duU = linear_solver.solve(-RU); //solve for the incral displacements at the unknown degrees of freedom
+            // Eigen::FullPivLU<Eigen::MatrixXd> solver(KUU);
+            Eigen::SparseLU<Eigen::SparseMatrix<double>> linear_solver;
+            linear_solver.analyzePattern(KUU);
+            linear_solver.factorize(KUU);
+            if(linear_solver.info() != Eigen::Success) {
+                std::cout << "Decomposition failed for incr " << incr+1 << ", iteration " << iter+1 << "\n";
+                std::cout << linear_solver.lastErrorMessage() << "\n";
+
+                return;
+            }
+
+            // std::cout << "Initilised solver for incr " << incr+1 << ", iteration " << iter+1 << "\n";
+
+            Eigen::VectorXd duU = linear_solver.solve(-RU); //solve for the incral displacements at the unknown degrees of freedom
             
-            // // std::cout << "Solved for incr " << incr+1 << ", iteration " << iter+1 << "\n";
+            // std::cout << "Solved for incr " << incr+1 << ", iteration " << iter+1 << "\n";
 
-            // //construct full du vector including known values at dirischlet boundary
-            // const auto& unknownIndexes = bcs.getUnknownIndexes();
-            // for(int i = 0 ; i < unknownIndexes.size() ; i++){
-            //     u(unknownIndexes[i]) += duU(i);
-            // }
+            //construct full du vector including known values at dirischlet boundary
+            const auto& unknownIndexes = bcs.getUnknownIndexes();
+            for(int i = 0 ; i < unknownIndexes.size() ; i++){
+                u(unknownIndexes[i]) += duU(i);
+            }
 
-            // //check residual norm for convergence
-            // if(iter == 0){
-            //     R0_norm = RU.norm(); //store the initial residual norm for convergence monitoring
-            // }
-            // double residualNorm = RU.norm()/R0_norm;
-            // std::cout << "incr: " << incr+1 << ", Iteration: " << iter+1 << "\n";
-            // std::cout << "Modified residual norm: " << residualNorm << "\n"; //print the norm of the modified residual to monitor convergence of the unknown degrees of freedom
-            // std::cout << "-----------------------------------" << "\n";
+            //check residual norm for convergence
+            if(iter == 0){
+                R0_norm = RU.norm(); //store the initial residual norm for convergence monitoring
+            }
+            double residualNorm = RU.norm();
+            std::cout << "incr: " << incr+1 << ", Iteration: " << iter+1 << "\n";
+            std::cout << "Modified residual norm: " << residualNorm << "\n"; //print the norm of the modified residual to monitor convergence of the unknown degrees of freedom
+            std::cout << "-----------------------------------" << "\n";
             
-            // if(iterCallback){
-            //     iterCallback(incr, iter, residualNorm); //call the iteration callback function if provided
-            // }
+            if(iterCallback){
+                iterCallback(incr, iter, residualNorm); //call the iteration callback function if provided
+            }
 
-            // if(residualNorm < tol_){
-            //     std::cout << "Convergence achieved for incr " << incr+1 << " in " << iter+1 << " iterations." << "\n";
-            //     break; 
-            // }
+            if(residualNorm < tol_){
+                std::cout << "Convergence achieved for incr " << incr+1 << " in " << iter+1 << " iterations." << "\n";
+                break; 
+            }
 
         }
     }

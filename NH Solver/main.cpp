@@ -59,31 +59,20 @@ int main(){
 
     //Boundary conditions
     BoundaryConditions<Nne> bcs(mesh, Nsd);
+    double vol_def_alpha = 0.1;
     for(unsigned int i = 0 ; i < mesh.Nnodes() ; i++){
-        if(mesh.nodes[i].x1 == x1_ll){ //if the node is on the left face of the domain
-            if(mesh.nodes[i].x3 == x3_ll){
-                bcs.addDirischlet(i, 0, 0.0); //apply dirischlet boundary condition u1 = 0 at this node
-                bcs.addDirischlet(i, 1, 0.0); //apply dirischlet boundary condition u2 = 0 at this node
-                bcs.addDirischlet(i, 2, 0.0); //apply dirischlet boundary condition u3 = 0 at this node
-            }
-            else if(mesh.nodes[i].x3 == x3_ul){
-                bcs.addDirischlet(i, 0, 0.01); //apply dirischlet boundary condition u1 = 0 at this node
-                bcs.addDirischlet(i, 1, 0.0); //apply dirischlet boundary condition u2 = 0 at this node
-                bcs.addDirischlet(i, 2, 0.0); //apply dirischlet boundary condition u3 = 0 at this node
-            }
+        // bcs.addDirischlet(i, 0, vol_def_alpha*(mesh.nodes[i].x1 - x1_ll)); //apply a linearly varying dirichlet boundary condition in the x1 direction to all nodes in the mesh
+        // bcs.addDirischlet(i, 1, vol_def_alpha*(mesh.nodes[i].x2 - x2_ll)); //apply a linearly varying dirichlet boundary condition in the x2 direction to all nodes in the mesh
+        // bcs.addDirischlet(i, 2, vol_def_alpha*(mesh.nodes[i].x3 - x3_ll)); //apply a linearly varying dirichlet boundary condition in the x3 direction to all nodes in the mesh
+        if(mesh.nodes[i].x1 == x1_ll){ //apply a dirichlet boundary condition in the x1 direction to all nodes on the face where x1 is maximum
+            bcs.addDirischlet(i, 0, 0.0);
+            bcs.addDirischlet(i, 1, 0.0);
+            bcs.addDirischlet(i, 2, 0.0);
         }
-        else if(mesh.nodes[i].x1 == x1_ul){ //if the node is on the right face of the domain
-            if(mesh.nodes[i].x3 == x3_ll){
-                bcs.addDirischlet(i, 0, 0.0); //apply dirischlet boundary condition u1 = 0 at this node
-                bcs.addDirischlet(i, 1, 0.0); //apply dirischlet boundary condition u2 = 0 at this node
-                bcs.addDirischlet(i, 2, 0.0); //apply dirischlet boundary condition u3 = 0 at this node
-            }
-            else if(mesh.nodes[i].x3 == x3_ul){
-                bcs.addDirischlet(i, 0, 0.01); //apply dirischlet boundary condition u1 = 0 at this node
-                bcs.addDirischlet(i, 1, 0.0); //apply dirischlet boundary condition u2 = 0 at this node
-                bcs.addDirischlet(i, 2, 0.0); //apply dirischlet boundary condition u3 = 0 at this node
-            }
+        if(mesh.nodes[i].x1 == x1_ul){ //apply a dirichlet boundary condition in the x1 direction to all nodes on the face where x1 is maximum
+            bcs.addDirischlet(i, 0, 0.001);
         }
+
     }
     bcs.buildBCs(); //finalize the boundary conditions
     bcs.printSummary(); //print a summary of the boundary conditions

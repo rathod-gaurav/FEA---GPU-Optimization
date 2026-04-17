@@ -15,12 +15,13 @@ void NeoHookean::compute(
     Eigen::Matrix3d C = F.transpose() * F; //right Cauchy-Green deformation tensor
     double I1 = C.trace(); //first invariant of C
 
-    Eigen::Matrix3d FinvT = F.inverse().transpose(); 
+    Eigen::Matrix3d FinvT = F.inverse().transpose();
 
     double vol_multiplier = (2.0/D1_)*JJ;
     double iso_multiplier = C10_*std::pow(JJ, -2.0/3.0);
 
-    P = vol_multiplier*(JJ-1)*FinvT + 2*iso_multiplier*(F - I1*(1.0/3.0)*FinvT); //total first Piola-Kirchhoff stress
+    // P = vol_multiplier*(JJ-1)*FinvT;
+    P = 2*vol_multiplier*(JJ-1)*FinvT + 2*iso_multiplier*(F - I1*(1.0/3.0)*FinvT); //total first Piola-Kirchhoff stress
 
     for(int i = 0 ; i < 3 ; i++){
         for(int J = 0 ; J < 3 ; J++){

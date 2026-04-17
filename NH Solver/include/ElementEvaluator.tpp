@@ -95,16 +95,27 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
 
                 material_.compute(F, P, C_mat); //compute the stress tensors E,S,P and material tangent stiffness matrix at the quadrature point using the material model
                 
-                // Eigen::Matrix3d b = F*F.transpose(); //left Cauchy-Green deformation tensor for debugging
-                std::cout << "---------------------------------------" << std::endl;
-                std::cout << "Element: " << e << ", Quadrature Point: (" << xi1 << ", " << xi2 << ", " << xi3 << ")\n";
-                std::cout << "Jacobian:\n" << Jac << "\n";
-                std::cout << "Deformation Gradient:\n" << F << "\n";
-                std::cout << "JJ:\n" << F.determinant() << "\n";
-                // std::cout << "b:'\n" << b << "\n";
-                // std::cout << "dev(b):\n" << b - (1.0/3.0)*b.trace()*Eigen::Matrix3d::Identity() << "\n";
-                std::cout << "sigma:\n" << (1/F.determinant())*P*F.transpose() << "\n";
-                std::cout << "---------------------------------------" << std::endl;
+                // std::cout << "---------------------------------------" << std::endl;
+                // if(I == 0 && J == 0 && K == 0){ //Print the material tangent stiffness matrix at the first quadrature point of the first element for debugging
+                //     for(int i = 0 ; i < 3 ; i++){
+                //         for(int j = 0 ; j < 3 ; j++){
+                //             for(int k = 0 ; k < 3 ; k++){
+                //                 for(int l = 0 ; l < 3 ; l++){
+                //                     std::cout << "C_mat(" << i << "," << j << "," << k << "," << l << ") = " << C_mat(i,j,k,l) << std::endl;
+                //                 }
+                //             }
+                //         }
+                //     }
+                // }
+                
+                // std::cout << "Element: " << e << ", Quadrature Point: (" << xi1 << ", " << xi2 << ", " << xi3 << ")\n";
+                // std::cout << "Jacobian:\n" << Jac << "\n";
+                // std::cout << "Deformation Gradient:\n" << F << "\n";
+                // std::cout << "JJ:\n" << F.determinant() << "\n";
+                // // std::cout << "b:'\n" << b << "\n";
+                // // std::cout << "dev(b):\n" << b - (1.0/3.0)*b.trace()*Eigen::Matrix3d::Identity() << "\n";
+                // std::cout << "sigma:\n" << (1/F.determinant())*P*F.transpose() << "\n";
+                // std::cout << "---------------------------------------" << std::endl;
                 
                 for(int B = 0 ; B < Nne ; B++){//Loop to calculate Residual
                     auto [dN_dxi1, dN_dxi2, dN_dxi3] = ShapeFunction::basis_gradient(B, xi1, xi2, xi3);
