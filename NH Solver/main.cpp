@@ -34,8 +34,8 @@ int main(){
 
     //Solver parameters
     double tol = 1e-6; //tolerance for convergence of the nonlinear solver
-    unsigned int maxIncr = 1; //maximum number of increments (timesteps)
-    unsigned int maxIter = 1; //maximum number of iterations per increment
+    unsigned int maxIncr = 50; //maximum number of increments (timesteps)
+    unsigned int maxIter = 10; //maximum number of iterations per increment
 
     //Domain parameters
     double x1_ll = 0.0, x1_ul = 0.1; //lower and upper limits in x1 direction
@@ -43,9 +43,9 @@ int main(){
     double x3_ll = 0.0, x3_ul = 0.03; //lower and upper limits in x3 direction
     
     //Mesh parameters
-    unsigned int Nel_x1 = 1; //number of elements in x1 direction
-    unsigned int Nel_x2 = 1; //number of elements in x2 direction
-    unsigned int Nel_x3 = 1; //number of elements in x3 direction
+    unsigned int Nel_x1 = 20; //number of elements in x1 direction
+    unsigned int Nel_x2 = 6; //number of elements in x2 direction
+    unsigned int Nel_x3 = 6; //number of elements in x3 direction
 
     //Generate the mesh using the MeshGenerator class
     MeshGenerator<Nne> meshGen(x1_ll, x1_ul, x2_ll, x2_ul, x3_ll, x3_ul, Nel_x1, Nel_x2, Nel_x3);
@@ -70,9 +70,8 @@ int main(){
             bcs.addDirischlet(i, 2, 0.0);
         }
         if(mesh.nodes[i].x1 == x1_ul){ //apply a dirichlet boundary condition in the x1 direction to all nodes on the face where x1 is maximum
-            bcs.addDirischlet(i, 0, 0.001);
+            bcs.addDirischlet(i, 0, 0.05);
         }
-
     }
     bcs.buildBCs(); //finalize the boundary conditions
     bcs.printSummary(); //print a summary of the boundary conditions
