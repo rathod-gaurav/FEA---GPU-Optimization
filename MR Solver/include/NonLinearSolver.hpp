@@ -11,6 +11,13 @@ class NonlinearSolver{
     public:
         NonlinearSolver(double tol, unsigned int maxIncr, unsigned int maxIter);
 
+        void numericalTangentCheck(
+            const Eigen::VectorXd& u,
+            const Assembler<Nne, Nsd>& assembler,
+            const BoundaryConditions<Nne>& bcs,
+            const Eigen::SparseMatrix<double>& KUU_analytical
+        );
+
         void solve(
             Eigen::VectorXd& u, //displacement vector, modified in place
             const Assembler<Nne, Nsd>& assembler, //provides Kglobal, Rglobal

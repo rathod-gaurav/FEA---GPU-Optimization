@@ -29,13 +29,14 @@ int main(){
     unsigned int quadOrder = 2; //number of quadrature points in each direction for
 
     //Problem parameters
-    double C10 = 1e10; 
+    double C10 = 8*1e9; 
+    double C01 = 2*1e9;
     double D1 = 1e-10; 
 
     //Solver parameters
     double tol = 1e-6; //tolerance for convergence of the nonlinear solver
-    unsigned int maxIncr = 10; //maximum number of increments (timesteps)
-    unsigned int maxIter = 20; //maximum number of iterations per increment
+    unsigned int maxIncr = 50; //maximum number of increments (timesteps)
+    unsigned int maxIter = 10; //maximum number of iterations per increment
 
     //Domain parameters
     double x1_ll = 0.0, x1_ul = 0.1; //lower and upper limits in x1 direction
@@ -59,14 +60,18 @@ int main(){
 
     //Boundary conditions
     BoundaryConditions<Nne> bcs(mesh, Nsd);
+    double vol_def_alpha = 0.1;
     for(unsigned int i = 0 ; i < mesh.Nnodes() ; i++){
-        if(mesh.nodes[i].x1 == x1_ll){ //if the node is on the left face of the domain
-            bcs.addDirischlet(i, 0, 0.0); //apply dirischlet boundary condition u1 = 0 at this node
-            bcs.addDirischlet(i, 1, 0.0); //apply dirischlet boundary condition u2 = 0 at this node
-            bcs.addDirischlet(i, 2, 0.0); //apply dirischlet boundary condition u3 = 0 at this node
+        // bcs.addDirischlet(i, 0, vol_def_alpha*(mesh.nodes[i].x1 - x1_ll)); //apply a linearly varying dirichlet boundary condition in the x1 direction to all nodes in the mesh
+        // bcs.addDirischlet(i, 1, vol_def_alpha*(mesh.nodes[i].x2 - x2_ll)); //apply a linearly varying dirichlet boundary condition in the x2 direction to all nodes in the mesh
+        // bcs.addDirischlet(i, 2, vol_def_alpha*(mesh.nodes[i].x3 - x3_ll)); //apply a linearly varying dirichlet boundary condition in the x3 direction to all nodes in the mesh
+        if(mesh.nodes[i].x1 == x1_ll){ //apply a dirichlet boundary condition in the x1 direction to all nodes on the face where x1 is maximum
+            bcs.addDirischlet(i, 0, 0.0);
+            bcs.addDirischlet(i, 1, 0.0);
+            bcs.addDirischlet(i, 2, 0.0);
         }
-        if(mesh.nodes[i].x1 == x1_ul){ //if the node is on the right face of the domain
-            bcs.addDirischlet(i, 0, 0.5); //apply dirischlet boundary condition u1 = 0.05 at this node
+        if(mesh.nodes[i].x1 == x1_ul){ //apply a dirichlet boundary condition in the x1 direction to all nodes on the face where x1 is maximum
+            bcs.addDirischlet(i, 0, 0.05);
         }
     }
     bcs.buildBCs(); //finalize the boundary conditions
@@ -76,7 +81,7 @@ int main(){
 
     //Problem physics stack
     QuadratureRule              quadRule = Quadrature::gauss_legendre(quadOrder); //get the quadrature points and weights for the specified quadrature order
-    NeoHookean                  material(C10, D1); //create an instance of the St. Venant-Kirchhoff material model with the specified Lamé parameters
+    MooneyRivlin                material(C10, C01, D1); //create an instance of the MooneyRivlin material model with the specified Lamé parameters
     ElementEvaluator<Nne, Nsd>  elemEval(mesh, material, quadRule); //create an instance of element evaluator with the mesh, material model, and quadrature rule
     Assembler<Nne, Nsd>         assembler(mesh, elemEval); //create an instance of the assembler with the mesh and element evaluator
     OutputWriter<Nne>           writer("solutions"); //create an instance of the output writer to write results to the "output" directory
