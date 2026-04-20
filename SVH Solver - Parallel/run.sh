@@ -8,6 +8,7 @@
 #SBATCH --error=FEA.err
 
 module load cmake/4.1.0
+# module load valgrind/3.25.1
 
 rm -rf build/
 mkdir build
@@ -24,21 +25,21 @@ fi
 # ── Detect machine ─────────────────────────────────────────────────────────────
 CPU_MODEL=$(grep -m1 "model name" /proc/cpuinfo | cut -d: -f2 | xargs)
 
-if echo "$CPU_MODEL" | grep -q "EPYC 9254"; then
-    # ── euler: AMD EPYC 9254 — Zen 4, 48 physical cores, 2 NUMA nodes ─────────
-    MACHINE="euler"
-    # 48 physical cores (96 logical with HT).
-    # HT shares the FPU per physical core — no benefit for AVX-512 FP work.
-    OMP_NUM_THREADS=48
-    # close: pack threads onto the same socket before crossing to the other.
-    # Keeps threads near their data (NUMA node affinity).
-    OMP_PROC_BIND=close
-    # cores: bind each OpenMP thread to one physical core.
-    # Prevents the OS from migrating threads between cores mid-run,
-    # which would invalidate the first-touch NUMA placement done in the code.
-    OMP_PLACES=cores
+# if echo "$CPU_MODEL" | grep -q "EPYC 9254"; then
+#     # ── euler: AMD EPYC 9254 — Zen 4, 48 physical cores, 2 NUMA nodes ─────────
+#     MACHINE="euler"
+#     # 48 physical cores (96 logical with HT).
+#     # HT shares the FPU per physical core — no benefit for AVX-512 FP work.
+#     OMP_NUM_THREADS=16
+#     # close: pack threads onto the same socket before crossing to the other.
+#     # Keeps threads near their data (NUMA node affinity).
+#     OMP_PROC_BIND=close
+#     # cores: bind each OpenMP thread to one physical core.
+#     # Prevents the OS from migrating threads between cores mid-run,
+#     # which would invalidate the first-touch NUMA placement done in the code.
+#     OMP_PLACES=cores
 
-elif echo "$CPU_MODEL" | grep -q "i5-7500"; then
+if echo "$CPU_MODEL" | grep -q "i5-7500"; then
     # ── workstation: Intel i5-7500 — Kaby Lake, 4 cores, 1 NUMA node ──────────
     MACHINE="lab workstation"
     OMP_NUM_THREADS=4
@@ -56,7 +57,7 @@ elif echo "$CPU_MODEL" | grep -q "5625U"; then
 
 else
     # ── unknown machine — safe fallback ────────────────────────────────────────
-    MACHINE="unknown ($CPU_MODEL)"
+    MACHINE="unknown euler ($CPU_MODEL)"
     # Use half of logical CPUs as a conservative default.
     # OMP_NUM_THREADS=$(( $(nproc --all) / 2 ))
     OMP_NUM_THREADS=16 #16 outer threads with each spawning 3 inner threads for a total of 48 threads

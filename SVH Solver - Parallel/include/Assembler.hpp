@@ -26,14 +26,16 @@ class Assembler{
 
             Eigen::SparseMatrix<double>& KUU, //extract the submatrix of K corresponding to the unknown degrees of freedom
             Eigen::SparseMatrix<double>& KUD, //extract the submatrix of K corresponding to the coupling between unknown and dirischlet degrees of freedom
-            Eigen::VectorXd& RU //extract the subvector of R corresponding to the unknown degrees of freedom
+            Eigen::VectorXd& RU, //extract the subvector of R corresponding to the unknown degrees of freedom
+            int numThreads
         ) const;
     
     private:
         Eigen::SparseMatrix<double> extractSparseSubmatrix(
             const Eigen::SparseMatrix<double>& K,
             const std::vector<unsigned int>& rows,
-            const std::vector<unsigned int>& cols) const; //function to extract a sparse submatrix from the global stiffness matrix given row and column indexes
+            const std::vector<unsigned int>& cols,
+            int numThreads) const; //function to extract a sparse submatrix from the global stiffness matrix given row and column indexes
     
         const Mesh<Nne>& mesh_; //reference to the mesh object
         const ElementEvaluator<Nne,Nsd>& elem_evaluator_; //reference to the element evaluator object

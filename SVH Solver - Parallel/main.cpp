@@ -14,7 +14,7 @@ using std::chrono::high_resolution_clock;
 using std::chrono::duration;
 
 int main(){
-    int outerThreads = 2;
+    int outerThreads = 16;
     omp_set_max_active_levels(2);       // allow 2 levels of nesting
     omp_set_num_threads(outerThreads); 
 

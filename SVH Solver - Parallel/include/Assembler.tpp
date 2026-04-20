@@ -10,26 +10,52 @@ template <unsigned int Nne, unsigned int Nsd>
 Eigen::SparseMatrix<double> Assembler<Nne,Nsd>::extractSparseSubmatrix(
     const Eigen::SparseMatrix<double>& K,
     const std::vector<unsigned int>& rows,
-    const std::vector<unsigned int>& cols) const {
-        
-    // Build a lookup set for fast membership testing
+    const std::vector<unsigned int>& cols,
+    int numThreads  // ← add this parameter
+) const {
+
+    // Build lookup structures — constructed serially once, then READ-ONLY
+    // unordered_set/map are safe for concurrent reads from multiple threads
     std::unordered_set<unsigned int> rowSet(rows.begin(), rows.end());
     std::unordered_set<unsigned int> colSet(cols.begin(), cols.end());
 
-    // Build index remapping: global index → local index in submatrix
     std::unordered_map<unsigned int,unsigned int> rowMap, colMap;
-    for(unsigned int i = 0; i < rows.size(); i++) rowMap[rows[i]] = i;
-    for(unsigned int j = 0; j < cols.size(); j++) colMap[cols[j]] = j;
+    for (unsigned int i = 0; i < rows.size(); i++) rowMap[rows[i]] = i;
+    for (unsigned int j = 0; j < cols.size(); j++) colMap[cols[j]] = j;
 
-    std::vector<Eigen::Triplet<double>> triplets;
+    // One triplet vector per thread — same pattern as assembleSystem
+    // Avoids all contention: each thread writes only to its own vector
+    std::vector<std::vector<Eigen::Triplet<double>>> thread_triplets(numThreads);
+    for (auto& v : thread_triplets)
+        v.reserve(K.nonZeros() / numThreads + 1);
 
-    // Iterate over non-zeros of K
-    for(int col = 0; col < K.outerSize(); col++){
-        if(colSet.count(col) == 0) continue; // skip columns not in subset
-        for(Eigen::SparseMatrix<double>::InnerIterator it(K, col); it; ++it){
-            if(rowSet.count(it.row()) == 0) continue; // skip rows not in subset
-            triplets.emplace_back(rowMap[it.row()], colMap[col], it.value());
+    // Outer loop: over columns of K (Eigen CSC — column is the natural outer index)
+    // Each column is independent: colMap[col] is unique per column, no two
+    // threads write to the same output column => no race condition
+    #pragma omp parallel for schedule(dynamic, 64) num_threads(numThreads)
+    for (int col = 0; col < K.outerSize(); col++) {
+        if (colSet.count(col) == 0) continue; // not a column we want — skip
+
+        int tid = omp_get_thread_num();
+        int local_col = colMap.at(col); // .at() is read-only, thread-safe
+
+        for (Eigen::SparseMatrix<double>::InnerIterator it(K, col); it; ++it) {
+            if (rowSet.count(it.row()) == 0) continue;
+            thread_triplets[tid].emplace_back(
+                rowMap.at(it.row()),  // local row index
+                local_col,            // local col index
+                it.value()
+            );
         }
+    }
+
+    // Serial merge — fires numThreads times, negligible cost
+    std::vector<Eigen::Triplet<double>> triplets;
+    triplets.reserve(K.nonZeros());
+    for (int t = 0; t < numThreads; t++) {
+        triplets.insert(triplets.end(),
+            std::make_move_iterator(thread_triplets[t].begin()),
+            std::make_move_iterator(thread_triplets[t].end()));
     }
 
     Eigen::SparseMatrix<double> sub(rows.size(), cols.size());
@@ -140,13 +166,14 @@ void Assembler<Nne,Nsd>::partition(
 
     Eigen::SparseMatrix<double>& KUU, //extract the submatrix of K corresponding to the unknown degrees of freedom
     Eigen::SparseMatrix<double>& KUD, //extract the submatrix of K corresponding to the coupling between unknown and dirischlet degrees of freedom
-    Eigen::VectorXd& RU //extract the subvector of R corresponding to the unknown degrees of freedom
+    Eigen::VectorXd& RU, //extract the subvector of R corresponding to the unknown degrees of freedom
+    int numThreads
 ) const {
     const auto& dirischletIndexes = bcs.getDirischletIndexes(); //get the indexes of the dirischlet degrees of freedom from the boundary conditions object
     const auto& unknownIndexes = bcs.getUnknownIndexes(); //get the indexes of the unknown degrees of freedom from the boundary conditions object
 
-    KUU = extractSparseSubmatrix(Kglobal, unknownIndexes, unknownIndexes); //extract the KUU submatrix corresponding to the unknown degrees of freedom
-    KUD = extractSparseSubmatrix(Kglobal, unknownIndexes, dirischletIndexes); //extract the KUD submatrix corresponding to the coupling between unknown and dirischlet degrees of freedom
+    KUU = extractSparseSubmatrix(Kglobal, unknownIndexes, unknownIndexes, numThreads); //extract the KUU submatrix corresponding to the unknown degrees of freedom
+    KUD = extractSparseSubmatrix(Kglobal, unknownIndexes, dirischletIndexes, numThreads); //extract the KUD submatrix corresponding to the coupling between unknown and dirischlet degrees of freedom
     
     RU.resize(unknownIndexes.size()); //extract the subvector of R corresponding to the unknown degrees of freedom
     for(int i = 0; i < unknownIndexes.size() ; i++){
