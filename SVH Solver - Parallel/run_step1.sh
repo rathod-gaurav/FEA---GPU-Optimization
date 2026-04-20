@@ -1,11 +1,11 @@
 #!/usr/bin/env zsh
 #SBATCH -p compphys2026
-#SBATCH --job-name=FEA_Parallel
+#SBATCH --job-name=FEA_Parallel_step1
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=1
-#SBATCH --time=24:00:00
-#SBATCH --output=FEA.out
-#SBATCH --error=FEA.err
+#SBATCH --time=6:00:00
+#SBATCH --output=FEA1.out
+#SBATCH --error=FEA1.err
 
 module load cmake/3.27.9
 # module load valgrind/3.25.1
@@ -15,12 +15,12 @@ export VALGRIND_DIR=/home/grathod/lib/valgrind-3.26.0-install
 export PATH=$VALGRIND_DIR/bin:$PATH
 export LD_LIBRARY_PATH=$VALGRIND_DIR/lib:$LD_LIBRARY_PATH
 
-rm -rf build/
-mkdir build
-cmake -B build
-cmake --build build
+rm -rf build1/
+mkdir build1
+cmake -B build1
+cmake --build build1
 
-BINARY="./build/main"
+BINARY="./build1/main"
 
 if [ ! -f "$BINARY" ]; then
     echo "Error: $BINARY not found. Run cmake + cmake --build first."
@@ -95,4 +95,4 @@ OMP_NUM_THREADS=1 OMP_MAX_ACTIVE_LEVELS=1 \
   --leak-check=full \
   --track-origins=yes \
   --error-exitcode=1 \
-  ./build/main 2>&1 | tee memcheck.log
+  ./build1/main 2>&1 | tee memcheck.log

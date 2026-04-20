@@ -1,11 +1,11 @@
 #!/usr/bin/env zsh
 #SBATCH -p compphys2026
-#SBATCH --job-name=FEA_Parallel
+#SBATCH --job-name=FEA_Parallel_step5b
 #SBATCH --nodes=1
-#SBATCH --cpus-per-task=1
-#SBATCH --time=24:00:00
-#SBATCH --output=FEA.out
-#SBATCH --error=FEA.err
+#SBATCH --cpus-per-task=48
+#SBATCH --time=2:00:00
+#SBATCH --output=FEA5b.out
+#SBATCH --error=FEA5b.err
 
 module load cmake/3.27.9
 # module load valgrind/3.25.1
@@ -15,12 +15,12 @@ export VALGRIND_DIR=/home/grathod/lib/valgrind-3.26.0-install
 export PATH=$VALGRIND_DIR/bin:$PATH
 export LD_LIBRARY_PATH=$VALGRIND_DIR/lib:$LD_LIBRARY_PATH
 
-rm -rf build/
-mkdir build
-cmake -B build
-cmake --build build
+rm -rf build5b/
+mkdir build5b
+cmake -B build5b
+cmake --build build5b
 
-BINARY="./build/main"
+BINARY="./build5b/main"
 
 if [ ! -f "$BINARY" ]; then
     echo "Error: $BINARY not found. Run cmake + cmake --build first."
@@ -89,10 +89,11 @@ echo "================================================"
 # ── Launch ─────────────────────────────────────────────────────────────────────
 # exec "$BINARY" "$@"
 
-#Valgrind step - 1
-OMP_NUM_THREADS=1 OMP_MAX_ACTIVE_LEVELS=1 \
-  valgrind --tool=memcheck \
-  --leak-check=full \
-  --track-origins=yes \
-  --error-exitcode=1 \
-  ./build/main 2>&1 | tee memcheck.log
+# ── Step 5b: Memory bandwidth measurement ──────────────────────────────────
+OMP_NUM_THREADS=16 \
+OMP_MAX_ACTIVE_LEVELS=2 \
+  likwid-perfctr \
+  -C 0-47 \
+  -g MEM \
+  -m \
+  ./build5b/main 2>&1 | tee likwid_mem.log

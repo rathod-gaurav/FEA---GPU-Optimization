@@ -16,13 +16,14 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # If the user doesn't specify -DCMAKE_BUILD_TYPE, default to Release.
 # Debug builds without this will have no -O3 and your code will be very slow.
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-    set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
+    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
     message(STATUS "No build type specified — defaulting to Release")
 endif()
 
 
 # ── Dependencies ──────────────────────────────────────────────────────────────
 find_package(OpenMP REQUIRED)
+find_package(CURL REQUIRED)
 # REQUIRED: hard-fail if OpenMP is missing rather than silently building
 # without parallelism. OpenMP::OpenMP_CXX is an imported target that
 # automatically adds -fopenmp to compile AND link flags.
@@ -35,7 +36,8 @@ set_target_properties(Eigen3 PROPERTIES
     INTERFACE_INCLUDE_DIRECTORIES
     # "/mnt/c/Users/ratho/Downloads/eigen-5.0.0/eigen-5.0.0" #for laptop
     # "/home/grathod/Downloads/eigen-5.0.0/eigen-5.0.0" #for lab workstation
-    "/srv/home/grathod/eigen-5.0.0" #for euler
+    # "/srv/home/grathod/eigen-5.0.0" #for euler
+    "/home/grathod/eigen-5.0.0" #for spark
 )
 # If you ever install Eigen system-wide or via vcpkg/conan you can replace
 # the two lines above with: find_package(Eigen3 REQUIRED)
@@ -122,9 +124,9 @@ target_compile_options(main PRIVATE
     # out-of-order engine has more instructions to pipeline simultaneously.
 
     # Debug flags
-    $<$<CONFIG:Debug>:-O0>
+    $<$<CONFIG:Debug>:-O2>
     $<$<CONFIG:Debug>:-g>
-    $<$<CONFIG:Debug>:-fsanitize=address,undefined>
+    # $<$<CONFIG:Debug>:-fsanitize=address,undefined>
     # AddressSanitizer + UBSan: catches memory errors and undefined behaviour
     # (out-of-bounds Eigen access, signed overflow, etc.) at runtime in Debug.
     # Pairs with the linker flag below.
@@ -161,7 +163,7 @@ target_include_directories(main PRIVATE
 
 # ── Link libraries ────────────────────────────────────────────────────────────
 target_link_libraries(main PRIVATE
-    curl
+    CURL::libcurl
     OpenMP::OpenMP_CXX
     # OpenMP::OpenMP_CXX is a modern imported target. It automatically adds:
     #   - -fopenmp to compile flags
@@ -173,7 +175,7 @@ target_link_libraries(main PRIVATE
     # Our INTERFACE imported target — propagates the include path only,
     # no actual library to link since Eigen is header-only.
 
-    $<$<CONFIG:Debug>:-fsanitize=address,undefined>
+    # $<$<CONFIG:Debug>:-fsanitize=address,undefined>
     # Linker also needs the sanitizer flag to link the ASan/UBSan runtime.
 )
 

@@ -50,8 +50,8 @@ int main(){
 
     //Solver parameters
     double tol = 1e-6; //tolerance for convergence of the nonlinear solver
-    unsigned int maxIncr = 10; //maximum number of increments (timesteps)
-    unsigned int maxIter = 20; //maximum number of iterations per increment
+    unsigned int maxIncr = 1; //maximum number of increments (timesteps)
+    unsigned int maxIter = 10; //maximum number of iterations per increment
 
     //Domain parameters
     double x1_ll = 0.0, x1_ul = 0.1; //lower and upper limits in x1 direction
