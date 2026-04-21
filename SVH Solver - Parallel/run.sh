@@ -2,8 +2,8 @@
 #SBATCH -p compphys2026
 #SBATCH --job-name=FEA_Parallel
 #SBATCH --nodes=1
-#SBATCH --cpus-per-task=1
-#SBATCH --time=24:00:00
+#SBATCH --cpus-per-task=16
+#SBATCH --time=1:00:00
 #SBATCH --output=FEA.out
 #SBATCH --error=FEA.err
 
@@ -87,12 +87,4 @@ echo "Binary           : ${BINARY}"
 echo "================================================"
 
 # ── Launch ─────────────────────────────────────────────────────────────────────
-# exec "$BINARY" "$@"
-
-#Valgrind step - 1
-OMP_NUM_THREADS=1 OMP_MAX_ACTIVE_LEVELS=1 \
-  valgrind --tool=memcheck \
-  --leak-check=full \
-  --track-origins=yes \
-  --error-exitcode=1 \
-  ./build/main 2>&1 | tee memcheck.log
+exec "$BINARY" "$@"

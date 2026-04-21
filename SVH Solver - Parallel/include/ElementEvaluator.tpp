@@ -67,16 +67,16 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
     Eigen::MatrixXd C_mat = Eigen::MatrixXd(9,9);
     material_.computeCmat(C_mat); //material tangent stiffness matrix in Voigt notation (3x3 block for each pair of nodes) -- remains constant for St Venant Kirchhoff model
 
-    #pragma omp parallel num_threads(3)
-    {
-        Eigen::VectorXd Rlocal_priv = Eigen::VectorXd::Zero(Nne * Nsd); //local residual vector for the element
-        Eigen::MatrixXd Klocal_priv = Eigen::MatrixXd::Zero(Nne * Nsd, Nne * Nsd); //local tangent stiffness matrix for the element
+    // #pragma omp parallel num_threads(3)
+    // {
+        // Eigen::VectorXd Rlocal = Eigen::VectorXd::Zero(Nne * Nsd); //local residual vector for the element
+        // Eigen::MatrixXd Klocal = Eigen::MatrixXd::Zero(Nne * Nsd, Nne * Nsd); //local tangent stiffness matrix for the element
 
-        Eigen::Matrix3d S_priv = Eigen::Matrix3d::Zero(); //Second Piola-Kirchhoff stress tensor
-        Eigen::Matrix3d P_priv = Eigen::Matrix3d::Zero(); //First Piola-Kirchhoff stress tensor
+        Eigen::Matrix3d S = Eigen::Matrix3d::Zero(); //Second Piola-Kirchhoff stress tensor
+        Eigen::Matrix3d P = Eigen::Matrix3d::Zero(); //First Piola-Kirchhoff stress tensor
         
         //Gaussian quadrature loop
-        #pragma omp for collapse(3) schedule(static) //#optimization - parallelize the quadrature loop with OpenMP, and use reduction to safely accumulate contributions to Rlocal and Klocal from different threads
+        // #pragma omp for collapse(3) schedule(static) //#optimization - parallelize the quadrature loop with OpenMP, and use reduction to safely accumulate contributions to Rlocal and Klocal from different threads
         for(int I = 0 ; I < quadOrder ; I++){
             for(int J = 0 ; J < quadOrder ; J++){
                 for(int K = 0 ; K < quadOrder ; K++){
@@ -101,11 +101,11 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
                     Eigen::Matrix3d grad_u = computeGradU(u_e, dN_dx); //compute the gradient of the displacement field at the quadrature point #optimization - pass cached dN_dx to avoid redundant calculations in computeGradU
                     Eigen::Matrix3d F = Eigen::Matrix3d::Identity() + grad_u; //deformation gradient
 
-                    material_.compute(F, S_priv, P_priv); //compute the stress tensors E,S,P at the quadrature point using the material model
+                    material_.compute(F, S, P); //compute the stress tensors E,S,P at the quadrature point using the material model
                     
                     for(int B = 0 ; B < Nne ; B++){//Loop to calculate Residual
                         // #optimization - use cached dN_dx to avoid redundant calculations, and use Eigen's fixed size segment
-                        Rlocal_priv.segment<Nsd>(B*Nsd) += P_priv * dN_dx[B] * JacDetWeight; //contribution to the local residual vector 
+                        Rlocal.segment<Nsd>(B*Nsd) += P * dN_dx[B] * JacDetWeight; //contribution to the local residual vector 
                     }
                     
                     // cout << "Calculated Rlocal for element " << e+1 << "/" << Nel_t << "\r";
@@ -117,9 +117,9 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
                             Eigen::Vector3d& dNB = dN_dx[B]; // #optimization - alias, no copy
 
                             //Kgeometric
-                            double Kgeo_scalar = (dNA.transpose() * S_priv * dNB)(0,0);
+                            double Kgeo_scalar = (dNA.transpose() * S * dNB)(0,0);
                             double KgeoAB =  Kgeo_scalar * JacDetWeight;
-                            Klocal_priv.block<3,3>(3*A,3*B).diagonal().array() += KgeoAB; //#optimization - only add to the diagonal entries of the 3x3 block for nodes A,B since KgeoAB is a scalar times the identity matrix, and use Eigen's fixed size block to avoid redundant calculations in block indexing
+                            Klocal.block<3,3>(3*A,3*B).diagonal().array() += KgeoAB; //#optimization - only add to the diagonal entries of the 3x3 block for nodes A,B since KgeoAB is a scalar times the identity matrix, and use Eigen's fixed size block to avoid redundant calculations in block indexing
 
                             // Correct KmatAB (3x3 block for nodes A,B) #optimization - compute the geometric stiffness contribution to the tangent matrix using matrix operations instead of triple nested loops
 
@@ -132,7 +132,7 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
                             }
 
                             Eigen::Matrix3d KmatAB = (F * Gmat * F.transpose())*JacDetWeight; //material stiffness contribution to the tangent matrix for nodes A,B
-                            Klocal_priv.block<3,3>(3*A,3*B) += KmatAB; //add the material stiffness contribution to the local tangent stiffness matrix for nodes A,B
+                            Klocal.block<3,3>(3*A,3*B) += KmatAB; //add the material stiffness contribution to the local tangent stiffness matrix for nodes A,B
                             
                         }
                     }
@@ -143,11 +143,11 @@ void ElementEvaluator<Nne, Nsd>::computeElement(
             }
         }
 
-        #pragma omp critical //safely accumulate contributions from different threads to the local residual and tangent stiffness matrix
-        {
-            Rlocal += Rlocal_priv;
-            Klocal += Klocal_priv;
-        }
-    }
+        // #pragma omp critical //safely accumulate contributions from different threads to the local residual and tangent stiffness matrix
+        // {
+        //     Rlocal += Rlocal;
+        //     Klocal += Klocal;
+        // }
+    // }
 
 }
