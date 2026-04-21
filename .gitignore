@@ -27,3 +27,11 @@ MR Solver/README.md
 MR Solver/build
 MR Solver/mesh
 MR Solver/config
+SVH Solver - Parallel/build1
+SVH Solver - Parallel/build2
+SVH Solver - Parallel/build3
+SVH Solver - Parallel/build4
+SVH Solver - Parallel/build5a
+SVH Solver - Parallel/build5b
+SVH Solver - Parallel/build5c
+SVH Solver - Parallel/valgrind_run_scripts
