@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/home/grathod/Downloads/eigen-5.0.0/eigen-5.0.0/"
+            ],
+            "compilerPath": "/usr/bin/g++",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}

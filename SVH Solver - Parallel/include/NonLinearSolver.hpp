@@ -5,11 +5,12 @@
 #include <Eigen/SparseLU>
 #include "Assembler.hpp"
 #include "BoundaryConditions.hpp"
+#include "ConjugateGradientSolver.hpp"
 
 template <unsigned int Nne, unsigned int Nsd>
 class NonlinearSolver{
     public:
-        NonlinearSolver(double tol, unsigned int maxIncr, unsigned int maxIter);
+        NonlinearSolver(double tol, unsigned int maxIncr, unsigned int maxIter, ConjugateGradientSolver& cgSolver);
 
         void solve(
             Eigen::VectorXd& u, //displacement vector, modified in place
@@ -23,6 +24,7 @@ class NonlinearSolver{
         double tol_; //tolerance for convergence
         unsigned int maxIncr_; //maximum number of increments (timesteps)
         unsigned int maxIter_; //maximum number of iterations per increment
+        ConjugateGradientSolver& cgSolver_;
 };
 
 #include "NonLinearSolver.tpp" //include the implementation of the NonlinearSolver class

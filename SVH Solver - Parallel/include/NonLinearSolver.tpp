@@ -1,8 +1,8 @@
 #pragma once //include this only once during compilation
 
 template <unsigned int Nne, unsigned int Nsd>
-NonlinearSolver<Nne, Nsd>::NonlinearSolver(double tol, unsigned int maxIncr, unsigned int maxIter)
-    : tol_(tol), maxIncr_(maxIncr), maxIter_(maxIter)
+NonlinearSolver<Nne, Nsd>::NonlinearSolver(double tol, unsigned int maxIncr, unsigned int maxIter, ConjugateGradientSolver& cgSolver)
+    : tol_(tol), maxIncr_(maxIncr), maxIter_(maxIter), cgSolver_(cgSolver)
 {}
 
 
@@ -16,8 +16,10 @@ void NonlinearSolver<Nne, Nsd>::solve(
 ){
     Eigen::VectorXd Rglobal, RU; //global residual vector
     Eigen::SparseMatrix<double> Kglobal, KUU, KUD; //global stiffness matrix
-    Eigen::SparseLU<Eigen::SparseMatrix<double>> linear_solver; //optimization - initialize the solver object outside NR loops
-    bool patternAnalyzed = false;
+    // Eigen::SparseLU<Eigen::SparseMatrix<double>> linear_solver; //optimization - initialize the solver object outside NR loops
+    // bool patternAnalyzed = false;
+    //for cgSolver
+    Eigen::VectorXd duU = Eigen::VectorXd::Zero(unknownIndexes.size());
 
     for(unsigned int incr = 0; incr < maxIncr_; incr++){
         double incrFraction = (incr+1)/static_cast<double>(maxIncr_); //factor to scale dirischlet values for current incr
@@ -33,21 +35,24 @@ void NonlinearSolver<Nne, Nsd>::solve(
             // solve the linear system
             // std::cout << "Initilising solver for incr " << incr+1 << ", iteration " << iter+1 << "\n";
 
-            if(!patternAnalyzed){
-                linear_solver.analyzePattern(KUU);
-                patternAnalyzed = true;
-            }
+            // if(!patternAnalyzed){
+            //     linear_solver.analyzePattern(KUU);
+            //     patternAnalyzed = true;
+            // }
             
-            linear_solver.factorize(KUU);
-            if(linear_solver.info() != Eigen::Success) {
-                std::cout << "Decomposition failed for incr " << incr+1 << ", iteration " << iter+1 << "\n";
-                return;
-            }
+            // linear_solver.factorize(KUU);
+            // if(linear_solver.info() != Eigen::Success) {
+            //     std::cout << "Decomposition failed for incr " << incr+1 << ", iteration " << iter+1 << "\n";
+            //     return;
+            // }
 
             // std::cout << "Initilised solver for incr " << incr+1 << ", iteration " << iter+1 << "\n";
 
-            Eigen::VectorXd duU = linear_solver.solve(-RU); //solve for the incral displacements at the unknown degrees of freedom
+            // Eigen::VectorXd duU = linear_solver.solve(-RU); //solve for the incral displacements at the unknown degrees of freedom
             
+            //conjugate gradient solver 
+            cgSolver_.solve(duU, KUU, -RU, outerThreads);
+
             // std::cout << "Solved for incr " << incr+1 << ", iteration " << iter+1 << "\n";
 
             //construct full du vector including known values at dirischlet boundary
