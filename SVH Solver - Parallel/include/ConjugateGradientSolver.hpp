@@ -11,7 +11,13 @@ class ConjugateGradientSolver{
         void solve(
             Eigen::VectorXd& x0, //initial guess of solution
             const Eigen::SparseMatrix<double>& A, // Ax = b
-            const Eigen::VectorXd& b,
+            const Eigen::VectorXd& b
+        );
+
+        void solve_parallel(
+            Eigen::VectorXd& x0,          // initial guess, solution in-place
+            const Eigen::SparseMatrix<double>& A_csc,      // KUU in Eigen default CSC format
+            const Eigen::VectorXd& b,          // right-hand side (-RU)
             int numThreads
         );
 

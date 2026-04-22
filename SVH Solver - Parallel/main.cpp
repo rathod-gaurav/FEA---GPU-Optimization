@@ -1,5 +1,7 @@
 #include <iostream>
 #include <omp.h>
+#include <cstdlib> // Required for getenv - to get environment variables
+#include <string>
 #include "MeshGenerator.hpp"
 #include "Quadrature.hpp"
 #include "BoundaryConditions.hpp"
@@ -15,7 +17,12 @@ using std::chrono::high_resolution_clock;
 using std::chrono::duration;
 
 int main(){
-    int outerThreads = 16;
+    // 1. Get the environment variable "OMP_NUM_THREADS"
+    const char* env_p = std::getenv("OMP_NUM_THREADS");
+
+    // 2. Set default (e.g., 2) if the variable isn't found
+    int outerThreads = (env_p != nullptr) ? std::stoi(env_p) : 1;
+
     // omp_set_max_active_levels(2);       // allow 2 levels of nesting
     omp_set_num_threads(outerThreads); 
 
@@ -63,9 +70,9 @@ int main(){
     double x3_ll = 0.0, x3_ul = 0.03; //lower and upper limits in x3 direction
     
     //Mesh parameters
-    unsigned int Nel_x1 = 80; //number of elements in x1 direction
-    unsigned int Nel_x2 = 24; //number of elements in x2 direction
-    unsigned int Nel_x3 = 24; //number of elements in x3 direction
+    unsigned int Nel_x1 = 40; //number of elements in x1 direction
+    unsigned int Nel_x2 = 12; //number of elements in x2 direction
+    unsigned int Nel_x3 = 12; //number of elements in x3 direction
 
     //Generate the mesh using the MeshGenerator class
     MeshGenerator<Nne> meshGen(x1_ll, x1_ul, x2_ll, x2_ul, x3_ll, x3_ul, Nel_x1, Nel_x2, Nel_x3);

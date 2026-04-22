@@ -53,12 +53,13 @@ void NonlinearSolver<Nne, Nsd>::solve(
             
             //conjugate gradient solver 
             Eigen::VectorXd rhs = -RU;
-            cgSolver_.solve(duU, KUU, rhs, outerThreads);
+            cgSolver_.solve_parallel(duU, KUU, rhs, outerThreads);
 
             // std::cout << "Solved for incr " << incr+1 << ", iteration " << iter+1 << "\n";
 
             //construct full du vector including known values at dirischlet boundary
-            for(int i = 0 ; i < unknownIndexes.size() ; i++){
+            #pragma omp parallel for schedule(static) num_threads(outerThreads)
+            for(int i = 0 ; i < (int)unknownIndexes.size() ; i++){
                 u(unknownIndexes[i]) += duU(i);
             }
 

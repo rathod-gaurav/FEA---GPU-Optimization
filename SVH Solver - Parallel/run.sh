@@ -65,7 +65,7 @@ else
     MACHINE="spark - ($CPU_MODEL)"
     # Use half of logical CPUs as a conservative default.
     # OMP_NUM_THREADS=$(( $(nproc --all) / 2 ))
-    OMP_NUM_THREADS=16 #16 outer threads with each spawning 3 inner threads for a total of 48 threads
+    OMP_NUM_THREADS=16
     OMP_PROC_BIND=close
     OMP_PLACES=cores
     echo "Warning: unrecognized CPU. Defaulting to manually set OMP_NUM_THREADS=${OMP_NUM_THREADS}."
