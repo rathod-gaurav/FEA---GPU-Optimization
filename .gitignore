@@ -8,16 +8,16 @@ St. Venant-Kirchhoff/perf.data.old
 St. Venant-Kirchhoff/advisor_result
 St. Venant-Kirchhoff/config
 St. Venant-Kirchhoff/pin.log
-SVH Solver/README.md
-SVH Solver/build
-SVH Solver/mesh
-SVH Solver/advisor_result
-SVH Solver/config
-SVH Solver/advisor_result001
-SVH Solver/advisor_result002
-SVH Solver - Parallel/build
-SVH Solver - Parallel/mesh
-SVH Solver - Parallel/README.md
+SVK Solver/README.md
+SVK Solver/build
+SVK Solver/mesh
+SVK Solver/advisor_result
+SVK Solver/config
+SVK Solver/advisor_result001
+SVK Solver/advisor_result002
+SVK Solver - Parallel/build
+SVK Solver - Parallel/mesh
+SVK Solver - Parallel/README.md
 NH Solver/README.md
 NH Solver/build
 NH Solver/mesh
@@ -27,12 +27,12 @@ MR Solver/README.md
 MR Solver/build
 MR Solver/mesh
 MR Solver/config
-SVH Solver - Parallel/build1
-SVH Solver - Parallel/build2
-SVH Solver - Parallel/build3
-SVH Solver - Parallel/build4
-SVH Solver - Parallel/build5a
-SVH Solver - Parallel/build5b
-SVH Solver - Parallel/build5c
-SVH Solver - Parallel/valgrind_run_scripts
-SVH Solver - Parallel/solutions_spark
+SVK Solver - Parallel/build1
+SVK Solver - Parallel/build2
+SVK Solver - Parallel/build3
+SVK Solver - Parallel/build4
+SVK Solver - Parallel/build5a
+SVK Solver - Parallel/build5b
+SVK Solver - Parallel/build5c
+SVK Solver - Parallel/valgrind_run_scripts
+SVK Solver - Parallel/solutions_spark
