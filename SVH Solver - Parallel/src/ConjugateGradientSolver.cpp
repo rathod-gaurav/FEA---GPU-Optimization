@@ -6,8 +6,8 @@ ConjugateGradientSolver::ConjugateGradientSolver(double tol, unsigned int maxIte
 
 void ConjugateGradientSolver::solve(
     Eigen::VectorXd& x0, //initial guess of solution
-    Eigen::SparseMatrix<double>& A, // Ax = b
-    Eigen::VectorXd& b,
+    const Eigen::SparseMatrix<double>& A, // Ax = b
+    const Eigen::VectorXd& b,
     int numThreads
 ){
     Eigen::VectorXd r_k = b - A*x0;
@@ -24,6 +24,7 @@ void ConjugateGradientSolver::solve(
         Eigen::VectorXd r_kp1 = b - A*x0;
 
         if(r_kp1.norm() < tol_){
+            std::cout << "cg solve complete in " << k << " iterations" << std::endl;
             return;
         }
         else{

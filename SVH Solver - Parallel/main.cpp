@@ -54,7 +54,7 @@ int main(){
     unsigned int maxIncr = 10; //maximum number of increments (timesteps)
     unsigned int maxIter = 10; //maximum number of iterations per increment
 
-    double tol_cg = 1e-3;
+    double tol_cg = 1e-6;
     unsigned int maxIter_cg = 500;
 
     //Domain parameters
@@ -63,9 +63,9 @@ int main(){
     double x3_ll = 0.0, x3_ul = 0.03; //lower and upper limits in x3 direction
     
     //Mesh parameters
-    unsigned int Nel_x1 = 40; //number of elements in x1 direction
-    unsigned int Nel_x2 = 12; //number of elements in x2 direction
-    unsigned int Nel_x3 = 12; //number of elements in x3 direction
+    unsigned int Nel_x1 = 80; //number of elements in x1 direction
+    unsigned int Nel_x2 = 24; //number of elements in x2 direction
+    unsigned int Nel_x3 = 24; //number of elements in x3 direction
 
     //Generate the mesh using the MeshGenerator class
     MeshGenerator<Nne> meshGen(x1_ll, x1_ul, x2_ll, x2_ul, x3_ll, x3_ul, Nel_x1, Nel_x2, Nel_x3);

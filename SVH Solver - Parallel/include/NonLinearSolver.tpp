@@ -18,13 +18,14 @@ void NonlinearSolver<Nne, Nsd>::solve(
     Eigen::SparseMatrix<double> Kglobal, KUU, KUD; //global stiffness matrix
     // Eigen::SparseLU<Eigen::SparseMatrix<double>> linear_solver; //optimization - initialize the solver object outside NR loops
     // bool patternAnalyzed = false;
+    const auto& unknownIndexes = bcs.getUnknownIndexes();
     //for cgSolver
     Eigen::VectorXd duU = Eigen::VectorXd::Zero(unknownIndexes.size());
 
     for(unsigned int incr = 0; incr < maxIncr_; incr++){
         double incrFraction = (incr+1)/static_cast<double>(maxIncr_); //factor to scale dirischlet values for current incr
         bcs.applyToSolution(u, incrFraction); //apply dirischlet boundary conditions to the solution vector for the current incr
-        const auto& unknownIndexes = bcs.getUnknownIndexes();
+        
 
         for(unsigned int iter = 0; iter < maxIter_; iter++){
             
@@ -51,7 +52,8 @@ void NonlinearSolver<Nne, Nsd>::solve(
             // Eigen::VectorXd duU = linear_solver.solve(-RU); //solve for the incral displacements at the unknown degrees of freedom
             
             //conjugate gradient solver 
-            cgSolver_.solve(duU, KUU, -RU, outerThreads);
+            Eigen::VectorXd rhs = -RU;
+            cgSolver_.solve(duU, KUU, rhs, outerThreads);
 
             // std::cout << "Solved for incr " << incr+1 << ", iteration " << iter+1 << "\n";
 
@@ -62,7 +64,7 @@ void NonlinearSolver<Nne, Nsd>::solve(
 
             //check residual norm for convergence
             double residualNorm = RU.norm();
-            std::cout << "incr: " << incr+1 << ", Iteration: " << iter+1 << "\n";
+            std::cout << "NR incr: " << incr+1 << ", iter: " << iter+1 << "\n";
             std::cout << "Modified residual norm: " << residualNorm << "\n"; //print the norm of the modified residual to monitor convergence of the unknown degrees of freedom
             std::cout << "-----------------------------------" << "\n";
             

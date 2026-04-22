@@ -62,7 +62,7 @@ elif echo "$CPU_MODEL" | grep -q "5625U"; then
 
 else
     # ── unknown machine — safe fallback ────────────────────────────────────────
-    MACHINE="unknown ($CPU_MODEL)"
+    MACHINE="spark - ($CPU_MODEL)"
     # Use half of logical CPUs as a conservative default.
     # OMP_NUM_THREADS=$(( $(nproc --all) / 2 ))
     OMP_NUM_THREADS=16 #16 outer threads with each spawning 3 inner threads for a total of 48 threads

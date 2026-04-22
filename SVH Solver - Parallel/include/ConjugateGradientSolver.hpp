@@ -2,6 +2,7 @@
 
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
+#include <iostream>
 
 class ConjugateGradientSolver{
     public:
@@ -9,8 +10,8 @@ class ConjugateGradientSolver{
 
         void solve(
             Eigen::VectorXd& x0, //initial guess of solution
-            Eigen::SparseMatrix<double>& A, // Ax = b
-            Eigen::VectorXd& b,
+            const Eigen::SparseMatrix<double>& A, // Ax = b
+            const Eigen::VectorXd& b,
             int numThreads
         );
 
