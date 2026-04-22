@@ -1,0 +1,266 @@
+OpenMP active — threads: 30
+Max threads: 30
+CPUs available: 30
+Starting the timer...
+Mesh built: 386561 nodes, 368640 elements
+--------------------
+Boundary Conditions Summary:
+Total DOFs: 1159683
+Dirischlet DOFs: 9604
+Unknown DOFs: 1150079
+--------------------
+Starting nonlinear solve...
+--------------------
+CG did not converge in 500 iterations. Final residual = 0.000668301
+NR incr: 1, iter: 1
+Modified residual norm: 374014
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 0.000622922
+NR incr: 1, iter: 2
+Modified residual norm: 52605.2
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 0.000154592
+NR incr: 1, iter: 3
+Modified residual norm: 2164.09
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 7.11886e-06
+NR incr: 1, iter: 4
+Modified residual norm: 4.6086
+-----------------------------------
+CG solve complete in 429 iterations
+NR incr: 1, iter: 5
+Modified residual norm: 2.86786e-05
+-----------------------------------
+CG solve complete in 47 iterations
+NR incr: 1, iter: 6
+Modified residual norm: 9.87432e-07
+-----------------------------------
+Convergence achieved for incr 1 in 6 iterations.
+CG did not converge in 500 iterations. Final residual = 0.000673513
+NR incr: 2, iter: 1
+Modified residual norm: 374853
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 0.000627534
+NR incr: 2, iter: 2
+Modified residual norm: 52681.1
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 0.000154641
+NR incr: 2, iter: 3
+Modified residual norm: 2161.56
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 7.12769e-06
+NR incr: 2, iter: 4
+Modified residual norm: 4.57708
+-----------------------------------
+CG solve complete in 429 iterations
+NR incr: 2, iter: 5
+Modified residual norm: 2.82129e-05
+-----------------------------------
+CG solve complete in 47 iterations
+NR incr: 2, iter: 6
+Modified residual norm: 9.84514e-07
+-----------------------------------
+Convergence achieved for incr 2 in 6 iterations.
+CG did not converge in 500 iterations. Final residual = 0.000677302
+NR incr: 3, iter: 1
+Modified residual norm: 375692
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 0.0006304
+NR incr: 3, iter: 2
+Modified residual norm: 52757
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 0.000156365
+NR incr: 3, iter: 3
+Modified residual norm: 2159.04
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 7.13511e-06
+NR incr: 3, iter: 4
+Modified residual norm: 4.54582
+-----------------------------------
+CG solve complete in 429 iterations
+NR incr: 3, iter: 5
+Modified residual norm: 2.77581e-05
+-----------------------------------
+CG solve complete in 47 iterations
+NR incr: 3, iter: 6
+Modified residual norm: 9.73972e-07
+-----------------------------------
+Convergence achieved for incr 3 in 6 iterations.
+CG did not converge in 500 iterations. Final residual = 0.00068226
+NR incr: 4, iter: 1
+Modified residual norm: 376532
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 0.000635928
+NR incr: 4, iter: 2
+Modified residual norm: 52832.9
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 0.000157703
+NR incr: 4, iter: 3
+Modified residual norm: 2156.52
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 7.15364e-06
+NR incr: 4, iter: 4
+Modified residual norm: 4.51483
+-----------------------------------
+CG solve complete in 429 iterations
+NR incr: 4, iter: 5
+Modified residual norm: 2.7302e-05
+-----------------------------------
+CG solve complete in 47 iterations
+NR incr: 4, iter: 6
+Modified residual norm: 9.68201e-07
+-----------------------------------
+Convergence achieved for incr 4 in 6 iterations.
+CG did not converge in 500 iterations. Final residual = 0.00068952
+NR incr: 5, iter: 1
+Modified residual norm: 377373
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 0.000642794
+NR incr: 5, iter: 2
+Modified residual norm: 52908.7
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 0.000159146
+NR incr: 5, iter: 3
+Modified residual norm: 2154.01
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 7.1971e-06
+NR incr: 5, iter: 4
+Modified residual norm: 4.4841
+-----------------------------------
+CG solve complete in 429 iterations
+NR incr: 5, iter: 5
+Modified residual norm: 2.68647e-05
+-----------------------------------
+CG solve complete in 47 iterations
+NR incr: 5, iter: 6
+Modified residual norm: 9.59279e-07
+-----------------------------------
+Convergence achieved for incr 5 in 6 iterations.
+CG did not converge in 500 iterations. Final residual = 0.000695612
+NR incr: 6, iter: 1
+Modified residual norm: 378215
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 0.0006524
+NR incr: 6, iter: 2
+Modified residual norm: 52984.5
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 0.000160554
+NR incr: 6, iter: 3
+Modified residual norm: 2151.51
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 7.222e-06
+NR incr: 6, iter: 4
+Modified residual norm: 4.45364
+-----------------------------------
+CG solve complete in 429 iterations
+NR incr: 6, iter: 5
+Modified residual norm: 2.64328e-05
+-----------------------------------
+CG solve complete in 47 iterations
+NR incr: 6, iter: 6
+Modified residual norm: 9.57696e-07
+-----------------------------------
+Convergence achieved for incr 6 in 6 iterations.
+CG did not converge in 500 iterations. Final residual = 0.000699565
+NR incr: 7, iter: 1
+Modified residual norm: 379058
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 0.000659275
+NR incr: 7, iter: 2
+Modified residual norm: 53060.4
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 0.000161811
+NR incr: 7, iter: 3
+Modified residual norm: 2149.01
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 7.25025e-06
+NR incr: 7, iter: 4
+Modified residual norm: 4.42343
+-----------------------------------
+CG solve complete in 429 iterations
+NR incr: 7, iter: 5
+Modified residual norm: 2.60045e-05
+-----------------------------------
+CG solve complete in 47 iterations
+NR incr: 7, iter: 6
+Modified residual norm: 9.56086e-07
+-----------------------------------
+Convergence achieved for incr 7 in 6 iterations.
+CG did not converge in 500 iterations. Final residual = 0.00070714
+NR incr: 8, iter: 1
+Modified residual norm: 379902
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 0.000671207
+NR incr: 8, iter: 2
+Modified residual norm: 53136.2
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 0.000162916
+NR incr: 8, iter: 3
+Modified residual norm: 2146.51
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 7.26824e-06
+NR incr: 8, iter: 4
+Modified residual norm: 4.39347
+-----------------------------------
+CG solve complete in 428 iterations
+NR incr: 8, iter: 5
+Modified residual norm: 2.55801e-05
+-----------------------------------
+CG solve complete in 46 iterations
+NR incr: 8, iter: 6
+Modified residual norm: 9.9416e-07
+-----------------------------------
+Convergence achieved for incr 8 in 6 iterations.
+CG did not converge in 500 iterations. Final residual = 0.000715987
+NR incr: 9, iter: 1
+Modified residual norm: 380746
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 0.000674652
+NR incr: 9, iter: 2
+Modified residual norm: 53211.9
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 0.000163787
+NR incr: 9, iter: 3
+Modified residual norm: 2144.03
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 7.29065e-06
+NR incr: 9, iter: 4
+Modified residual norm: 4.36377
+-----------------------------------
+CG solve complete in 428 iterations
+NR incr: 9, iter: 5
+Modified residual norm: 2.51725e-05
+-----------------------------------
+CG solve complete in 46 iterations
+NR incr: 9, iter: 6
+Modified residual norm: 9.881e-07
+-----------------------------------
+Convergence achieved for incr 9 in 6 iterations.
+CG did not converge in 500 iterations. Final residual = 0.00072304
+NR incr: 10, iter: 1
+Modified residual norm: 381591
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 0.000687029
+NR incr: 10, iter: 2
+Modified residual norm: 53287.7
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 0.000165199
+NR incr: 10, iter: 3
+Modified residual norm: 2141.55
+-----------------------------------
+CG did not converge in 500 iterations. Final residual = 7.33423e-06
+NR incr: 10, iter: 4
+Modified residual norm: 4.33432
+-----------------------------------
+CG solve complete in 428 iterations
+NR incr: 10, iter: 5
+Modified residual norm: 2.47658e-05
+-----------------------------------
+CG solve complete in 46 iterations
+NR incr: 10, iter: 6
+Modified residual norm: 9.7999e-07
+-----------------------------------
+Convergence achieved for incr 10 in 6 iterations.
+--------------------
+Nonlinear solve completed.
+Total time taken (in ms): 820207

@@ -16,6 +16,12 @@
 using std::chrono::high_resolution_clock;
 using std::chrono::duration;
 
+//Experiment setup : Helper to get env var with a default
+unsigned int getEnvVar(const char* name, unsigned int defaultVal) {
+    const char* val = std::getenv(name);
+    return (val != nullptr) ? std::stoi(val) : defaultVal;
+}
+
 int main(){
     // 1. Get the environment variable "OMP_NUM_THREADS"
     const char* env_p = std::getenv("OMP_NUM_THREADS");
@@ -70,9 +76,13 @@ int main(){
     double x3_ll = 0.0, x3_ul = 0.03; //lower and upper limits in x3 direction
     
     //Mesh parameters
-    unsigned int Nel_x1 = 40; //number of elements in x1 direction
-    unsigned int Nel_x2 = 12; //number of elements in x2 direction
-    unsigned int Nel_x3 = 12; //number of elements in x3 direction
+    // unsigned int Nel_x1 = 40; //number of elements in x1 direction
+    // unsigned int Nel_x2 = 12; //number of elements in x2 direction
+    // unsigned int Nel_x3 = 12; //number of elements in x3 direction
+
+    unsigned int Nel_x1 = getEnvVar("NEL_X1", 40);
+    unsigned int Nel_x2 = getEnvVar("NEL_X2", 12);
+    unsigned int Nel_x3 = getEnvVar("NEL_X3", 12);
 
     //Generate the mesh using the MeshGenerator class
     MeshGenerator<Nne> meshGen(x1_ll, x1_ul, x2_ll, x2_ul, x3_ll, x3_ul, Nel_x1, Nel_x2, Nel_x3);
