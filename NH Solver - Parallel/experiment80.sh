@@ -29,6 +29,8 @@ cmake --build "build/${NEL_X1}" --parallel 24
 # 2. Now run the experiment loop
 for t in "${THREADS[@]}"; do
     export OMP_NUM_THREADS=$t
+    export OMP_PROC_BIND=close
+    export OMP_PLACES=cores
     # Execute the binary directly instead of calling run_experiment.sh repeatedly
     ./build/${NEL_X1}/main > "experiments/experiment${NEL_X1}/FEA${NEL_X1}_${t}.out" 2>&1
 done
