@@ -1,0 +1,43 @@
+-- The CXX compiler identification is GNU 11.5.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- No build type specified — defaulting to Release
+-- Found OpenMP_CXX: -fopenmp (found version "4.5") 
+-- Found OpenMP: TRUE (found version "4.5")  
+-- Found CURL: /software/chtc/el9/spack_v22/software/linux-centos9-zen3/gcc-13.2.0/curl-8.7.1-s2uzdocfzdwl46xfbcy6dp3xwmvjldxy/lib/libcurl.so (found version "8.7.1")  
+-- TARGET_ARCH = native
+-- Performing Test HAS_AVX512
+-- Performing Test HAS_AVX512 - Success
+-- AVX-512 detected — enabling 512-bit vector width preference
+-- Build type:        Release
+-- Compiler:          GNU 11.5.0
+-- TARGET_ARCH:       native
+-- AVX-512:           1
+-- OpenMP found:      TRUE 4.5
+-- Configuring done (0.8s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/grathod/Spring26/ME759/Project/NH Solver - Parallel/build3
+[ 16%] Building CXX object CMakeFiles/main.dir/main.cpp.o
+[ 33%] Building CXX object CMakeFiles/main.dir/src/ConjugateGradientSolver.cpp.o
+[ 50%] Building CXX object CMakeFiles/main.dir/src/NeoHookean.cpp.o
+[ 66%] Building CXX object CMakeFiles/main.dir/src/Quadrature.cpp.o
+[ 83%] Building CXX object CMakeFiles/main.dir/src/ShapeFunction.cpp.o
+[100%] Linking CXX executable main
+[100%] Built target main
+Warning: unrecognized CPU. Defaulting to manually set OMP_NUM_THREADS=16.
+Set OMP_NUM_THREADS manually for best results.
+================================================
+Machine          : unknown (AMD EPYC 9745 128-Core Processor)
+CPU              : AMD EPYC 9745 128-Core Processor
+OMP_NUM_THREADS  : 16
+OMP_PROC_BIND    : close
+OMP_PLACES       : cores
+Binary           : ./build3/main
+================================================
+OpenMP active — threads: 2
+Max threads: 2
+CPUs available: 6
+Starting the timer...

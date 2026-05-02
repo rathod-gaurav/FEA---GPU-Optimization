@@ -16,7 +16,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # If the user doesn't specify -DCMAKE_BUILD_TYPE, default to Release.
 # Debug builds without this will have no -O3 and your code will be very slow.
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-    set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
+    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
     message(STATUS "No build type specified — defaulting to Release")
 endif()
 

@@ -1,0 +1,49 @@
+/var/spool/slurmd/job943013/slurm_script:10: command not found: module
+==24674== Cachegrind, a high-precision tracing profiler
+==24674== Copyright (C) 2002-2024, and GNU GPL'd, by Nicholas Nethercote et al.
+==24674== Using Valgrind-3.26.0 and LibVEX; rerun with -h for copyright info
+==24674== Command: ./build3/main
+==24674== 
+--24674-- warning: L3 cache found, using its data for the LL simulation.
+vex amd64->IR: unhandled instruction bytes: 0x62 0xF1 0x4F 0x8 0x7B 0xD8 0x62 0x51 0x4F 0x8
+vex amd64->IR:   REX=0 REX.W=0 REX.R=0 REX.X=0 REX.B=0
+vex amd64->IR:   VEX=0 VEX.L=0 VEX.nVVVV=0x0 ESC=NONE
+vex amd64->IR:   PFX.66=0 PFX.F2=0 PFX.F3=0
+==24674== valgrind: Unrecognised instruction at address 0x409068.
+==24674==    at 0x409068: MeshGenerator<8u>::buildMesh() const (in /home/grathod/Spring26/ME759/Project/NH Solver - Parallel/build3/main)
+==24674==    by 0x4040A3: main (in /home/grathod/Spring26/ME759/Project/NH Solver - Parallel/build3/main)
+==24674== Your program just tried to execute an instruction that Valgrind
+==24674== did not recognise.  There are two possible reasons for this.
+==24674== 1. Your program has a bug and erroneously jumped to a non-code
+==24674==    location.  If you are running Memcheck and you just saw a
+==24674==    warning about a bad jump, it's probably your program's fault.
+==24674== 2. The instruction is legitimate but Valgrind doesn't handle it,
+==24674==    i.e. it's Valgrind's fault.  If you think this is the case or
+==24674==    you are not sure, please let us know and we'll try to fix it.
+==24674== Either way, Valgrind will now raise a SIGILL signal which will
+==24674== probably kill your program.
+==24674== 
+==24674== Process terminating with default action of signal 4 (SIGILL)
+==24674==  Illegal opcode at address 0x409068
+==24674==    at 0x409068: MeshGenerator<8u>::buildMesh() const (in /home/grathod/Spring26/ME759/Project/NH Solver - Parallel/build3/main)
+==24674==    by 0x4040A3: main (in /home/grathod/Spring26/ME759/Project/NH Solver - Parallel/build3/main)
+==24674== 
+==24674== I refs:        10,703,124
+==24674== I1  misses:         2,821
+==24674== LLi misses:         2,552
+==24674== I1  miss rate:       0.03%
+==24674== LLi miss rate:       0.02%
+==24674== 
+==24674== D refs:         2,386,211  (2,009,878 rd   + 376,333 wr)
+==24674== D1  misses:        41,600  (   31,832 rd   +   9,768 wr)
+==24674== LLd misses:        28,977  (   20,101 rd   +   8,876 wr)
+==24674== D1  miss rate:        1.7% (      1.6%     +     2.6%  )
+==24674== LLd miss rate:        1.2% (      1.0%     +     2.4%  )
+==24674== 
+==24674== LL refs:           44,421  (   34,653 rd   +   9,768 wr)
+==24674== LL misses:         31,529  (   22,653 rd   +   8,876 wr)
+==24674== LL miss rate:         0.2% (      0.2%     +     2.4%  )
+==24674== 
+==24674== Branches:       2,457,814  (2,449,753 cond +   8,061 ind)
+==24674== Mispredicts:       26,888  (   25,126 cond +   1,762 ind)
+==24674== Mispred rate:         1.1% (      1.0%     +    21.9%   )

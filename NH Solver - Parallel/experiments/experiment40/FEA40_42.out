@@ -1,0 +1,1266 @@
+OpenMP active — threads: 42
+Max threads: 42
+CPUs available: 48
+Starting the timer...
+Mesh built: 6929 nodes, 5760 elements
+--------------------
+Boundary Conditions Summary:
+Total DOFs: 20787
+Dirischlet DOFs: 676
+Unknown DOFs: 20111
+--------------------
+Starting nonlinear solve...
+--------------------
+CG solve complete in 140 iterations
+NR incr: 1, iter: 1
+Modified residual norm: 1.11512e+06
+-----------------------------------
+CG solve complete in 142 iterations
+NR incr: 1, iter: 2
+Modified residual norm: 383891
+-----------------------------------
+CG solve complete in 136 iterations
+NR incr: 1, iter: 3
+Modified residual norm: 45200.3
+-----------------------------------
+CG solve complete in 127 iterations
+NR incr: 1, iter: 4
+Modified residual norm: 331.015
+-----------------------------------
+CG solve complete in 110 iterations
+NR incr: 1, iter: 5
+Modified residual norm: 0.0454009
+-----------------------------------
+CG solve complete in 70 iterations
+NR incr: 1, iter: 6
+Modified residual norm: 9.73498e-07
+-----------------------------------
+Convergence achieved for incr 1 in 6 iterations.
+CG solve complete in 140 iterations
+NR incr: 2, iter: 1
+Modified residual norm: 1.10275e+06
+-----------------------------------
+CG solve complete in 143 iterations
+NR incr: 2, iter: 2
+Modified residual norm: 370469
+-----------------------------------
+CG solve complete in 136 iterations
+NR incr: 2, iter: 3
+Modified residual norm: 42715.3
+-----------------------------------
+CG solve complete in 126 iterations
+NR incr: 2, iter: 4
+Modified residual norm: 291.195
+-----------------------------------
+CG solve complete in 109 iterations
+NR incr: 2, iter: 5
+Modified residual norm: 0.0356474
+-----------------------------------
+CG solve complete in 69 iterations
+NR incr: 2, iter: 6
+Modified residual norm: 9.3127e-07
+-----------------------------------
+Convergence achieved for incr 2 in 6 iterations.
+CG solve complete in 141 iterations
+NR incr: 3, iter: 1
+Modified residual norm: 1.09064e+06
+-----------------------------------
+CG solve complete in 143 iterations
+NR incr: 3, iter: 2
+Modified residual norm: 357701
+-----------------------------------
+CG solve complete in 137 iterations
+NR incr: 3, iter: 3
+Modified residual norm: 40394.1
+-----------------------------------
+CG solve complete in 126 iterations
+NR incr: 3, iter: 4
+Modified residual norm: 256.437
+-----------------------------------
+CG solve complete in 109 iterations
+NR incr: 3, iter: 5
+Modified residual norm: 0.0280484
+-----------------------------------
+CG solve complete in 69 iterations
+NR incr: 3, iter: 6
+Modified residual norm: 7.68522e-07
+-----------------------------------
+Convergence achieved for incr 3 in 6 iterations.
+CG solve complete in 142 iterations
+NR incr: 4, iter: 1
+Modified residual norm: 1.07879e+06
+-----------------------------------
+CG solve complete in 144 iterations
+NR incr: 4, iter: 2
+Modified residual norm: 345547
+-----------------------------------
+CG solve complete in 137 iterations
+NR incr: 4, iter: 3
+Modified residual norm: 38224.3
+-----------------------------------
+CG solve complete in 127 iterations
+NR incr: 4, iter: 4
+Modified residual norm: 226.068
+-----------------------------------
+CG solve complete in 109 iterations
+NR incr: 4, iter: 5
+Modified residual norm: 0.0221145
+-----------------------------------
+CG solve complete in 68 iterations
+NR incr: 4, iter: 6
+Modified residual norm: 7.79271e-07
+-----------------------------------
+Convergence achieved for incr 4 in 6 iterations.
+CG solve complete in 143 iterations
+NR incr: 5, iter: 1
+Modified residual norm: 1.06719e+06
+-----------------------------------
+CG solve complete in 144 iterations
+NR incr: 5, iter: 2
+Modified residual norm: 333971
+-----------------------------------
+CG solve complete in 138 iterations
+NR incr: 5, iter: 3
+Modified residual norm: 36194.6
+-----------------------------------
+CG solve complete in 127 iterations
+NR incr: 5, iter: 4
+Modified residual norm: 199.507
+-----------------------------------
+CG solve complete in 109 iterations
+NR incr: 5, iter: 5
+Modified residual norm: 0.0174706
+-----------------------------------
+CG solve complete in 68 iterations
+NR incr: 5, iter: 6
+Modified residual norm: 8.24139e-07
+-----------------------------------
+Convergence achieved for incr 5 in 6 iterations.
+CG solve complete in 144 iterations
+NR incr: 6, iter: 1
+Modified residual norm: 1.05583e+06
+-----------------------------------
+CG solve complete in 144 iterations
+NR incr: 6, iter: 2
+Modified residual norm: 322940
+-----------------------------------
+CG solve complete in 138 iterations
+NR incr: 6, iter: 3
+Modified residual norm: 34294.6
+-----------------------------------
+CG solve complete in 127 iterations
+NR incr: 6, iter: 4
+Modified residual norm: 176.255
+-----------------------------------
+CG solve complete in 109 iterations
+NR incr: 6, iter: 5
+Modified residual norm: 0.0138286
+-----------------------------------
+CG solve complete in 67 iterations
+NR incr: 6, iter: 6
+Modified residual norm: 8.92508e-07
+-----------------------------------
+Convergence achieved for incr 6 in 6 iterations.
+CG solve complete in 144 iterations
+NR incr: 7, iter: 1
+Modified residual norm: 1.04472e+06
+-----------------------------------
+CG solve complete in 145 iterations
+NR incr: 7, iter: 2
+Modified residual norm: 312421
+-----------------------------------
+CG solve complete in 139 iterations
+NR incr: 7, iter: 3
+Modified residual norm: 32514.8
+-----------------------------------
+CG solve complete in 126 iterations
+NR incr: 7, iter: 4
+Modified residual norm: 155.883
+-----------------------------------
+CG solve complete in 109 iterations
+NR incr: 7, iter: 5
+Modified residual norm: 0.0109665
+-----------------------------------
+CG solve complete in 67 iterations
+NR incr: 7, iter: 6
+Modified residual norm: 9.00448e-07
+-----------------------------------
+Convergence achieved for incr 7 in 6 iterations.
+CG solve complete in 144 iterations
+NR incr: 8, iter: 1
+Modified residual norm: 1.03385e+06
+-----------------------------------
+CG solve complete in 145 iterations
+NR incr: 8, iter: 2
+Modified residual norm: 302386
+-----------------------------------
+CG solve complete in 139 iterations
+NR incr: 8, iter: 3
+Modified residual norm: 30846.5
+-----------------------------------
+CG solve complete in 127 iterations
+NR incr: 8, iter: 4
+Modified residual norm: 138.019
+-----------------------------------
+CG solve complete in 109 iterations
+NR incr: 8, iter: 5
+Modified residual norm: 0.00871308
+-----------------------------------
+CG solve complete in 66 iterations
+NR incr: 8, iter: 6
+Modified residual norm: 7.88864e-07
+-----------------------------------
+Convergence achieved for incr 8 in 6 iterations.
+CG solve complete in 145 iterations
+NR incr: 9, iter: 1
+Modified residual norm: 1.02321e+06
+-----------------------------------
+CG solve complete in 146 iterations
+NR incr: 9, iter: 2
+Modified residual norm: 292808
+-----------------------------------
+CG solve complete in 139 iterations
+NR incr: 9, iter: 3
+Modified residual norm: 29281.7
+-----------------------------------
+CG solve complete in 127 iterations
+NR incr: 9, iter: 4
+Modified residual norm: 122.342
+-----------------------------------
+CG solve complete in 109 iterations
+NR incr: 9, iter: 5
+Modified residual norm: 0.00693549
+-----------------------------------
+CG solve complete in 66 iterations
+NR incr: 9, iter: 6
+Modified residual norm: 8.0525e-07
+-----------------------------------
+Convergence achieved for incr 9 in 6 iterations.
+CG solve complete in 145 iterations
+NR incr: 10, iter: 1
+Modified residual norm: 1.0128e+06
+-----------------------------------
+CG solve complete in 146 iterations
+NR incr: 10, iter: 2
+Modified residual norm: 283661
+-----------------------------------
+CG solve complete in 139 iterations
+NR incr: 10, iter: 3
+Modified residual norm: 27813.1
+-----------------------------------
+CG solve complete in 128 iterations
+NR incr: 10, iter: 4
+Modified residual norm: 108.574
+-----------------------------------
+CG solve complete in 109 iterations
+NR incr: 10, iter: 5
+Modified residual norm: 0.0055308
+-----------------------------------
+CG solve complete in 66 iterations
+NR incr: 10, iter: 6
+Modified residual norm: 8.91121e-07
+-----------------------------------
+Convergence achieved for incr 10 in 6 iterations.
+CG solve complete in 145 iterations
+NR incr: 11, iter: 1
+Modified residual norm: 1.0026e+06
+-----------------------------------
+CG solve complete in 146 iterations
+NR incr: 11, iter: 2
+Modified residual norm: 274922
+-----------------------------------
+CG solve complete in 140 iterations
+NR incr: 11, iter: 3
+Modified residual norm: 26433.9
+-----------------------------------
+CG solve complete in 128 iterations
+NR incr: 11, iter: 4
+Modified residual norm: 96.4747
+-----------------------------------
+CG solve complete in 109 iterations
+NR incr: 11, iter: 5
+Modified residual norm: 0.00441891
+-----------------------------------
+CG solve complete in 66 iterations
+NR incr: 11, iter: 6
+Modified residual norm: 8.63465e-07
+-----------------------------------
+Convergence achieved for incr 11 in 6 iterations.
+CG solve complete in 146 iterations
+NR incr: 12, iter: 1
+Modified residual norm: 992625
+-----------------------------------
+CG solve complete in 147 iterations
+NR incr: 12, iter: 2
+Modified residual norm: 266568
+-----------------------------------
+CG solve complete in 140 iterations
+NR incr: 12, iter: 3
+Modified residual norm: 25138
+-----------------------------------
+CG solve complete in 129 iterations
+NR incr: 12, iter: 4
+Modified residual norm: 85.8338
+-----------------------------------
+CG solve complete in 109 iterations
+NR incr: 12, iter: 5
+Modified residual norm: 0.00353734
+-----------------------------------
+CG solve complete in 65 iterations
+NR incr: 12, iter: 6
+Modified residual norm: 9.32055e-07
+-----------------------------------
+Convergence achieved for incr 12 in 6 iterations.
+CG solve complete in 147 iterations
+NR incr: 13, iter: 1
+Modified residual norm: 982858
+-----------------------------------
+CG solve complete in 147 iterations
+NR incr: 13, iter: 2
+Modified residual norm: 258578
+-----------------------------------
+CG solve complete in 142 iterations
+NR incr: 13, iter: 3
+Modified residual norm: 23919.5
+-----------------------------------
+CG solve complete in 130 iterations
+NR incr: 13, iter: 4
+Modified residual norm: 76.47
+-----------------------------------
+CG solve complete in 111 iterations
+NR incr: 13, iter: 5
+Modified residual norm: 0.00283735
+-----------------------------------
+CG solve complete in 64 iterations
+NR incr: 13, iter: 6
+Modified residual norm: 8.60413e-07
+-----------------------------------
+Convergence achieved for incr 13 in 6 iterations.
+CG solve complete in 148 iterations
+NR incr: 14, iter: 1
+Modified residual norm: 973298
+-----------------------------------
+CG solve complete in 148 iterations
+NR incr: 14, iter: 2
+Modified residual norm: 250934
+-----------------------------------
+CG solve complete in 143 iterations
+NR incr: 14, iter: 3
+Modified residual norm: 22773.2
+-----------------------------------
+CG solve complete in 130 iterations
+NR incr: 14, iter: 4
+Modified residual norm: 68.2248
+-----------------------------------
+CG solve complete in 111 iterations
+NR incr: 14, iter: 5
+Modified residual norm: 0.00228063
+-----------------------------------
+CG solve complete in 64 iterations
+NR incr: 14, iter: 6
+Modified residual norm: 9.88641e-07
+-----------------------------------
+Convergence achieved for incr 14 in 6 iterations.
+CG solve complete in 149 iterations
+NR incr: 15, iter: 1
+Modified residual norm: 963940
+-----------------------------------
+CG solve complete in 148 iterations
+NR incr: 15, iter: 2
+Modified residual norm: 243618
+-----------------------------------
+CG solve complete in 144 iterations
+NR incr: 15, iter: 3
+Modified residual norm: 21694.3
+-----------------------------------
+CG solve complete in 131 iterations
+NR incr: 15, iter: 4
+Modified residual norm: 60.9602
+-----------------------------------
+CG solve complete in 112 iterations
+NR incr: 15, iter: 5
+Modified residual norm: 0.00183726
+-----------------------------------
+CG solve complete in 64 iterations
+NR incr: 15, iter: 6
+Modified residual norm: 8.35629e-07
+-----------------------------------
+Convergence achieved for incr 15 in 6 iterations.
+CG solve complete in 149 iterations
+NR incr: 16, iter: 1
+Modified residual norm: 954778
+-----------------------------------
+CG solve complete in 149 iterations
+NR incr: 16, iter: 2
+Modified residual norm: 236612
+-----------------------------------
+CG solve complete in 144 iterations
+NR incr: 16, iter: 3
+Modified residual norm: 20678.3
+-----------------------------------
+CG solve complete in 131 iterations
+NR incr: 16, iter: 4
+Modified residual norm: 54.5559
+-----------------------------------
+CG solve complete in 112 iterations
+NR incr: 16, iter: 5
+Modified residual norm: 0.00148366
+-----------------------------------
+CG solve complete in 63 iterations
+NR incr: 16, iter: 6
+Modified residual norm: 9.47454e-07
+-----------------------------------
+Convergence achieved for incr 16 in 6 iterations.
+CG solve complete in 150 iterations
+NR incr: 17, iter: 1
+Modified residual norm: 945808
+-----------------------------------
+CG solve complete in 150 iterations
+NR incr: 17, iter: 2
+Modified residual norm: 229900
+-----------------------------------
+CG solve complete in 144 iterations
+NR incr: 17, iter: 3
+Modified residual norm: 19720.9
+-----------------------------------
+CG solve complete in 132 iterations
+NR incr: 17, iter: 4
+Modified residual norm: 48.9067
+-----------------------------------
+CG solve complete in 112 iterations
+NR incr: 17, iter: 5
+Modified residual norm: 0.00120126
+-----------------------------------
+CG solve complete in 61 iterations
+NR incr: 17, iter: 6
+Modified residual norm: 9.46977e-07
+-----------------------------------
+Convergence achieved for incr 17 in 6 iterations.
+CG solve complete in 151 iterations
+NR incr: 18, iter: 1
+Modified residual norm: 937026
+-----------------------------------
+CG solve complete in 150 iterations
+NR incr: 18, iter: 2
+Modified residual norm: 223468
+-----------------------------------
+CG solve complete in 145 iterations
+NR incr: 18, iter: 3
+Modified residual norm: 18818.4
+-----------------------------------
+CG solve complete in 133 iterations
+NR incr: 18, iter: 4
+Modified residual norm: 43.9204
+-----------------------------------
+CG solve complete in 113 iterations
+NR incr: 18, iter: 5
+Modified residual norm: 0.000975421
+-----------------------------------
+CG solve complete in 25 iterations
+NR incr: 18, iter: 6
+Modified residual norm: 7.72301e-07
+-----------------------------------
+Convergence achieved for incr 18 in 6 iterations.
+CG solve complete in 152 iterations
+NR incr: 19, iter: 1
+Modified residual norm: 928427
+-----------------------------------
+CG solve complete in 151 iterations
+NR incr: 19, iter: 2
+Modified residual norm: 217301
+-----------------------------------
+CG solve complete in 145 iterations
+NR incr: 19, iter: 3
+Modified residual norm: 17967.1
+-----------------------------------
+CG solve complete in 134 iterations
+NR incr: 19, iter: 4
+Modified residual norm: 39.5166
+-----------------------------------
+CG solve complete in 113 iterations
+NR incr: 19, iter: 5
+Modified residual norm: 0.000794567
+-----------------------------------
+CG solve complete in 51 iterations
+NR incr: 19, iter: 6
+Modified residual norm: 7.99501e-07
+-----------------------------------
+Convergence achieved for incr 19 in 6 iterations.
+CG solve complete in 153 iterations
+NR incr: 20, iter: 1
+Modified residual norm: 920006
+-----------------------------------
+CG solve complete in 152 iterations
+NR incr: 20, iter: 2
+Modified residual norm: 211387
+-----------------------------------
+CG solve complete in 146 iterations
+NR incr: 20, iter: 3
+Modified residual norm: 17163.9
+-----------------------------------
+CG solve complete in 134 iterations
+NR incr: 20, iter: 4
+Modified residual norm: 35.6245
+-----------------------------------
+CG solve complete in 113 iterations
+NR incr: 20, iter: 5
+Modified residual norm: 0.000649547
+-----------------------------------
+CG solve complete in 60 iterations
+NR incr: 20, iter: 6
+Modified residual norm: 8.21389e-07
+-----------------------------------
+Convergence achieved for incr 20 in 6 iterations.
+CG solve complete in 153 iterations
+NR incr: 21, iter: 1
+Modified residual norm: 911760
+-----------------------------------
+CG solve complete in 152 iterations
+NR incr: 21, iter: 2
+Modified residual norm: 205713
+-----------------------------------
+CG solve complete in 146 iterations
+NR incr: 21, iter: 3
+Modified residual norm: 16405.6
+-----------------------------------
+CG solve complete in 135 iterations
+NR incr: 21, iter: 4
+Modified residual norm: 32.1822
+-----------------------------------
+CG solve complete in 113 iterations
+NR incr: 21, iter: 5
+Modified residual norm: 0.00053314
+-----------------------------------
+CG solve complete in 61 iterations
+NR incr: 21, iter: 6
+Modified residual norm: 8.51582e-07
+-----------------------------------
+Convergence achieved for incr 21 in 6 iterations.
+CG solve complete in 154 iterations
+NR incr: 22, iter: 1
+Modified residual norm: 903684
+-----------------------------------
+CG solve complete in 153 iterations
+NR incr: 22, iter: 2
+Modified residual norm: 200268
+-----------------------------------
+CG solve complete in 147 iterations
+NR incr: 22, iter: 3
+Modified residual norm: 15689.3
+-----------------------------------
+CG solve complete in 135 iterations
+NR incr: 22, iter: 4
+Modified residual norm: 29.1353
+-----------------------------------
+CG solve complete in 113 iterations
+NR incr: 22, iter: 5
+Modified residual norm: 0.000439431
+-----------------------------------
+CG solve complete in 61 iterations
+NR incr: 22, iter: 6
+Modified residual norm: 9.35777e-07
+-----------------------------------
+Convergence achieved for incr 22 in 6 iterations.
+CG solve complete in 155 iterations
+NR incr: 23, iter: 1
+Modified residual norm: 895775
+-----------------------------------
+CG solve complete in 154 iterations
+NR incr: 23, iter: 2
+Modified residual norm: 195040
+-----------------------------------
+CG solve complete in 147 iterations
+NR incr: 23, iter: 3
+Modified residual norm: 15012.5
+-----------------------------------
+CG solve complete in 136 iterations
+NR incr: 23, iter: 4
+Modified residual norm: 26.436
+-----------------------------------
+CG solve complete in 114 iterations
+NR incr: 23, iter: 5
+Modified residual norm: 0.000363943
+-----------------------------------
+CG solve complete in 62 iterations
+NR incr: 23, iter: 6
+Modified residual norm: 7.93069e-07
+-----------------------------------
+Convergence achieved for incr 23 in 6 iterations.
+CG solve complete in 156 iterations
+NR incr: 24, iter: 1
+Modified residual norm: 888027
+-----------------------------------
+CG solve complete in 154 iterations
+NR incr: 24, iter: 2
+Modified residual norm: 190018
+-----------------------------------
+CG solve complete in 147 iterations
+NR incr: 24, iter: 3
+Modified residual norm: 14372.7
+-----------------------------------
+CG solve complete in 136 iterations
+NR incr: 24, iter: 4
+Modified residual norm: 24.042
+-----------------------------------
+CG solve complete in 114 iterations
+NR incr: 24, iter: 5
+Modified residual norm: 0.000302967
+-----------------------------------
+CG solve complete in 63 iterations
+NR incr: 24, iter: 6
+Modified residual norm: 9.21303e-07
+-----------------------------------
+Convergence achieved for incr 24 in 6 iterations.
+CG solve complete in 157 iterations
+NR incr: 25, iter: 1
+Modified residual norm: 880438
+-----------------------------------
+CG solve complete in 154 iterations
+NR incr: 25, iter: 2
+Modified residual norm: 185194
+-----------------------------------
+CG solve complete in 149 iterations
+NR incr: 25, iter: 3
+Modified residual norm: 13767.5
+-----------------------------------
+CG solve complete in 137 iterations
+NR incr: 25, iter: 4
+Modified residual norm: 21.9165
+-----------------------------------
+CG solve complete in 115 iterations
+NR incr: 25, iter: 5
+Modified residual norm: 0.000253612
+-----------------------------------
+CG solve complete in 63 iterations
+NR incr: 25, iter: 6
+Modified residual norm: 7.31705e-07
+-----------------------------------
+Convergence achieved for incr 25 in 6 iterations.
+CG solve complete in 158 iterations
+NR incr: 26, iter: 1
+Modified residual norm: 873004
+-----------------------------------
+CG solve complete in 156 iterations
+NR incr: 26, iter: 2
+Modified residual norm: 180558
+-----------------------------------
+CG solve complete in 150 iterations
+NR incr: 26, iter: 3
+Modified residual norm: 13194.9
+-----------------------------------
+CG solve complete in 137 iterations
+NR incr: 26, iter: 4
+Modified residual norm: 20.0268
+-----------------------------------
+CG solve complete in 115 iterations
+NR incr: 26, iter: 5
+Modified residual norm: 0.000213564
+-----------------------------------
+CG solve complete in 63 iterations
+NR incr: 26, iter: 6
+Modified residual norm: 7.54432e-07
+-----------------------------------
+Convergence achieved for incr 26 in 6 iterations.
+CG solve complete in 158 iterations
+NR incr: 27, iter: 1
+Modified residual norm: 865720
+-----------------------------------
+CG solve complete in 157 iterations
+NR incr: 27, iter: 2
+Modified residual norm: 176101
+-----------------------------------
+CG solve complete in 151 iterations
+NR incr: 27, iter: 3
+Modified residual norm: 12652.9
+-----------------------------------
+CG solve complete in 138 iterations
+NR incr: 27, iter: 4
+Modified residual norm: 18.3443
+-----------------------------------
+CG solve complete in 115 iterations
+NR incr: 27, iter: 5
+Modified residual norm: 0.000180875
+-----------------------------------
+CG solve complete in 63 iterations
+NR incr: 27, iter: 6
+Modified residual norm: 7.73252e-07
+-----------------------------------
+Convergence achieved for incr 27 in 6 iterations.
+CG solve complete in 160 iterations
+NR incr: 28, iter: 1
+Modified residual norm: 858584
+-----------------------------------
+CG solve complete in 159 iterations
+NR incr: 28, iter: 2
+Modified residual norm: 171815
+-----------------------------------
+CG solve complete in 152 iterations
+NR incr: 28, iter: 3
+Modified residual norm: 12139.7
+-----------------------------------
+CG solve complete in 139 iterations
+NR incr: 28, iter: 4
+Modified residual norm: 16.8439
+-----------------------------------
+CG solve complete in 114 iterations
+NR incr: 28, iter: 5
+Modified residual norm: 0.000154077
+-----------------------------------
+CG solve complete in 63 iterations
+NR incr: 28, iter: 6
+Modified residual norm: 9.75689e-07
+-----------------------------------
+Convergence achieved for incr 28 in 6 iterations.
+CG solve complete in 160 iterations
+NR incr: 29, iter: 1
+Modified residual norm: 851591
+-----------------------------------
+CG solve complete in 160 iterations
+NR incr: 29, iter: 2
+Modified residual norm: 167693
+-----------------------------------
+CG solve complete in 153 iterations
+NR incr: 29, iter: 3
+Modified residual norm: 11653.4
+-----------------------------------
+CG solve complete in 140 iterations
+NR incr: 29, iter: 4
+Modified residual norm: 15.5032
+-----------------------------------
+CG solve complete in 115 iterations
+NR incr: 29, iter: 5
+Modified residual norm: 0.000132052
+-----------------------------------
+CG solve complete in 63 iterations
+NR incr: 29, iter: 6
+Modified residual norm: 8.18365e-07
+-----------------------------------
+Convergence achieved for incr 29 in 6 iterations.
+CG solve complete in 161 iterations
+NR incr: 30, iter: 1
+Modified residual norm: 844738
+-----------------------------------
+CG solve complete in 160 iterations
+NR incr: 30, iter: 2
+Modified residual norm: 163726
+-----------------------------------
+CG solve complete in 154 iterations
+NR incr: 30, iter: 3
+Modified residual norm: 11192.6
+-----------------------------------
+CG solve complete in 141 iterations
+NR incr: 30, iter: 4
+Modified residual norm: 14.303
+-----------------------------------
+CG solve complete in 115 iterations
+NR incr: 30, iter: 5
+Modified residual norm: 0.000113894
+-----------------------------------
+CG solve complete in 63 iterations
+NR incr: 30, iter: 6
+Modified residual norm: 9.75509e-07
+-----------------------------------
+Convergence achieved for incr 30 in 6 iterations.
+CG solve complete in 162 iterations
+NR incr: 31, iter: 1
+Modified residual norm: 838023
+-----------------------------------
+CG solve complete in 161 iterations
+NR incr: 31, iter: 2
+Modified residual norm: 159908
+-----------------------------------
+CG solve complete in 154 iterations
+NR incr: 31, iter: 3
+Modified residual norm: 10755.6
+-----------------------------------
+CG solve complete in 141 iterations
+NR incr: 31, iter: 4
+Modified residual norm: 13.226
+-----------------------------------
+CG solve complete in 116 iterations
+NR incr: 31, iter: 5
+Modified residual norm: 9.8853e-05
+-----------------------------------
+CG solve complete in 63 iterations
+NR incr: 31, iter: 6
+Modified residual norm: 8.34652e-07
+-----------------------------------
+Convergence achieved for incr 31 in 6 iterations.
+CG solve complete in 163 iterations
+NR incr: 32, iter: 1
+Modified residual norm: 831441
+-----------------------------------
+CG solve complete in 161 iterations
+NR incr: 32, iter: 2
+Modified residual norm: 156233
+-----------------------------------
+CG solve complete in 154 iterations
+NR incr: 32, iter: 3
+Modified residual norm: 10341.2
+-----------------------------------
+CG solve complete in 142 iterations
+NR incr: 32, iter: 4
+Modified residual norm: 12.2574
+-----------------------------------
+CG solve complete in 116 iterations
+NR incr: 32, iter: 5
+Modified residual norm: 8.61652e-05
+-----------------------------------
+CG solve complete in 63 iterations
+NR incr: 32, iter: 6
+Modified residual norm: 9.66146e-07
+-----------------------------------
+Convergence achieved for incr 32 in 6 iterations.
+CG solve complete in 164 iterations
+NR incr: 33, iter: 1
+Modified residual norm: 824990
+-----------------------------------
+CG solve complete in 161 iterations
+NR incr: 33, iter: 2
+Modified residual norm: 152693
+-----------------------------------
+CG solve complete in 154 iterations
+NR incr: 33, iter: 3
+Modified residual norm: 9947.93
+-----------------------------------
+CG solve complete in 143 iterations
+NR incr: 33, iter: 4
+Modified residual norm: 11.384
+-----------------------------------
+CG solve complete in 117 iterations
+NR incr: 33, iter: 5
+Modified residual norm: 7.54191e-05
+-----------------------------------
+CG solve complete in 63 iterations
+NR incr: 33, iter: 6
+Modified residual norm: 8.91698e-07
+-----------------------------------
+Convergence achieved for incr 33 in 6 iterations.
+CG solve complete in 164 iterations
+NR incr: 34, iter: 1
+Modified residual norm: 818666
+-----------------------------------
+CG solve complete in 162 iterations
+NR incr: 34, iter: 2
+Modified residual norm: 149284
+-----------------------------------
+CG solve complete in 156 iterations
+NR incr: 34, iter: 3
+Modified residual norm: 9574.63
+-----------------------------------
+CG solve complete in 144 iterations
+NR incr: 34, iter: 4
+Modified residual norm: 10.5945
+-----------------------------------
+CG solve complete in 118 iterations
+NR incr: 34, iter: 5
+Modified residual norm: 6.63192e-05
+-----------------------------------
+CG solve complete in 62 iterations
+NR incr: 34, iter: 6
+Modified residual norm: 8.90649e-07
+-----------------------------------
+Convergence achieved for incr 34 in 6 iterations.
+CG solve complete in 165 iterations
+NR incr: 35, iter: 1
+Modified residual norm: 812466
+-----------------------------------
+CG solve complete in 164 iterations
+NR incr: 35, iter: 2
+Modified residual norm: 145999
+-----------------------------------
+CG solve complete in 158 iterations
+NR incr: 35, iter: 3
+Modified residual norm: 9220.12
+-----------------------------------
+CG solve complete in 144 iterations
+NR incr: 35, iter: 4
+Modified residual norm: 9.87871
+-----------------------------------
+CG solve complete in 119 iterations
+NR incr: 35, iter: 5
+Modified residual norm: 5.85292e-05
+-----------------------------------
+CG solve complete in 60 iterations
+NR incr: 35, iter: 6
+Modified residual norm: 9.78339e-07
+-----------------------------------
+Convergence achieved for incr 35 in 6 iterations.
+CG solve complete in 166 iterations
+NR incr: 36, iter: 1
+Modified residual norm: 806388
+-----------------------------------
+CG solve complete in 165 iterations
+NR incr: 36, iter: 2
+Modified residual norm: 142833
+-----------------------------------
+CG solve complete in 160 iterations
+NR incr: 36, iter: 3
+Modified residual norm: 8883.35
+-----------------------------------
+CG solve complete in 146 iterations
+NR incr: 36, iter: 4
+Modified residual norm: 9.22804
+-----------------------------------
+CG solve complete in 121 iterations
+NR incr: 36, iter: 5
+Modified residual norm: 5.1802e-05
+-----------------------------------
+CG solve complete in 53 iterations
+NR incr: 36, iter: 6
+Modified residual norm: 8.63007e-07
+-----------------------------------
+Convergence achieved for incr 36 in 6 iterations.
+CG solve complete in 166 iterations
+NR incr: 37, iter: 1
+Modified residual norm: 800429
+-----------------------------------
+CG solve complete in 166 iterations
+NR incr: 37, iter: 2
+Modified residual norm: 139781
+-----------------------------------
+CG solve complete in 161 iterations
+NR incr: 37, iter: 3
+Modified residual norm: 8563.29
+-----------------------------------
+CG solve complete in 147 iterations
+NR incr: 37, iter: 4
+Modified residual norm: 8.63488
+-----------------------------------
+CG solve complete in 122 iterations
+NR incr: 37, iter: 5
+Modified residual norm: 4.5984e-05
+-----------------------------------
+CG solve complete in 47 iterations
+NR incr: 37, iter: 6
+Modified residual norm: 8.66657e-07
+-----------------------------------
+Convergence achieved for incr 37 in 6 iterations.
+CG solve complete in 167 iterations
+NR incr: 38, iter: 1
+Modified residual norm: 794585
+-----------------------------------
+CG solve complete in 168 iterations
+NR incr: 38, iter: 2
+Modified residual norm: 136839
+-----------------------------------
+CG solve complete in 162 iterations
+NR incr: 38, iter: 3
+Modified residual norm: 8258.99
+-----------------------------------
+CG solve complete in 147 iterations
+NR incr: 38, iter: 4
+Modified residual norm: 8.09265
+-----------------------------------
+CG solve complete in 123 iterations
+NR incr: 38, iter: 5
+Modified residual norm: 4.08979e-05
+-----------------------------------
+CG solve complete in 41 iterations
+NR incr: 38, iter: 6
+Modified residual norm: 8.83126e-07
+-----------------------------------
+Convergence achieved for incr 38 in 6 iterations.
+CG solve complete in 169 iterations
+NR incr: 39, iter: 1
+Modified residual norm: 788855
+-----------------------------------
+CG solve complete in 169 iterations
+NR incr: 39, iter: 2
+Modified residual norm: 134000
+-----------------------------------
+CG solve complete in 163 iterations
+NR incr: 39, iter: 3
+Modified residual norm: 7969.58
+-----------------------------------
+CG solve complete in 149 iterations
+NR incr: 39, iter: 4
+Modified residual norm: 7.5956
+-----------------------------------
+CG solve complete in 124 iterations
+NR incr: 39, iter: 5
+Modified residual norm: 3.64815e-05
+-----------------------------------
+CG solve complete in 38 iterations
+NR incr: 39, iter: 6
+Modified residual norm: 8.17411e-07
+-----------------------------------
+Convergence achieved for incr 39 in 6 iterations.
+CG solve complete in 170 iterations
+NR incr: 40, iter: 1
+Modified residual norm: 783235
+-----------------------------------
+CG solve complete in 170 iterations
+NR incr: 40, iter: 2
+Modified residual norm: 131263
+-----------------------------------
+CG solve complete in 164 iterations
+NR incr: 40, iter: 3
+Modified residual norm: 7694.22
+-----------------------------------
+CG solve complete in 149 iterations
+NR incr: 40, iter: 4
+Modified residual norm: 7.13876
+-----------------------------------
+CG solve complete in 124 iterations
+NR incr: 40, iter: 5
+Modified residual norm: 3.25767e-05
+-----------------------------------
+CG solve complete in 33 iterations
+NR incr: 40, iter: 6
+Modified residual norm: 9.90682e-07
+-----------------------------------
+Convergence achieved for incr 40 in 6 iterations.
+CG solve complete in 172 iterations
+NR incr: 41, iter: 1
+Modified residual norm: 777722
+-----------------------------------
+CG solve complete in 171 iterations
+NR incr: 41, iter: 2
+Modified residual norm: 128621
+-----------------------------------
+CG solve complete in 165 iterations
+NR incr: 41, iter: 3
+Modified residual norm: 7432.12
+-----------------------------------
+CG solve complete in 151 iterations
+NR incr: 41, iter: 4
+Modified residual norm: 6.71782
+-----------------------------------
+CG solve complete in 125 iterations
+NR incr: 41, iter: 5
+Modified residual norm: 2.90966e-05
+-----------------------------------
+CG solve complete in 28 iterations
+NR incr: 41, iter: 6
+Modified residual norm: 9.19114e-07
+-----------------------------------
+Convergence achieved for incr 41 in 6 iterations.
+CG solve complete in 173 iterations
+NR incr: 42, iter: 1
+Modified residual norm: 772316
+-----------------------------------
+CG solve complete in 173 iterations
+NR incr: 42, iter: 2
+Modified residual norm: 126071
+-----------------------------------
+CG solve complete in 166 iterations
+NR incr: 42, iter: 3
+Modified residual norm: 7182.55
+-----------------------------------
+CG solve complete in 152 iterations
+NR incr: 42, iter: 4
+Modified residual norm: 6.32901
+-----------------------------------
+CG solve complete in 126 iterations
+NR incr: 42, iter: 5
+Modified residual norm: 2.60474e-05
+-----------------------------------
+CG solve complete in 25 iterations
+NR incr: 42, iter: 6
+Modified residual norm: 8.43926e-07
+-----------------------------------
+Convergence achieved for incr 42 in 6 iterations.
+CG solve complete in 174 iterations
+NR incr: 43, iter: 1
+Modified residual norm: 767012
+-----------------------------------
+CG solve complete in 174 iterations
+NR incr: 43, iter: 2
+Modified residual norm: 123609
+-----------------------------------
+CG solve complete in 167 iterations
+NR incr: 43, iter: 3
+Modified residual norm: 6944.82
+-----------------------------------
+CG solve complete in 153 iterations
+NR incr: 43, iter: 4
+Modified residual norm: 5.96908
+-----------------------------------
+CG solve complete in 127 iterations
+NR incr: 43, iter: 5
+Modified residual norm: 2.32991e-05
+-----------------------------------
+CG solve complete in 23 iterations
+NR incr: 43, iter: 6
+Modified residual norm: 8.16967e-07
+-----------------------------------
+Convergence achieved for incr 43 in 6 iterations.
+CG solve complete in 175 iterations
+NR incr: 44, iter: 1
+Modified residual norm: 761808
+-----------------------------------
+CG solve complete in 175 iterations
+NR incr: 44, iter: 2
+Modified residual norm: 121233
+-----------------------------------
+CG solve complete in 169 iterations
+NR incr: 44, iter: 3
+Modified residual norm: 6718.28
+-----------------------------------
+CG solve complete in 154 iterations
+NR incr: 44, iter: 4
+Modified residual norm: 5.63518
+-----------------------------------
+CG solve complete in 127 iterations
+NR incr: 44, iter: 5
+Modified residual norm: 2.08166e-05
+-----------------------------------
+CG solve complete in 20 iterations
+NR incr: 44, iter: 6
+Modified residual norm: 9.6069e-07
+-----------------------------------
+Convergence achieved for incr 44 in 6 iterations.
+CG solve complete in 176 iterations
+NR incr: 45, iter: 1
+Modified residual norm: 756703
+-----------------------------------
+CG solve complete in 176 iterations
+NR incr: 45, iter: 2
+Modified residual norm: 118937
+-----------------------------------
+CG solve complete in 169 iterations
+NR incr: 45, iter: 3
+Modified residual norm: 6502.31
+-----------------------------------
+CG solve complete in 155 iterations
+NR incr: 45, iter: 4
+Modified residual norm: 5.32483
+-----------------------------------
+CG solve complete in 128 iterations
+NR incr: 45, iter: 5
+Modified residual norm: 1.86668e-05
+-----------------------------------
+CG solve complete in 16 iterations
+NR incr: 45, iter: 6
+Modified residual norm: 9.14042e-07
+-----------------------------------
+Convergence achieved for incr 45 in 6 iterations.
+CG solve complete in 177 iterations
+NR incr: 46, iter: 1
+Modified residual norm: 751694
+-----------------------------------
+CG solve complete in 176 iterations
+NR incr: 46, iter: 2
+Modified residual norm: 116720
+-----------------------------------
+CG solve complete in 170 iterations
+NR incr: 46, iter: 3
+Modified residual norm: 6296.34
+-----------------------------------
+CG solve complete in 156 iterations
+NR incr: 46, iter: 4
+Modified residual norm: 5.03588
+-----------------------------------
+CG solve complete in 129 iterations
+NR incr: 46, iter: 5
+Modified residual norm: 1.67168e-05
+-----------------------------------
+CG solve complete in 14 iterations
+NR incr: 46, iter: 6
+Modified residual norm: 8.13842e-07
+-----------------------------------
+Convergence achieved for incr 46 in 6 iterations.
+CG solve complete in 178 iterations
+NR incr: 47, iter: 1
+Modified residual norm: 746779
+-----------------------------------
+CG solve complete in 178 iterations
+NR incr: 47, iter: 2
+Modified residual norm: 114578
+-----------------------------------
+CG solve complete in 171 iterations
+NR incr: 47, iter: 3
+Modified residual norm: 6099.84
+-----------------------------------
+CG solve complete in 157 iterations
+NR incr: 47, iter: 4
+Modified residual norm: 4.76642
+-----------------------------------
+CG solve complete in 129 iterations
+NR incr: 47, iter: 5
+Modified residual norm: 1.49285e-05
+-----------------------------------
+CG solve complete in 13 iterations
+NR incr: 47, iter: 6
+Modified residual norm: 9.55789e-07
+-----------------------------------
+Convergence achieved for incr 47 in 6 iterations.
+CG solve complete in 179 iterations
+NR incr: 48, iter: 1
+Modified residual norm: 741955
+-----------------------------------
+CG solve complete in 177 iterations
+NR incr: 48, iter: 2
+Modified residual norm: 112507
+-----------------------------------
+CG solve complete in 172 iterations
+NR incr: 48, iter: 3
+Modified residual norm: 5912.29
+-----------------------------------
+CG solve complete in 158 iterations
+NR incr: 48, iter: 4
+Modified residual norm: 4.51481
+-----------------------------------
+CG solve complete in 130 iterations
+NR incr: 48, iter: 5
+Modified residual norm: 1.33648e-05
+-----------------------------------
+CG solve complete in 11 iterations
+NR incr: 48, iter: 6
+Modified residual norm: 8.61732e-07
+-----------------------------------
+Convergence achieved for incr 48 in 6 iterations.
+CG solve complete in 181 iterations
+NR incr: 49, iter: 1
+Modified residual norm: 737221
+-----------------------------------
+CG solve complete in 178 iterations
+NR incr: 49, iter: 2
+Modified residual norm: 110506
+-----------------------------------
+CG solve complete in 173 iterations
+NR incr: 49, iter: 3
+Modified residual norm: 5733.2
+-----------------------------------
+CG solve complete in 159 iterations
+NR incr: 49, iter: 4
+Modified residual norm: 4.27958
+-----------------------------------
+CG solve complete in 131 iterations
+NR incr: 49, iter: 5
+Modified residual norm: 1.19526e-05
+-----------------------------------
+CG solve complete in 10 iterations
+NR incr: 49, iter: 6
+Modified residual norm: 8.18543e-07
+-----------------------------------
+Convergence achieved for incr 49 in 6 iterations.
+CG solve complete in 182 iterations
+NR incr: 50, iter: 1
+Modified residual norm: 732574
+-----------------------------------
+CG solve complete in 179 iterations
+NR incr: 50, iter: 2
+Modified residual norm: 108571
+-----------------------------------
+CG solve complete in 175 iterations
+NR incr: 50, iter: 3
+Modified residual norm: 5562.14
+-----------------------------------
+CG solve complete in 160 iterations
+NR incr: 50, iter: 4
+Modified residual norm: 4.05943
+-----------------------------------
+CG solve complete in 131 iterations
+NR incr: 50, iter: 5
+Modified residual norm: 1.06872e-05
+-----------------------------------
+CG solve complete in 8 iterations
+NR incr: 50, iter: 6
+Modified residual norm: 9.45601e-07
+-----------------------------------
+Convergence achieved for incr 50 in 6 iterations.
+--------------------
+Nonlinear solve completed.
+Total time taken (in ms): 21994.5

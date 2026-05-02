@@ -64,7 +64,7 @@ int main(){
 
     //Solver parameters
     double tol = 1e-6; //tolerance for convergence of the nonlinear solver
-    unsigned int maxIncr = 50; //maximum number of increments (timesteps)
+    unsigned int maxIncr = 1; //maximum number of increments (timesteps)
     unsigned int maxIter = 10; //maximum number of iterations per increment
 
     double tol_cg = 1e-6;
@@ -80,9 +80,9 @@ int main(){
     // unsigned int Nel_x2 = 12; //number of elements in x2 direction
     // unsigned int Nel_x3 = 12; //number of elements in x3 direction
 
-    unsigned int Nel_x1 = getEnvVar("NEL_X1", 20);
-    unsigned int Nel_x2 = getEnvVar("NEL_X2", 6);
-    unsigned int Nel_x3 = getEnvVar("NEL_X3", 6);
+    unsigned int Nel_x1 = getEnvVar("NEL_X1", 80);
+    unsigned int Nel_x2 = getEnvVar("NEL_X2", 24);
+    unsigned int Nel_x3 = getEnvVar("NEL_X3", 24);
 
     //Generate the mesh using the MeshGenerator class
     MeshGenerator<Nne> meshGen(x1_ll, x1_ul, x2_ll, x2_ul, x3_ll, x3_ul, Nel_x1, Nel_x2, Nel_x3);
