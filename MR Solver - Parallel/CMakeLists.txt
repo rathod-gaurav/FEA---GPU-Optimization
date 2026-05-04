@@ -5,6 +5,8 @@ cmake_minimum_required(VERSION 3.16)
 
 project(MyProject LANGUAGES CXX)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # ── C++ standard ──────────────────────────────────────────────────────────────
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -31,13 +33,18 @@ find_package(CURL REQUIRED)
 # Eigen: use an INTERFACE imported target instead of include_directories().
 # This scopes the include path to targets that actually need it,
 # and propagates correctly if other targets depend on yours.
+set(EIGEN_INCLUDE_DIR "/home/grathod/Downloads/eigen-5.0.0/eigen-5.0.0"
+    CACHE PATH "Path to Eigen headers (override per machine)")
+# Machine-specific defaults:
+#   laptop:      /mnt/c/Users/ratho/Downloads/eigen-5.0.0/eigen-5.0.0
+#   workstation: /home/grathod/Downloads/eigen-5.0.0/eigen-5.0.0  (default)
+#   euler:       /srv/home/grathod/eigen-5.0.0
+#   spark:       /home/grathod/eigen-5.0.0
+# Override at configure time: cmake -DEIGEN_INCLUDE_DIR=/your/path ..
+
 add_library(Eigen3 INTERFACE IMPORTED)
 set_target_properties(Eigen3 PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES
-    # "/mnt/c/Users/ratho/Downloads/eigen-5.0.0/eigen-5.0.0" #for laptop
-    # "/home/grathod/Downloads/eigen-5.0.0/eigen-5.0.0" #for lab workstation
-    # "/srv/home/grathod/eigen-5.0.0" #for euler
-    "/home/grathod/eigen-5.0.0" #for spark
+    INTERFACE_INCLUDE_DIRECTORIES "${EIGEN_INCLUDE_DIR}"
 )
 # If you ever install Eigen system-wide or via vcpkg/conan you can replace
 # the two lines above with: find_package(Eigen3 REQUIRED)

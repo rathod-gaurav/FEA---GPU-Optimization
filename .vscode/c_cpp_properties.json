@@ -2,10 +2,7 @@
     "configurations": [
         {
             "name": "Linux",
-            "includePath": [
-                "${workspaceFolder}/**",
-                "/home/grathod/Downloads/eigen-5.0.0/eigen-5.0.0/"
-            ],
+            "compileCommands": "${workspaceFolder}/NH Solver - Parallel/build/compile_commands.json",
             "compilerPath": "/usr/bin/g++",
             "cppStandard": "c++17"
         }

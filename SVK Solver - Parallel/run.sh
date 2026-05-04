@@ -11,9 +11,9 @@ module load cmake/3.27.9
 # module load valgrind/3.25.1
 
 # Load valgrind on chtc spark
-export VALGRIND_DIR=/home/grathod/lib/valgrind-3.26.0-install
-export PATH=$VALGRIND_DIR/bin:$PATH
-export LD_LIBRARY_PATH=$VALGRIND_DIR/lib:$LD_LIBRARY_PATH
+# export VALGRIND_DIR=/home/grathod/lib/valgrind-3.26.0-install
+# export PATH=$VALGRIND_DIR/bin:$PATH
+# export LD_LIBRARY_PATH=$VALGRIND_DIR/lib:$LD_LIBRARY_PATH
 
 rm -rf build/
 mkdir build
@@ -62,7 +62,7 @@ elif echo "$CPU_MODEL" | grep -q "5625U"; then
 
 else
     # ── unknown machine — safe fallback ────────────────────────────────────────
-    MACHINE="spark - ($CPU_MODEL)"
+    MACHINE="unknown - ($CPU_MODEL)"
     # Use half of logical CPUs as a conservative default.
     # OMP_NUM_THREADS=$(( $(nproc --all) / 2 ))
     OMP_NUM_THREADS=16

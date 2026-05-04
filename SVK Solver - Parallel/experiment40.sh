@@ -11,9 +11,9 @@ module load cmake/3.27.9
 # module load valgrind/3.25.1
 
 # Load valgrind on chtc spark
-export VALGRIND_DIR=/home/grathod/lib/valgrind-3.26.0-install
-export PATH=$VALGRIND_DIR/bin:$PATH
-export LD_LIBRARY_PATH=$VALGRIND_DIR/lib:$LD_LIBRARY_PATH
+# export VALGRIND_DIR=/home/grathod/lib/valgrind-3.26.0-install
+# export PATH=$VALGRIND_DIR/bin:$PATH
+# export LD_LIBRARY_PATH=$VALGRIND_DIR/lib:$LD_LIBRARY_PATH
 
 # Define your thread array
 THREADS=(2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46 48)

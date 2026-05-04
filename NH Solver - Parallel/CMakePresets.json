@@ -1,0 +1,35 @@
+{
+    "version": 3,
+    "configurePresets": [
+        {
+            "name": "workstation",
+            "displayName": "Lab Workstation (IntelliSense / local build)",
+            "generator": "Unix Makefiles",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "EIGEN_INCLUDE_DIR": "/home/grathod/Downloads/eigen-5.0.0/eigen-5.0.0",
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "spark",
+            "displayName": "CHTC Spark (remote build)",
+            "generator": "Unix Makefiles",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "EIGEN_INCLUDE_DIR": "/home/grathod/eigen-5.0.0",
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "euler",
+            "displayName": "CHTC Euler (remote build)",
+            "generator": "Unix Makefiles",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "EIGEN_INCLUDE_DIR": "/srv/home/grathod/eigen-5.0.0",
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        }
+    ]
+}

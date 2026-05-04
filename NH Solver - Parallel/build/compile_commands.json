@@ -1,0 +1,32 @@
+[
+{
+  "directory": "/home/grathod/Downloads/Spring26/ME759/Project/NH Solver - Parallel/build",
+  "command": "/usr/bin/c++ -DEIGEN_DONT_PARALLELIZE -I\"/home/grathod/Downloads/Spring26/ME759/Project/NH Solver - Parallel/include\" -isystem /home/grathod/Downloads/eigen-5.0.0/eigen-5.0.0 -g -std=c++17 -O2 -g -fopenmp -o CMakeFiles/main.dir/main.cpp.o -c \"/home/grathod/Downloads/Spring26/ME759/Project/NH Solver - Parallel/main.cpp\"",
+  "file": "/home/grathod/Downloads/Spring26/ME759/Project/NH Solver - Parallel/main.cpp",
+  "output": "CMakeFiles/main.dir/main.cpp.o"
+},
+{
+  "directory": "/home/grathod/Downloads/Spring26/ME759/Project/NH Solver - Parallel/build",
+  "command": "/usr/bin/c++ -DEIGEN_DONT_PARALLELIZE -I\"/home/grathod/Downloads/Spring26/ME759/Project/NH Solver - Parallel/include\" -isystem /home/grathod/Downloads/eigen-5.0.0/eigen-5.0.0 -g -std=c++17 -O2 -g -fopenmp -o CMakeFiles/main.dir/src/ConjugateGradientSolver.cpp.o -c \"/home/grathod/Downloads/Spring26/ME759/Project/NH Solver - Parallel/src/ConjugateGradientSolver.cpp\"",
+  "file": "/home/grathod/Downloads/Spring26/ME759/Project/NH Solver - Parallel/src/ConjugateGradientSolver.cpp",
+  "output": "CMakeFiles/main.dir/src/ConjugateGradientSolver.cpp.o"
+},
+{
+  "directory": "/home/grathod/Downloads/Spring26/ME759/Project/NH Solver - Parallel/build",
+  "command": "/usr/bin/c++ -DEIGEN_DONT_PARALLELIZE -I\"/home/grathod/Downloads/Spring26/ME759/Project/NH Solver - Parallel/include\" -isystem /home/grathod/Downloads/eigen-5.0.0/eigen-5.0.0 -g -std=c++17 -O2 -g -fopenmp -o CMakeFiles/main.dir/src/NeoHookean.cpp.o -c \"/home/grathod/Downloads/Spring26/ME759/Project/NH Solver - Parallel/src/NeoHookean.cpp\"",
+  "file": "/home/grathod/Downloads/Spring26/ME759/Project/NH Solver - Parallel/src/NeoHookean.cpp",
+  "output": "CMakeFiles/main.dir/src/NeoHookean.cpp.o"
+},
+{
+  "directory": "/home/grathod/Downloads/Spring26/ME759/Project/NH Solver - Parallel/build",
+  "command": "/usr/bin/c++ -DEIGEN_DONT_PARALLELIZE -I\"/home/grathod/Downloads/Spring26/ME759/Project/NH Solver - Parallel/include\" -isystem /home/grathod/Downloads/eigen-5.0.0/eigen-5.0.0 -g -std=c++17 -O2 -g -fopenmp -o CMakeFiles/main.dir/src/Quadrature.cpp.o -c \"/home/grathod/Downloads/Spring26/ME759/Project/NH Solver - Parallel/src/Quadrature.cpp\"",
+  "file": "/home/grathod/Downloads/Spring26/ME759/Project/NH Solver - Parallel/src/Quadrature.cpp",
+  "output": "CMakeFiles/main.dir/src/Quadrature.cpp.o"
+},
+{
+  "directory": "/home/grathod/Downloads/Spring26/ME759/Project/NH Solver - Parallel/build",
+  "command": "/usr/bin/c++ -DEIGEN_DONT_PARALLELIZE -I\"/home/grathod/Downloads/Spring26/ME759/Project/NH Solver - Parallel/include\" -isystem /home/grathod/Downloads/eigen-5.0.0/eigen-5.0.0 -g -std=c++17 -O2 -g -fopenmp -o CMakeFiles/main.dir/src/ShapeFunction.cpp.o -c \"/home/grathod/Downloads/Spring26/ME759/Project/NH Solver - Parallel/src/ShapeFunction.cpp\"",
+  "file": "/home/grathod/Downloads/Spring26/ME759/Project/NH Solver - Parallel/src/ShapeFunction.cpp",
+  "output": "CMakeFiles/main.dir/src/ShapeFunction.cpp.o"
+}
+]

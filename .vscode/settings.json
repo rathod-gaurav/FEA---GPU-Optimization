@@ -1,3 +1,5 @@
 {
-    "cmake.sourceDirectory": "/home/grathod/Downloads/Spring26/ME759/Project/General Solver - Parallel"
+    "cmake.sourceDirectory": "${workspaceFolder}/NH Solver - Parallel",
+    "cmake.buildDirectory": "${workspaceFolder}/NH Solver - Parallel/build",
+    "cmake.configurePreset": "workstation"
 }
