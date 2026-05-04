@@ -1,54 +1,54 @@
-St. Venant-Kirchhoff/mesh
-St. Venant-Kirchhoff/solutions
-St. Venant-Kirchhoff/main
-St. Venant-Kirchhoff/Kglobal
-St. Venant-Kirchhoff/perf.data
-St. Venant-Kirchhoff/gmon.out
-St. Venant-Kirchhoff/perf.data.old
-St. Venant-Kirchhoff/advisor_result
-St. Venant-Kirchhoff/config
-St. Venant-Kirchhoff/pin.log
-SVK Solver/README.md
-SVK Solver/build
-SVK Solver/mesh
-SVK Solver/advisor_result
-SVK Solver/config
-SVK Solver/advisor_result001
-SVK Solver/advisor_result002
-SVK Solver - Parallel/build
-SVK Solver - Parallel/mesh
-SVK Solver - Parallel/README.md
-NH Solver/README.md
-NH Solver/build
-NH Solver/mesh
-NH Solver/config
-NH Solver/Kglobal.txt
-MR Solver/README.md
-MR Solver/build
-MR Solver/mesh
-MR Solver/config
-SVK Solver - Parallel/build1
-SVK Solver - Parallel/build2
-SVK Solver - Parallel/build3
-SVK Solver - Parallel/build4
-SVK Solver - Parallel/build5a
-SVK Solver - Parallel/build5b
-SVK Solver - Parallel/build5c
-SVK Solver - Parallel/valgrind_run_scripts
-SVK Solver - Parallel/solutions_spark
-NH Solver - Parallel/build1
-NH Solver - Parallel/build2
-NH Solver - Parallel/build3
-NH Solver - Parallel/build4
-NH Solver - Parallel/build5a
-NH Solver - Parallel/build5b
-NH Solver - Parallel/build5c
-NH Solver - Parallel/valgrind_run_scripts
-MR Solver - Parallel/build1
-MR Solver - Parallel/build2
-MR Solver - Parallel/build3
-MR Solver - Parallel/build4
-MR Solver - Parallel/build5a
-MR Solver - Parallel/build5b
-MR Solver - Parallel/build5c
-MR Solver - Parallel/valgrind_run_scripts
+FinalProject/St. Venant-Kirchhoff/mesh
+FinalProject/St. Venant-Kirchhoff/solutions
+FinalProject/St. Venant-Kirchhoff/main
+FinalProject/St. Venant-Kirchhoff/Kglobal
+FinalProject/St. Venant-Kirchhoff/perf.data
+FinalProject/St. Venant-Kirchhoff/gmon.out
+FinalProject/St. Venant-Kirchhoff/perf.data.old
+FinalProject/St. Venant-Kirchhoff/advisor_result
+FinalProject/St. Venant-Kirchhoff/config
+FinalProject/St. Venant-Kirchhoff/pin.log
+FinalProject/SVK Solver/README.md
+FinalProject/SVK Solver/build
+FinalProject/SVK Solver/mesh
+FinalProject/SVK Solver/advisor_result
+FinalProject/SVK Solver/config
+FinalProject/SVK Solver/advisor_result001
+FinalProject/SVK Solver/advisor_result002
+FinalProject/SVK Solver - Parallel/build
+FinalProject/SVK Solver - Parallel/mesh
+FinalProject/SVK Solver - Parallel/README.md
+FinalProject/NH Solver/README.md
+FinalProject/NH Solver/build
+FinalProject/NH Solver/mesh
+FinalProject/NH Solver/config
+FinalProject/NH Solver/Kglobal.txt
+FinalProject/MR Solver/README.md
+FinalProject/MR Solver/build
+FinalProject/MR Solver/mesh
+FinalProject/MR Solver/config
+FinalProject/SVK Solver - Parallel/build1
+FinalProject/SVK Solver - Parallel/build2
+FinalProject/SVK Solver - Parallel/build3
+FinalProject/SVK Solver - Parallel/build4
+FinalProject/SVK Solver - Parallel/build5a
+FinalProject/SVK Solver - Parallel/build5b
+FinalProject/SVK Solver - Parallel/build5c
+FinalProject/SVK Solver - Parallel/valgrind_run_scripts
+FinalProject/SVK Solver - Parallel/solutions_spark
+FinalProject/NH Solver - Parallel/build1
+FinalProject/NH Solver - Parallel/build2
+FinalProject/NH Solver - Parallel/build3
+FinalProject/NH Solver - Parallel/build4
+FinalProject/NH Solver - Parallel/build5a
+FinalProject/NH Solver - Parallel/build5b
+FinalProject/NH Solver - Parallel/build5c
+FinalProject/NH Solver - Parallel/valgrind_run_scripts
+FinalProject/MR Solver - Parallel/build1
+FinalProject/MR Solver - Parallel/build2
+FinalProject/MR Solver - Parallel/build3
+FinalProject/MR Solver - Parallel/build4
+FinalProject/MR Solver - Parallel/build5a
+FinalProject/MR Solver - Parallel/build5b
+FinalProject/MR Solver - Parallel/build5c
+FinalProject/MR Solver - Parallel/valgrind_run_scripts

@@ -33,7 +33,7 @@ find_package(CURL REQUIRED)
 # Eigen: use an INTERFACE imported target instead of include_directories().
 # This scopes the include path to targets that actually need it,
 # and propagates correctly if other targets depend on yours.
-set(EIGEN_INCLUDE_DIR "/home/grathod/Downloads/eigen-5.0.0/eigen-5.0.0"
+set(EIGEN_INCLUDE_DIR "<path-to-FinalProject-folder>/eigen-5.0.0/eigen-5.0.0"
     CACHE PATH "Path to Eigen headers (override per machine)")
 # Machine-specific defaults:
 #   laptop:      /mnt/c/Users/ratho/Downloads/eigen-5.0.0/eigen-5.0.0

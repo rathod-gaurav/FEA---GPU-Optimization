@@ -1,13 +1,13 @@
 #!/usr/bin/env zsh
-#SBATCH -p compphys2026
+#SBATCH -p instruction
 #SBATCH --job-name=FEA160
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=48
-#SBATCH --time=8:00:00
+#SBATCH --time=00:45:00
 #SBATCH --output=FEA160.out
 #SBATCH --error=FEA160.err
 
-module load cmake/3.27.9
+module load cmake
 # module load valgrind/3.25.1
 
 # Load valgrind on chtc spark

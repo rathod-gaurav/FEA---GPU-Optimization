@@ -1,13 +1,13 @@
 #!/usr/bin/env zsh
-#SBATCH -p compphys2026
-#SBATCH --job-name=FEA80
+#SBATCH -p instruction
+#SBATCH --job-name=FEA40
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=48
-#SBATCH --time=2:00:00
-#SBATCH --output=FEA80.out
-#SBATCH --error=FEA80.err
+#SBATCH --time=00:45:00
+#SBATCH --output=FEA40.out
+#SBATCH --error=FEA40.err
 
-module load cmake/3.27.9
+module load cmake
 # module load valgrind/3.25.1
 
 # Load valgrind on chtc spark
@@ -19,9 +19,9 @@ module load cmake/3.27.9
 THREADS=(2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46 48)
 
 # 1. Build ONCE before the loop starts
-export NEL_X1=80
-export NEL_X2=24
-export NEL_X3=24
+export NEL_X1=40
+export NEL_X2=12
+export NEL_X3=12
 mkdir -p "build/${NEL_X1}"
 cmake -B "build/${NEL_X1}" -S .
 cmake --build "build/${NEL_X1}" --parallel 24

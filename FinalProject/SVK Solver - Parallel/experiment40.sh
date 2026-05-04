@@ -1,13 +1,13 @@
 #!/usr/bin/env zsh
-#SBATCH -p compphys2026
+#SBATCH -p instruction
 #SBATCH --job-name=FEA40
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=48
-#SBATCH --time=1:00:00
+#SBATCH --time=00:45:00
 #SBATCH --output=FEA40.out
 #SBATCH --error=FEA40.err
 
-module load cmake/3.27.9
+module load cmake
 # module load valgrind/3.25.1
 
 # Load valgrind on chtc spark
@@ -29,8 +29,6 @@ cmake --build "build/${NEL_X1}" --parallel 24
 # 2. Now run the experiment loop
 for t in "${THREADS[@]}"; do
     export OMP_NUM_THREADS=$t
-    export OMP_PROC_BIND=close
-    export OMP_PLACES=cores
     # Execute the binary directly instead of calling run_experiment.sh repeatedly
     ./build/${NEL_X1}/main > "experiments/experiment${NEL_X1}/FEA${NEL_X1}_${t}.out" 2>&1
 done
