@@ -1,0 +1,30 @@
+/var/spool/slurmd/job943031/slurm_script:10: command not found: module
+==26286== Cachegrind, a high-precision tracing profiler
+==26286== Copyright (C) 2002-2024, and GNU GPL'd, by Nicholas Nethercote et al.
+==26286== Using Valgrind-3.26.0 and LibVEX; rerun with -h for copyright info
+==26286== Command: ./build3/main
+==26286== 
+--26286-- warning: L3 cache found, using its data for the LL simulation.
+==26286== brk segment overflow in thread #1: can't grow to 0x4856000
+==26286== (see section Limitations in user manual)
+==26286== NOTE: further instances of this message will not be shown
+==26286== 
+==26286== I refs:        1,166,026,981,796
+==26286== I1  misses:            2,779,283
+==26286== LLi misses:               28,376
+==26286== I1  miss rate:              0.00%
+==26286== LLi miss rate:              0.00%
+==26286== 
+==26286== D refs:          419,379,733,954  (395,772,561,353 rd   + 23,607,172,601 wr)
+==26286== D1  misses:       13,482,568,592  ( 12,851,568,600 rd   +    630,999,992 wr)
+==26286== LLd misses:          817,341,984  (    415,993,715 rd   +    401,348,269 wr)
+==26286== D1  miss rate:               3.2% (            3.2%     +            2.7%  )
+==26286== LLd miss rate:               0.2% (            0.1%     +            1.7%  )
+==26286== 
+==26286== LL refs:          13,485,347,875  ( 12,854,347,883 rd   +    630,999,992 wr)
+==26286== LL misses:           817,370,360  (    416,022,091 rd   +    401,348,269 wr)
+==26286== LL miss rate:                0.1% (            0.0%     +            1.7%  )
+==26286== 
+==26286== Branches:        248,437,705,422  (248,327,945,143 cond +    109,760,279 ind)
+==26286== Mispredicts:       5,366,511,844  (  5,363,270,947 cond +      3,240,897 ind)
+==26286== Mispred rate:                2.2% (            2.2%     +            3.0%   )

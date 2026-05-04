@@ -1,0 +1,2 @@
+/var/spool/slurmd/job943030/slurm_script:10: command not found: module
+slurmstepd: error: *** JOB 943030 ON spark-a263 CANCELLED AT 2026-05-02T01:50:00 DUE TO TIME LIMIT ***
